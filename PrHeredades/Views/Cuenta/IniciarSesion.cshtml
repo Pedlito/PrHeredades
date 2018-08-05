@@ -1,0 +1,40 @@
+﻿@model PrHeredades.Models.tbUsuario
+@{
+    ViewBag.Title = "IniciarSesion";
+}
+
+<div class="d-flex justify-content-center align-items-center" style="height: 100%">
+    <div class="col-md-6">
+        <div class="card bg-light mb-3">
+            <div class="card-header">
+                Iniciar Sesión
+            </div>
+            <div class="card-body">
+                <form method="post" id="formUsuario">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="form-group">
+                        <label for="usuario">Usuario</label>
+                        <input type="text" class="form-control required" id="usuario" name="usuario" autocomplete="off">
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Contraseña</label>
+                        <input type="password" class="form-control required" id="password" name="password">
+                    </div>
+                    <div class="form-group text-center">
+                        <button type="submit" class="btn btn-primary" onclick="hola()" style="width: 150px">
+                            <span class="fa fa-sign-in"></span> Ingresar
+                        </button>
+                        <a href="@Url.Action("Registrarse", "Cuenta")" class="btn btn-info" style="width: 150px">
+                            <span class="fa fa-user"></span> Registrarse
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/jqueryValidator/usuario.js"></script>
+}
