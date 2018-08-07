@@ -1,0 +1,21 @@
+﻿@model PrHeredades.Models.Paginacion
+
+<nav>
+    <ul class="pagination">
+        @for (int i = 1; i <= Model.paginas; i++)
+        {
+            if (i == Model.actual)
+            {
+                <li class="page-item active">
+                    <a class="page-link" href="@Url.Action(Model.accion, Model.controlador, new { pagina = i, filtro = ViewBag.filtro })">@i</a>
+                </li>
+            }
+            else
+            {
+                <li class="page-item">
+                    <a class="page-link" href="@Url.Action(Model.accion, Model.controlador, new { pagina = i, filtro = ViewBag.filtro })">@i</a>
+                </li>
+            }
+        }
+    </ul>
+</nav>

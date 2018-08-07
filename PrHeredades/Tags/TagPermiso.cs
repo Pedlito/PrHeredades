@@ -19,7 +19,7 @@ namespace PrHeredades.Tags
             {
                 filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary(new
                 {
-                    controller = "Cuenta",
+                    controller = "Sesion",
                     action = "IniciarSesion"
                 }));
             }

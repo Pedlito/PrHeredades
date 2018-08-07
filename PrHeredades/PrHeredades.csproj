@@ -157,8 +157,9 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="Controllers\CuentaController.cs" />
+    <Compile Include="Controllers\SesionController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\UsuarioController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -177,6 +178,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ClasesEntity.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\Paginacion.cs" />
     <Compile Include="Models\Sesion.cs" />
     <Compile Include="Models\tbPermiso.cs">
       <DependentUpon>ClasesEntity.tt</DependentUpon>
@@ -296,10 +298,13 @@
     <Content Include="Scripts\popper.js.map" />
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
-    <Content Include="Views\Cuenta\IniciarSesion.cshtml" />
+    <Content Include="Views\Sesion\IniciarSesion.cshtml" />
     <Content Include="Views\Shared\_Login.cshtml" />
-    <Content Include="Views\Cuenta\Registrarse.cshtml" />
-    <Content Include="Views\Cuenta\Prueba.cshtml" />
+    <Content Include="Views\Usuario\Crear.cshtml" />
+    <Content Include="Views\Usuario\Index.cshtml" />
+    <Content Include="Views\Shared\_Paginacion.cshtml" />
+    <Content Include="Views\Usuario\CambiarEstado.cshtml" />
+    <Content Include="Views\Usuario\Editar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

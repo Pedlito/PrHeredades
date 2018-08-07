@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="dbHeredadesModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="dbHeredadesModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="tbPermiso">
           <Key>
             <PropertyRef Name="codPermiso" />
@@ -36,6 +36,7 @@
           <Property Name="usuario" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="nombre" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="password" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="estado" Type="bit" />
         </EntityType>
         <Association Name="FK_tbPermisoDenegado_tbPermiso">
           <End Role="tbPermiso" Type="Self.tbPermiso" Multiplicity="1" />
@@ -91,8 +92,7 @@
             <End Role="tbUsuario" EntitySet="tbUsuario" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="dbHeredadesModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -123,6 +123,7 @@
           <Property Name="nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="password" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="tbRol" Relationship="Self.FK_tbUsuario_tbRol" FromRole="tbUsuario" ToRole="tbRol" />
+          <Property Name="estado" Type="Boolean" />
         </EntityType>
         <Association Name="FK_tbUsuario_tbRol">
           <End Role="tbRol" Type="Self.tbRol" Multiplicity="1" />
@@ -178,6 +179,7 @@
           <EntitySetMapping Name="tbUsuario">
             <EntityTypeMapping TypeName="dbHeredadesModel.tbUsuario">
               <MappingFragment StoreEntitySet="tbUsuario">
+                <ScalarProperty Name="estado" ColumnName="estado" />
                 <ScalarProperty Name="codUsuario" ColumnName="codUsuario" />
                 <ScalarProperty Name="codRol" ColumnName="codRol" />
                 <ScalarProperty Name="usuario" ColumnName="usuario" />

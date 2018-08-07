@@ -1,0 +1,75 @@
+﻿@model IEnumerable<PrHeredades.Models.tbUsuario>
+@using PrHeredades.Models
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Usuarios</h2>
+
+<p>
+    <a class="btn btn-success" href="@Url.Action("Crear")">
+        <span class="fa fa-user-plus"></span> Nuevo usuario
+    </a>
+</p>
+
+<form action="@Url.Action("Index")" method="get" class="form-group">
+    <div class="row">
+        <div class="col-md-4">
+            <input type="text" placeholder="Nombre del usuario" class="form-control" id="filtro" name="filtro" value="@ViewBag.filtro"/>
+        </div>
+        <button type="submit" class="btn btn-info">Filtrar</button>
+    </div>
+</form>
+
+<table class="table table-sm table-hover">
+    <thead>
+        <tr class="table-primary">
+            <th scope="col">
+                Nombre
+            </th>
+            <th scope="col">
+                Usuario
+            </th>
+            <th scope="col">
+                Rol
+            </th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td class="align-middle">
+                    @item.nombre
+                </td>
+                <td class="align-middle">
+                    @item.usuario
+                </td>
+                <td class="align-middle">
+                    @item.tbRol.rol
+                </td>
+                <td class="align-middle">
+                    <a href="@Url.Action("Editar", new { codUsuario = item.codUsuario })" class="btn btn-warning btn-sm">
+                        <span class="fa fa-edit"></span> Editar
+                    </a>
+                    <a href="@Url.Action("CambiarEstado", new { codUsuario = item.codUsuario })" class="align-middle">
+                        @if (item.estado.Value)
+	                    {
+		                    <text>Deshabilitar</text>
+                        }
+                        else
+                        {
+                            <text>Habilitar</text>
+                        }
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>
+
+@Html.Partial("_Paginacion", (Paginacion)ViewBag.paginacion)

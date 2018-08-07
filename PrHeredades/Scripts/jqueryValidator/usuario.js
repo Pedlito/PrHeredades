@@ -15,7 +15,7 @@ $.validator.addMethod(
 );
 
 
-$().ready(function () {
+//$().ready(function () {
     $("#formUsuario").validate({
         errorClass: 'text-danger',
         errorElement: 'li',
@@ -61,4 +61,4 @@ $().ready(function () {
             }
         }
     });
-});
+//});

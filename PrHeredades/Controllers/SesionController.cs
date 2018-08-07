@@ -8,7 +8,7 @@ using PrHeredades.Tags;
 
 namespace PrHeredades.Controllers
 {
-    public class CuentaController : Controller
+    public class SesionController : Controller
     {
         dbHeredadesEntities db = new dbHeredadesEntities();
         // GET: Cuenta
@@ -32,27 +32,11 @@ namespace PrHeredades.Controllers
                 ModelState.AddModelError(string.Empty, "El usuario y/o la contraseña son invalidos");
                 return View();
             }
-            
         }
 
-        [TagPermiso(permiso = Permisos.Catalogos)]
         public ActionResult Prueba()
         {
             return View();
-        }
-
-        public ActionResult Registrarse()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public ActionResult Registrarse(tbUsuario nuevo)
-        {
-            db.tbUsuario.Add(nuevo);
-            db.SaveChanges();
-            Sesion.Iniciar(new Usuario { codUsuario = nuevo.codUsuario, nombre = nuevo.nombre, usuario = nuevo.usuario });
-            return RedirectToAction("Index", "Home");
         }
 
         [HttpPost]
