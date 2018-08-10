@@ -61,23 +61,20 @@ namespace PrHeredades.Models
             HttpContext.Current.Response.Cookies.Add(cookie);
         }
 
-        public static bool TienePermiso(Permisos valor)
+        public static bool TienePermiso(EnumPermisos valor)
         {
             dbHeredadesEntities db = new dbHeredadesEntities();
             int codUsuario = ObtenerCodigo();
             int codRol = (from t in db.tbUsuario where t.codUsuario == codUsuario select t.codRol).SingleOrDefault();
-            return !(from rol in db.tbRol
-                     where rol.codRol == codRol
-                     from permiso in rol.tbPermiso
-                     where permiso.codPermiso == (int)valor
-                     select permiso).Any();
+            return (from t in db.tbRolPermiso where t.codRol == codRol && t.codPermiso == (int)valor select t.estado).SingleOrDefault().Value;
         }
     }
 
-    public enum Permisos
+    public enum EnumPermisos
     {
         Catalogos = 1,
         Usuarios = 2,
-        Inventario = 3
+        Inventario = 3,
+        Roles = 4
     }
 }

@@ -1,0 +1,29 @@
+﻿@model PrHeredades.Models.tbRol
+
+@{
+    ViewBag.Title = "Crear";
+}
+
+<form action="@Url.Action("Crear")" method="post" id="formRol">
+    @Html.AntiForgeryToken()
+    <h2>Crear rol</h2>
+    <hr />
+    <h4>@Html.ValidationSummary(true, "", new { @class = "text-danger" })</h4>
+    <div class="form-group">
+        <label for="rol" class="col-form-label">Rol</label>
+        @Html.TextBoxFor(m => m.rol, new { @class = "form-control col-md-4", autocomplete = "off" })
+    </div>
+    <div class="form-group col-md-4 text-center">
+        <button type="submit" class="btn btn-primary" onclick="hola()" style="width: 150px">
+            <span class="fa fa-check"></span> Crear
+        </button>
+        <a href="@Url.Action("Index")" class="btn btn-danger" style="width: 150px">
+            <span class="fa fa-times"></span> Cancelar
+        </a>
+    </div>
+</form>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/jqueryValidator/rol.js"></script>
+}

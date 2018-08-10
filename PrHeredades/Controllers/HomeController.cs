@@ -16,7 +16,7 @@ namespace PrHeredades.Controllers
             return View();
         }
 
-        [TagPermiso(permiso = Permisos.Inventario)]
+        [TagPermiso(permiso = EnumPermisos.Inventario)]
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";

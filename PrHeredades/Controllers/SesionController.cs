@@ -24,13 +24,21 @@ namespace PrHeredades.Controllers
             tbUsuario prueba = (from t in db.tbUsuario where t.usuario == inicio.usuario && t.password == inicio.password select t).SingleOrDefault();
             if (prueba != null)
             {
-                Sesion.Iniciar(new Usuario { codUsuario = prueba.codUsuario, nombre = prueba.nombre, usuario = prueba.usuario } );
-                return RedirectToAction("Index", "Home");
+                if (prueba.estado.Value)
+                {
+                    Sesion.Iniciar(new Usuario { codUsuario = prueba.codUsuario, nombre = prueba.nombre, usuario = prueba.usuario });
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "¡Este usuario esta deshabilitado!");
+                    return View(inicio);
+                }
             }
             else
             {
-                ModelState.AddModelError(string.Empty, "El usuario y/o la contraseña son invalidos");
-                return View();
+                ModelState.AddModelError(string.Empty, "¡El usuario y/o la contraseña son invalidos!");
+                return View(inicio);
             }
         }
 

@@ -8,25 +8,26 @@
     @Html.AntiForgeryToken()
     <h2>Editar</h2>
     <hr />
-    <input type="hidden" value="@Model.codUsuario" id="codUsuario" name="codUsuario" />
+    <h4>@Html.ValidationSummary(true, "", new { @class = "text-danger" })</h4>
+    @Html.HiddenFor(m => m.codUsuario)
     <div class="form-group">
         <label for="rol" class="col-form-label">Rol</label>
-        @Html.DropDownList("codRol", null, htmlAttributes: new { @class = "form-control col-md-4" })
+        @Html.DropDownListFor(m => m.codRol, null, htmlAttributes: new { @class = "form-control col-md-4" })
     </div>
     <div class="form-group">
         <label for="nombre" class="col-form-label">Nombre</label>
-        <input type="text" class="form-control col-md-4" id="nombre" name="nombre" autocomplete="off" value="@Model.nombre" />
+        @Html.TextBoxFor(m => m.nombre, new { @class="form-control col-md-4", autocomplete="off" })
     </div>
     <div class="form-group">
         <label for="usuario" class="col-form-label">Usuario</label>
-        <input type="text" class="form-control col-md-4" id="usuario" name="usuario" autocomplete="off" value="@Model.usuario" />
+        @Html.TextBoxFor(m => m.usuario, new { @class = "form-control col-md-4", autocomplete = "off" })
     </div>
     <div class="form-group">
         <label for="password" class="col-form-label">Contraseña</label>
-        <input type="password" class="form-control col-md-4" id="password" name="password" value="@Model.password">
+        @Html.PasswordFor(m => m.password, new { @class = "form-control col-md-4" })
     </div>
     <div class="form-group col-md-4 text-center">
-        <button type="submit" class="btn btn-primary" onclick="hola()" style="width: 150px">
+        <button type="submit" class="btn btn-primary" style="width: 150px">
             <span class="fa fa-check"></span> Editar
         </button>
         <a href="@Url.Action("Index")" class="btn btn-danger" style="width: 150px">
@@ -38,11 +39,4 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     <script src="~/Scripts/jqueryValidator/usuario.js"></script>
-    <script>
-        $().ready(
-            function () {
-                $('#codRol > option[value="@Model.codRol"]').attr('selected', 'selected');
-            }
-        );
-    </script>
 }

@@ -14,11 +14,11 @@
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                     <div class="form-group">
                         <label for="usuario">Usuario</label>
-                        <input type="text" class="form-control required" id="usuario" name="usuario" autocomplete="off">
+                        @Html.TextBoxFor(model => model.usuario, new { @class = "form-control", autocomplete="off" })
                     </div>
                     <div class="form-group">
                         <label for="password">Contraseña</label>
-                        <input type="password" class="form-control required" id="password" name="password">
+                        @Html.PasswordFor(model => model.password, new { @class = "form-control" })
                     </div>
                     <div class="form-group text-center">
                         <button type="submit" class="btn btn-primary" onclick="hola()" style="width: 150px">

@@ -10,7 +10,7 @@ namespace PrHeredades.Tags
 {
     public class TagPermiso : ActionFilterAttribute
     {
-        public Permisos permiso { get; set; }
+        public EnumPermisos permiso { get; set; }
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             base.OnActionExecuting(filterContext);

@@ -1,0 +1,36 @@
+﻿@model IEnumerable<PrHeredades.Models.tbRolPermiso>
+
+@{
+    ViewBag.Title = "Permisos";
+}
+
+<h2><strong>@ViewBag.rol:</strong> Permisos</h2>
+
+<div id="lista" class="form-group">
+    @Html.Partial("_ListaPermisos", Model)
+</div>
+
+<p>
+    <a href="@Url.Action("Index")" class="btn btn-primary">
+        <span class="fa fa-arrow-left"></span> Regresar
+    </a>
+</p>
+
+@section Scripts {
+
+    <script>
+        function CambiarEstado(rol, permiso) {
+            $.ajax({
+                url: '@Url.Action("CambiarEstadoPermiso")',
+                type: 'get',
+                data: { codRol: rol, codPermiso: permiso },
+                success: function (response) {
+                    $('#lista').html(response);
+                },
+                error: function (response) {
+                    alert("");
+                }
+            });
+        }
+    </script>
+}

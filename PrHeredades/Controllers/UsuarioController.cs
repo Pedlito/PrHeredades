@@ -9,39 +9,40 @@ using PrHeredades.Tags;
 namespace PrHeredades.Controllers
 {
     [TagAutenticacion]
-    [TagPermiso(permiso = Permisos.Usuarios)]
+    [TagPermiso(permiso = EnumPermisos.Usuarios)]
     public class UsuarioController : Controller
     {
-        private readonly int registrosPagina = 4;
-        dbHeredadesEntities db = new dbHeredadesEntities();
+        private readonly int registrosPagina = 10;
         // GET: Usuario
         public ActionResult Index(int pagina = 1, string filtro = "")
         {
+            dbHeredadesEntities db = new dbHeredadesEntities();
             List<tbUsuario> lista = new List<tbUsuario>();
             if (filtro == "")
             {
                 lista = (from t in db.tbUsuario
                          where t.codRol != 1
                          orderby t.nombre
-                         select t).Skip((pagina - 1) * registrosPagina).Take(registrosPagina).ToList();
+                         select t).ToList();
             }
             else
             {
                 lista = (from t in db.tbUsuario
                          where t.codRol != 1 && t.nombre.Contains(filtro)
                          orderby t.nombre
-                         select t).Skip((pagina - 1) * registrosPagina).Take(registrosPagina).ToList();
+                         select t).ToList();
             }
             
             int paginas = (int)Math.Ceiling((double)lista.Count() / registrosPagina);
             Paginacion paginacion = new Paginacion(pagina, paginas, "Index", "Usuario");
             ViewBag.paginacion = paginacion;
             ViewBag.filtro = filtro;
-            return View(lista);
+            return View(lista.Skip((pagina - 1) * registrosPagina).Take(registrosPagina));
         }
 
         public ActionResult Crear()
         {
+            dbHeredadesEntities db = new dbHeredadesEntities();
             List<tbRol> roles = (from t in db.tbRol where t.codRol != 1 orderby t.codRol descending select t).ToList();
             ViewBag.codRol = new SelectList(roles, "codRol", "rol");
             return View();
@@ -50,48 +51,67 @@ namespace PrHeredades.Controllers
         [HttpPost]
         public ActionResult Crear(tbUsuario nuevo)
         {
+            dbHeredadesEntities db = new dbHeredadesEntities();
             if (!(from t in db.tbUsuario where t.usuario == nuevo.usuario select t).Any())
             {
+                nuevo.estado = true;
                 db.tbUsuario.Add(nuevo);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
             else
             {
+                List<tbRol> roles = (from t in db.tbRol where t.codRol != 1 orderby t.codRol descending select t).ToList();
+                ViewBag.codRol = new SelectList(roles, "codRol", "rol");
+                ModelState.AddModelError(string.Empty, "¡Ya existe este nombre de usuario!");
                 return View();
             }
         }
 
-        public ActionResult Editar(int codUsuario)
+        public ActionResult Editar(int id)
         {
+            dbHeredadesEntities db = new dbHeredadesEntities();
+            tbUsuario usuario = (from t in db.tbUsuario where t.codUsuario == id select t).SingleOrDefault();
             List<tbRol> roles = (from t in db.tbRol where t.codRol != 1 orderby t.codRol descending select t).ToList();
-            tbUsuario usuario = (from t in db.tbUsuario where t.codUsuario == codUsuario select t).SingleOrDefault();
             ViewBag.codRol = new SelectList(roles, "codRol", "rol");
             return View(usuario);
         }
-        
+
         [HttpPost]
-        public ActionResult Editar(int codUsuario, FormCollection datos)
+        public ActionResult Editar(tbUsuario editado)
         {
-            tbUsuario usuario = (from t in db.tbUsuario where t.codUsuario == codUsuario select t).SingleOrDefault();
-            usuario.nombre = datos["nombre"];
-            usuario.codRol = int.Parse(datos["codRol"]);
-            usuario.usuario = datos["usuario"];
-            usuario.password = datos["password"];
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            dbHeredadesEntities db = new dbHeredadesEntities();
+            tbUsuario usuario = (from t in db.tbUsuario where t.codUsuario == editado.codUsuario select t).SingleOrDefault();
+            if (!(from t in db.tbUsuario where t.codUsuario != editado.codUsuario && t.usuario == editado.usuario select t).Any())
+            {
+                usuario.nombre = editado.nombre;
+                usuario.codRol = editado.codRol;
+                usuario.usuario = editado.usuario;
+                usuario.password = editado.password;
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                List<tbRol> roles = (from t in db.tbRol where t.codRol != 1 orderby t.codRol descending select t).ToList();
+                ViewBag.codRol = new SelectList(roles, "codRol", "rol");
+                ModelState.AddModelError(string.Empty, "¡Ya existe ese usuario!");
+                return View();
+            }
         }
 
-        public ActionResult CambiarEstado(int codUsuario)
+        public ActionResult CambiarEstado(int id)
         {
-            tbUsuario usuario = (from t in db.tbUsuario where t.codUsuario == codUsuario select t).SingleOrDefault();
+            dbHeredadesEntities db = new dbHeredadesEntities();
+            tbUsuario usuario = (from t in db.tbUsuario where t.codUsuario == id select t).SingleOrDefault();
             return View(usuario);
         }
 
         [HttpPost]
-        public ActionResult CambiarEstado(int codUsuario, FormCollection collection)
+        public ActionResult CambiarEstado(int id, FormCollection collection)
         {
-            tbUsuario usuario = (from t in db.tbUsuario where t.codUsuario == codUsuario select t).SingleOrDefault();
+            dbHeredadesEntities db = new dbHeredadesEntities();
+            tbUsuario usuario = (from t in db.tbUsuario where t.codUsuario == id select t).SingleOrDefault();
             if (usuario.estado.Value)
             {
                 usuario.estado = false;

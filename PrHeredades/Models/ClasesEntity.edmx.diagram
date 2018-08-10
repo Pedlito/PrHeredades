@@ -4,12 +4,14 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="b967befc1fd04a649064adbdb51b3f15" Name="Diagram1">
-        <EntityTypeShape EntityType="dbHeredadesModel.tbPermiso" Width="1.5" PointX="0.75" PointY="1.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="dbHeredadesModel.tbRol" Width="1.5" PointX="3" PointY="1.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="dbHeredadesModel.tbUsuario" Width="1.5" PointX="5.25" PointY="0.875" IsExpanded="true" />
-        <AssociationConnector Association="dbHeredadesModel.FK_tbUsuario_tbRol" ManuallyRouted="false" />
-        <AssociationConnector Association="dbHeredadesModel.tbPermisoDenegado" ManuallyRouted="false" />
+      <Diagram DiagramId="b967befc1fd04a649064adbdb51b3f15" Name="Diagram1" ZoomLevel="64">
+        <EntityTypeShape EntityType="dbHeredadesModel.tbPermiso" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="dbHeredadesModel.tbRol" Width="1.5" PointX="5.75" PointY="1" />
+        <EntityTypeShape EntityType="dbHeredadesModel.tbRolPermiso" Width="1.5" PointX="3.125" PointY="0.875" />
+        <EntityTypeShape EntityType="dbHeredadesModel.tbUsuario" Width="1.5" PointX="8.5" PointY="0.875" />
+        <AssociationConnector Association="dbHeredadesModel.FK_tbPermisoDenegado_tbPermiso" />
+        <AssociationConnector Association="dbHeredadesModel.FK_tbPermisoDenegado_tbRol" />
+        <AssociationConnector Association="dbHeredadesModel.FK_tbUsuario_tbRol" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

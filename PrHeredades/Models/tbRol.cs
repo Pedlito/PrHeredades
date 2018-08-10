@@ -17,16 +17,16 @@ namespace PrHeredades.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public tbRol()
         {
+            this.tbRolPermiso = new HashSet<tbRolPermiso>();
             this.tbUsuario = new HashSet<tbUsuario>();
-            this.tbPermiso = new HashSet<tbPermiso>();
         }
     
         public int codRol { get; set; }
         public string rol { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tbUsuario> tbUsuario { get; set; }
+        public virtual ICollection<tbRolPermiso> tbRolPermiso { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tbPermiso> tbPermiso { get; set; }
+        public virtual ICollection<tbUsuario> tbUsuario { get; set; }
     }
 }

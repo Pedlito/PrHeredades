@@ -18,7 +18,9 @@
         <div class="col-md-4">
             <input type="text" placeholder="Nombre del usuario" class="form-control" id="filtro" name="filtro" value="@ViewBag.filtro"/>
         </div>
-        <button type="submit" class="btn btn-info">Filtrar</button>
+        <button type="submit" class="btn btn-info">
+        <span class="fa fa-search"></span> Filtrar
+        </button>
     </div>
 </form>
 
@@ -33,6 +35,9 @@
             </th>
             <th scope="col">
                 Rol
+            </th>
+            <th scope="col" class="text-center">
+                Estado
             </th>
             <th scope="col"></th>
         </tr>
@@ -51,11 +56,21 @@
                 <td class="align-middle">
                     @item.tbRol.rol
                 </td>
+                <td class="align-middle text-center">
+                    @if (item.estado.Value)
+                    {
+                        <span class="fa fa-check-square"></span>
+                    }
+                    else
+                    {
+                        <span class="fa fa-square"></span>
+                    }
+                </td>
                 <td class="align-middle">
-                    <a href="@Url.Action("Editar", new { codUsuario = item.codUsuario })" class="btn btn-warning btn-sm">
+                    <a href="@Url.Action("Editar", new { id = item.codUsuario })" class="btn btn-warning btn-sm">
                         <span class="fa fa-edit"></span> Editar
                     </a>
-                    <a href="@Url.Action("CambiarEstado", new { codUsuario = item.codUsuario })" class="align-middle">
+                    <a href="@Url.Action("CambiarEstado", new { id = item.codUsuario })" class="align-middle">
                         @if (item.estado.Value)
 	                    {
 		                    <text>Deshabilitar</text>

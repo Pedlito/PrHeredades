@@ -1,0 +1,51 @@
+﻿@model IEnumerable<PrHeredades.Models.tbRolPermiso>
+
+<table class="table table-sm table-hover">
+    <thead>
+        <tr class="table-info">
+            <th scope="col" class="text-center">
+                Estado
+            </th>
+            <th scope="col">
+                Permiso
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td class="align-middle text-center">
+                    @if (item.estado.Value)
+                    {
+                        <span class="fa fa-check-square"></span>
+                    }
+                    else
+                    {
+                        <span class="fa fa-square"></span>
+                    }
+                </td>
+                <td class="align-middle">
+                    @item.tbPermiso.permiso
+                </td>
+                <td class="align-middle">
+                    @if (item.estado.Value)
+                    {
+                        <button type="button" class="btn btn-danger btn-sm" style="width: 150px" onclick="CambiarEstado(@item.codRol,@item.codPermiso)">
+                            <span class="fa fa-times"></span> <text>Deshabilitar</text>
+                        </button>
+                    }
+                    else
+                    {
+                        <button type="button" class="btn btn-warning btn-sm" style="width: 150px" onclick="CambiarEstado(@item.codRol,@item.codPermiso)">
+                            <span class="fa fa-check"></span> <text>Habilitar</text>
+                        </button>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>

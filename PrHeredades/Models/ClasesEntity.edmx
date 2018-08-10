@@ -12,20 +12,21 @@
           <Property Name="codPermiso" Type="int" Nullable="false" />
           <Property Name="permiso" Type="varchar" MaxLength="75" />
         </EntityType>
-        <EntityType Name="tbPermisoDenegado">
+        <EntityType Name="tbRol">
+          <Key>
+            <PropertyRef Name="codRol" />
+          </Key>
+          <Property Name="codRol" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="rol" Type="varchar" MaxLength="25" />
+        </EntityType>
+        <EntityType Name="tbRolPermiso">
           <Key>
             <PropertyRef Name="codRol" />
             <PropertyRef Name="codPermiso" />
           </Key>
           <Property Name="codRol" Type="int" Nullable="false" />
           <Property Name="codPermiso" Type="int" Nullable="false" />
-        </EntityType>
-        <EntityType Name="tbRol">
-          <Key>
-            <PropertyRef Name="codRol" />
-          </Key>
-          <Property Name="codRol" Type="int" Nullable="false" />
-          <Property Name="rol" Type="varchar" MaxLength="25" />
+          <Property Name="estado" Type="bit" />
         </EntityType>
         <EntityType Name="tbUsuario">
           <Key>
@@ -40,24 +41,24 @@
         </EntityType>
         <Association Name="FK_tbPermisoDenegado_tbPermiso">
           <End Role="tbPermiso" Type="Self.tbPermiso" Multiplicity="1" />
-          <End Role="tbPermisoDenegado" Type="Self.tbPermisoDenegado" Multiplicity="*" />
+          <End Role="tbRolPermiso" Type="Self.tbRolPermiso" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tbPermiso">
               <PropertyRef Name="codPermiso" />
             </Principal>
-            <Dependent Role="tbPermisoDenegado">
+            <Dependent Role="tbRolPermiso">
               <PropertyRef Name="codPermiso" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_tbPermisoDenegado_tbRol">
           <End Role="tbRol" Type="Self.tbRol" Multiplicity="1" />
-          <End Role="tbPermisoDenegado" Type="Self.tbPermisoDenegado" Multiplicity="*" />
+          <End Role="tbRolPermiso" Type="Self.tbRolPermiso" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tbRol">
               <PropertyRef Name="codRol" />
             </Principal>
-            <Dependent Role="tbPermisoDenegado">
+            <Dependent Role="tbRolPermiso">
               <PropertyRef Name="codRol" />
             </Dependent>
           </ReferentialConstraint>
@@ -76,16 +77,16 @@
         </Association>
         <EntityContainer Name="dbHeredadesModelStoreContainer">
           <EntitySet Name="tbPermiso" EntityType="Self.tbPermiso" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="tbPermisoDenegado" EntityType="Self.tbPermisoDenegado" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbRol" EntityType="Self.tbRol" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbRolPermiso" EntityType="Self.tbRolPermiso" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbUsuario" EntityType="Self.tbUsuario" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_tbPermisoDenegado_tbPermiso" Association="Self.FK_tbPermisoDenegado_tbPermiso">
             <End Role="tbPermiso" EntitySet="tbPermiso" />
-            <End Role="tbPermisoDenegado" EntitySet="tbPermisoDenegado" />
+            <End Role="tbRolPermiso" EntitySet="tbRolPermiso" />
           </AssociationSet>
           <AssociationSet Name="FK_tbPermisoDenegado_tbRol" Association="Self.FK_tbPermisoDenegado_tbRol">
             <End Role="tbRol" EntitySet="tbRol" />
-            <End Role="tbPermisoDenegado" EntitySet="tbPermisoDenegado" />
+            <End Role="tbRolPermiso" EntitySet="tbRolPermiso" />
           </AssociationSet>
           <AssociationSet Name="FK_tbUsuario_tbRol" Association="Self.FK_tbUsuario_tbRol">
             <End Role="tbRol" EntitySet="tbRol" />
@@ -96,22 +97,51 @@
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="dbHeredadesModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="dbHeredadesEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="tbPermiso" EntityType="dbHeredadesModel.tbPermiso" />
+          <EntitySet Name="tbRol" EntityType="dbHeredadesModel.tbRol" />
+          <EntitySet Name="tbRolPermiso" EntityType="dbHeredadesModel.tbRolPermiso" />
+          <EntitySet Name="tbUsuario" EntityType="dbHeredadesModel.tbUsuario" />
+          <AssociationSet Name="FK_tbPermisoDenegado_tbPermiso" Association="dbHeredadesModel.FK_tbPermisoDenegado_tbPermiso">
+            <End Role="tbPermiso" EntitySet="tbPermiso" />
+            <End Role="tbRolPermiso" EntitySet="tbRolPermiso" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbPermisoDenegado_tbRol" Association="dbHeredadesModel.FK_tbPermisoDenegado_tbRol">
+            <End Role="tbRol" EntitySet="tbRol" />
+            <End Role="tbRolPermiso" EntitySet="tbRolPermiso" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbUsuario_tbRol" Association="dbHeredadesModel.FK_tbUsuario_tbRol">
+            <End Role="tbRol" EntitySet="tbRol" />
+            <End Role="tbUsuario" EntitySet="tbUsuario" />
+          </AssociationSet>
+        </EntityContainer>
         <EntityType Name="tbPermiso">
           <Key>
             <PropertyRef Name="codPermiso" />
           </Key>
           <Property Name="codPermiso" Type="Int32" Nullable="false" />
           <Property Name="permiso" Type="String" MaxLength="75" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="tbRol" Relationship="Self.tbPermisoDenegado" FromRole="tbPermiso" ToRole="tbRol" />
+          <NavigationProperty Name="tbRolPermiso" Relationship="dbHeredadesModel.FK_tbPermisoDenegado_tbPermiso" FromRole="tbPermiso" ToRole="tbRolPermiso" />
         </EntityType>
         <EntityType Name="tbRol">
           <Key>
             <PropertyRef Name="codRol" />
           </Key>
-          <Property Name="codRol" Type="Int32" Nullable="false" />
+          <Property Name="codRol" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="rol" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="tbUsuario" Relationship="Self.FK_tbUsuario_tbRol" FromRole="tbRol" ToRole="tbUsuario" />
-          <NavigationProperty Name="tbPermiso" Relationship="Self.tbPermisoDenegado" FromRole="tbRol" ToRole="tbPermiso" />
+          <NavigationProperty Name="tbRolPermiso" Relationship="dbHeredadesModel.FK_tbPermisoDenegado_tbRol" FromRole="tbRol" ToRole="tbRolPermiso" />
+          <NavigationProperty Name="tbUsuario" Relationship="dbHeredadesModel.FK_tbUsuario_tbRol" FromRole="tbRol" ToRole="tbUsuario" />
+        </EntityType>
+        <EntityType Name="tbRolPermiso">
+          <Key>
+            <PropertyRef Name="codRol" />
+            <PropertyRef Name="codPermiso" />
+          </Key>
+          <Property Name="codRol" Type="Int32" Nullable="false" />
+          <Property Name="codPermiso" Type="Int32" Nullable="false" />
+          <Property Name="estado" Type="Boolean" />
+          <NavigationProperty Name="tbPermiso" Relationship="dbHeredadesModel.FK_tbPermisoDenegado_tbPermiso" FromRole="tbRolPermiso" ToRole="tbPermiso" />
+          <NavigationProperty Name="tbRol" Relationship="dbHeredadesModel.FK_tbPermisoDenegado_tbRol" FromRole="tbRolPermiso" ToRole="tbRol" />
         </EntityType>
         <EntityType Name="tbUsuario">
           <Key>
@@ -119,15 +149,39 @@
           </Key>
           <Property Name="codUsuario" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="codRol" Type="Int32" Nullable="false" />
-          <Property Name="usuario" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="password" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="tbRol" Relationship="Self.FK_tbUsuario_tbRol" FromRole="tbUsuario" ToRole="tbRol" />
+          <Property Name="usuario" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="nombre" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="password" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
           <Property Name="estado" Type="Boolean" />
+          <NavigationProperty Name="tbRol" Relationship="dbHeredadesModel.FK_tbUsuario_tbRol" FromRole="tbUsuario" ToRole="tbRol" />
         </EntityType>
+        <Association Name="FK_tbPermisoDenegado_tbPermiso">
+          <End Type="dbHeredadesModel.tbPermiso" Role="tbPermiso" Multiplicity="1" />
+          <End Type="dbHeredadesModel.tbRolPermiso" Role="tbRolPermiso" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbPermiso">
+              <PropertyRef Name="codPermiso" />
+            </Principal>
+            <Dependent Role="tbRolPermiso">
+              <PropertyRef Name="codPermiso" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbPermisoDenegado_tbRol">
+          <End Type="dbHeredadesModel.tbRol" Role="tbRol" Multiplicity="1" />
+          <End Type="dbHeredadesModel.tbRolPermiso" Role="tbRolPermiso" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbRol">
+              <PropertyRef Name="codRol" />
+            </Principal>
+            <Dependent Role="tbRolPermiso">
+              <PropertyRef Name="codRol" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_tbUsuario_tbRol">
-          <End Role="tbRol" Type="Self.tbRol" Multiplicity="1" />
-          <End Role="tbUsuario" Type="Self.tbUsuario" Multiplicity="*" />
+          <End Type="dbHeredadesModel.tbRol" Role="tbRol" Multiplicity="1" />
+          <End Type="dbHeredadesModel.tbUsuario" Role="tbUsuario" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tbRol">
               <PropertyRef Name="codRol" />
@@ -137,24 +191,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="tbPermisoDenegado">
-          <End Role="tbPermiso" Type="Self.tbPermiso" Multiplicity="*" />
-          <End Role="tbRol" Type="Self.tbRol" Multiplicity="*" />
-        </Association>
-        <EntityContainer Name="dbHeredadesEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="tbPermiso" EntityType="Self.tbPermiso" />
-          <EntitySet Name="tbRol" EntityType="Self.tbRol" />
-          <EntitySet Name="tbUsuario" EntityType="Self.tbUsuario" />
-          <AssociationSet Name="FK_tbUsuario_tbRol" Association="Self.FK_tbUsuario_tbRol">
-            <End Role="tbRol" EntitySet="tbRol" />
-            <End Role="tbUsuario" EntitySet="tbUsuario" />
-          </AssociationSet>
-          <AssociationSet Name="tbPermisoDenegado" Association="Self.tbPermisoDenegado">
-            <End Role="tbPermiso" EntitySet="tbPermiso" />
-            <End Role="tbRol" EntitySet="tbRol" />
-          </AssociationSet>
-        </EntityContainer>
-      </Schema>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -163,16 +200,25 @@
           <EntitySetMapping Name="tbPermiso">
             <EntityTypeMapping TypeName="dbHeredadesModel.tbPermiso">
               <MappingFragment StoreEntitySet="tbPermiso">
-                <ScalarProperty Name="codPermiso" ColumnName="codPermiso" />
                 <ScalarProperty Name="permiso" ColumnName="permiso" />
+                <ScalarProperty Name="codPermiso" ColumnName="codPermiso" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tbRol">
             <EntityTypeMapping TypeName="dbHeredadesModel.tbRol">
               <MappingFragment StoreEntitySet="tbRol">
-                <ScalarProperty Name="codRol" ColumnName="codRol" />
                 <ScalarProperty Name="rol" ColumnName="rol" />
+                <ScalarProperty Name="codRol" ColumnName="codRol" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbRolPermiso">
+            <EntityTypeMapping TypeName="dbHeredadesModel.tbRolPermiso">
+              <MappingFragment StoreEntitySet="tbRolPermiso">
+                <ScalarProperty Name="estado" ColumnName="estado" />
+                <ScalarProperty Name="codPermiso" ColumnName="codPermiso" />
+                <ScalarProperty Name="codRol" ColumnName="codRol" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -180,22 +226,14 @@
             <EntityTypeMapping TypeName="dbHeredadesModel.tbUsuario">
               <MappingFragment StoreEntitySet="tbUsuario">
                 <ScalarProperty Name="estado" ColumnName="estado" />
-                <ScalarProperty Name="codUsuario" ColumnName="codUsuario" />
-                <ScalarProperty Name="codRol" ColumnName="codRol" />
-                <ScalarProperty Name="usuario" ColumnName="usuario" />
-                <ScalarProperty Name="nombre" ColumnName="nombre" />
                 <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="usuario" ColumnName="usuario" />
+                <ScalarProperty Name="codRol" ColumnName="codRol" />
+                <ScalarProperty Name="codUsuario" ColumnName="codUsuario" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <AssociationSetMapping Name="tbPermisoDenegado" TypeName="dbHeredadesModel.tbPermisoDenegado" StoreEntitySet="tbPermisoDenegado">
-            <EndProperty Name="tbPermiso">
-              <ScalarProperty Name="codPermiso" ColumnName="codPermiso" />
-            </EndProperty>
-            <EndProperty Name="tbRol">
-              <ScalarProperty Name="codRol" ColumnName="codRol" />
-            </EndProperty>
-          </AssociationSetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

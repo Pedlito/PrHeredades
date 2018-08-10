@@ -12,18 +12,13 @@ namespace PrHeredades.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class tbPermiso
+    public partial class tbRolPermiso
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public tbPermiso()
-        {
-            this.tbRolPermiso = new HashSet<tbRolPermiso>();
-        }
-    
+        public int codRol { get; set; }
         public int codPermiso { get; set; }
-        public string permiso { get; set; }
+        public Nullable<bool> estado { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tbRolPermiso> tbRolPermiso { get; set; }
+        public virtual tbPermiso tbPermiso { get; set; }
+        public virtual tbRol tbRol { get; set; }
     }
 }

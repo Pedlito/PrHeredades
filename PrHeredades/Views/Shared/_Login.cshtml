@@ -6,24 +6,29 @@
 
 
 <ul class="navbar-nav">
-    @if (Sesion.TienePermiso(Permisos.Usuarios) == true || Sesion.TienePermiso(Permisos.Catalogos) == true || Sesion.TienePermiso(Permisos.Inventario) == true)
+    @if (Sesion.TienePermiso(EnumPermisos.Usuarios) == true || Sesion.TienePermiso(EnumPermisos.Catalogos) == true || Sesion.TienePermiso(EnumPermisos.Inventario) == true)
     {
         <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" id="navbarDrop" role="button" aria-expanded="false" aria-haspopup="true">Administración</a>
             <div class="dropdown-menu" aria-labelledby="navbarDrop">
-                @if (Sesion.TienePermiso(Permisos.Usuarios))
+                @if (Sesion.TienePermiso(EnumPermisos.Usuarios))
                 {
                     <a class="dropdown-item" href="@Url.Action("Index", "Usuario")">Usuarios</a>
                     <div class="dropdown-divider"></div>
                 }
-                @if (Sesion.TienePermiso(Permisos.Catalogos))
+                @if (Sesion.TienePermiso(EnumPermisos.Catalogos))
                 {
                     <a class="dropdown-item" href="#">Catalogos</a>
                     <div class="dropdown-divider"></div>
                 }
-                @if (Sesion.TienePermiso(Permisos.Inventario))
+                @if (Sesion.TienePermiso(EnumPermisos.Inventario))
                 {
                     <a class="dropdown-item" href="#">Inventario</a>
+                    <div class="dropdown-divider"></div>
+                }
+                @if (Sesion.TienePermiso(EnumPermisos.Roles))
+                {
+                    <a class="dropdown-item" href="@Url.Action("Index", "Rol")">Roles</a>
                 }
             </div>
         </li>
