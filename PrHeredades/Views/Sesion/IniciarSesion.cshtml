@@ -10,7 +10,7 @@
                 Iniciar Sesión
             </div>
             <div class="card-body">
-                <form method="post" id="formUsuario">
+                <form method="post" id="formUsuario" action="@Url.Action("IniciarSesion")">
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                     <div class="form-group">
                         <label for="usuario">Usuario</label>

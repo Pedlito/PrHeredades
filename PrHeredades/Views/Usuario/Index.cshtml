@@ -16,7 +16,7 @@
 <form action="@Url.Action("Index")" method="get" class="form-group">
     <div class="row">
         <div class="col-md-4">
-            <input type="text" placeholder="Nombre del usuario" class="form-control" id="filtro" name="filtro" value="@ViewBag.filtro"/>
+            <input type="text" placeholder="Nombre del usuario" class="form-control" id="filtro" name="filtro" value="@ViewBag.filtro" autocomplete="off"/>
         </div>
         <button type="submit" class="btn btn-info">
         <span class="fa fa-search"></span> Filtrar

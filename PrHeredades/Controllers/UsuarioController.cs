@@ -43,7 +43,7 @@ namespace PrHeredades.Controllers
         public ActionResult Crear()
         {
             dbHeredadesEntities db = new dbHeredadesEntities();
-            List<tbRol> roles = (from t in db.tbRol where t.codRol != 1 orderby t.codRol descending select t).ToList();
+            List<tbRol> roles = (from t in db.tbRol where t.codRol != 1 orderby t.rol select t).ToList();
             ViewBag.codRol = new SelectList(roles, "codRol", "rol");
             return View();
         }

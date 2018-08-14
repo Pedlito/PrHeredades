@@ -14,6 +14,14 @@ $.validator.addMethod(
     "No se permiten espacios en blanco"
 );
 
+$.validator.addMethod(
+    "rol",
+    function (value, element, argumento) {
+        return argumento !== value;
+    },
+    "No a seleccionado un rol"
+);
+
 
 //$().ready(function () {
     $("#formUsuario").validate({
@@ -39,6 +47,9 @@ $.validator.addMethod(
                 required: true,
                 minlength: 4,
                 equalTo: "#password"
+            },
+            codRol: {
+                rol: ""
             }
         },
         messages: {
