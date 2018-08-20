@@ -1,0 +1,48 @@
+﻿@model PrHeredades.Models.tbCategoria
+
+@{
+    ViewBag.Title = "CambiarEstado";
+}
+
+<h2>Cambiar Estado</h2>
+
+<h3>
+    ¿Realmente quieres
+    @if (Model.estado.Value)
+    {
+        <strong>Deshabilitar</strong>
+    }
+    else
+    {
+        <strong>Habilitar</strong>
+    }
+    esta categoría?
+</h3>
+
+
+<div>
+    <hr />
+    <div class="form-group">
+        <label for="categoria" class="col-form-label">Categoría</label>
+        @Html.TextBoxFor(m => m.categoria, new { @class = "form-control col-md-4", @readonly = "readonly" })
+    </div>
+    
+    <form action="@Url.Action("CambiarEstado")" method="post">
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(m => m.codCategoria)
+
+        <div class="form-group col-md-4 text-center">
+            <button type="submit" class="btn btn-primary" onclick="hola()" style="width: 150px">
+                <span class="fa fa-check"></span> 
+                @if (Model.estado.Value)
+                {<text>Deshabilitar</text> }
+                else
+                { <text>Habilitar</text>}
+            </button>
+            <a href="@Url.Action("Index")" class="btn btn-danger" style="width: 150px">
+                <span class="fa fa-times"></span> Cancelar
+            </a>
+        </div>
+    </form>
+</div>
+

@@ -17,22 +17,22 @@
 
     <div class="form-group">
         <label for="nombre" class="col-form-label">Nombre</label>
-        @Html.TextBoxFor(m => m.nombre, new { @class = "form-control col-md-4", autocomplete = "off" })
+        @Html.TextBoxFor(m => m.nombre, new { @class = "form-control col-md-4", autocomplete = "off", maxlength = "50" })
     </div>
 
     <div class="form-group">
         <label for="usuario" class="col-form-label">Usuario</label>
-        @Html.TextBoxFor(m => m.usuario, new { @class = "form-control col-md-4", autocomplete = "off" })
+        @Html.TextBoxFor(m => m.usuario, new { @class = "form-control col-md-4", autocomplete = "off", maxlength = "20" })
     </div>
 
     <div class="form-group">
         <label for="password" class="col-form-label">Contraseña</label>
-        @Html.PasswordFor(m => m.password, new { @class = "form-control col-md-4" })
+        @Html.PasswordFor(m => m.password, new { @class = "form-control col-md-4", maxlength = "30" })
     </div>
 
     <div class="form-group">
         <label for="repetir" class="col-form-label">Repetir contraseña</label>
-        @Html.Password("repetir", null, new { @class = "form-control col-md-4" })
+        @Html.Password("repetir", null, new { @class = "form-control col-md-4", maxlength = "30" })
     </div>
 
     <div class="form-group col-md-4 text-center">

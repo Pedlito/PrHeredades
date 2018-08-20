@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -16,7 +17,7 @@ namespace PrHeredades.Controllers
         public ActionResult Index()
         {
             dbHeredadesEntities db = new dbHeredadesEntities();
-            List<tbRol> lista = (from t in db.tbRol where t.codRol != 1 orderby t.rol select t).ToList();
+            List<tbRol> lista = db.tbRol.Where(t => t.codRol != 1).OrderBy(t => t.rol).ToList();
             return View(lista);
         }
 
@@ -29,12 +30,12 @@ namespace PrHeredades.Controllers
         public ActionResult Crear(tbRol nuevo)
         {
             dbHeredadesEntities db = new dbHeredadesEntities();
-            if (!(from t in db.tbRol where t.rol == nuevo.rol select t).Any())
+            if (!(db.tbRol.Any(t => t.rol == nuevo.rol)))
             {
                 db.tbRol.Add(nuevo);
                 db.SaveChanges();
-                List<int> permisos = (from t in db.tbPermiso select t.codPermiso).ToList();
-                List<tbRolPermiso> rolPermisos = new List<tbRolPermiso>();
+                List<int> permisos = db.tbPermiso.Select(t => t.codPermiso).ToList();
+                List <tbRolPermiso> rolPermisos = new List<tbRolPermiso>();
                 foreach (int item in permisos)
                 {
                     rolPermisos.Add(new tbRolPermiso
@@ -58,7 +59,7 @@ namespace PrHeredades.Controllers
         public ActionResult Editar(int id)
         {
             dbHeredadesEntities db = new dbHeredadesEntities();
-            tbRol rol = (from t in db.tbRol where t.codRol == id select t).SingleOrDefault();
+            tbRol rol = db.tbRol.Find(id);
             return View(rol);
         }
 
@@ -66,10 +67,9 @@ namespace PrHeredades.Controllers
         public ActionResult Editar(tbRol editado)
         {
             dbHeredadesEntities db = new dbHeredadesEntities();
-            tbRol rol = (from t in db.tbRol where t.codRol == editado.codRol select t).SingleOrDefault();
-            if (!(from t in db.tbRol where t.codRol != editado.codRol && t.rol == editado.rol select t).Any())
+            if (!(db.tbRol.Any(t => t.rol == editado.rol && t.codRol != editado.codRol)))
             {
-                rol.rol = editado.rol;
+                db.Entry(editado).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -91,15 +91,8 @@ namespace PrHeredades.Controllers
         public ActionResult CambiarEstadoPermiso(int codRol, int codPermiso)
         {
             dbHeredadesEntities db = new dbHeredadesEntities();
-            tbRolPermiso permiso = (from t in db.tbRolPermiso where t.codRol == codRol && t.codPermiso == codPermiso select t).SingleOrDefault();
-            if (permiso.estado.Value)
-            {
-                permiso.estado = false;
-            }
-            else
-            {
-                permiso.estado = true;
-            }
+            tbRolPermiso permiso = db.tbRolPermiso.Find(codRol, codPermiso);
+            permiso.estado = !(permiso.estado.Value);
             db.SaveChanges();
             return PartialView("_ListaPermisos", (from t in db.tbRolPermiso where t.codRol == codRol select t).ToList());
         }

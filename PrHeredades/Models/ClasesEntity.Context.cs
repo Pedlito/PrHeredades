@@ -29,5 +29,9 @@ namespace PrHeredades.Models
         public virtual DbSet<tbRol> tbRol { get; set; }
         public virtual DbSet<tbRolPermiso> tbRolPermiso { get; set; }
         public virtual DbSet<tbUsuario> tbUsuario { get; set; }
+        public virtual DbSet<tbCategoria> tbCategoria { get; set; }
+        public virtual DbSet<tbPresentacion> tbPresentacion { get; set; }
+        public virtual DbSet<tbProducto> tbProducto { get; set; }
+        public virtual DbSet<tbProductoPresentacion> tbProductoPresentacion { get; set; }
     }
 }

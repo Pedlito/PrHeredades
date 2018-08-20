@@ -21,7 +21,7 @@ namespace PrHeredades.Controllers
         public ActionResult IniciarSesion(tbUsuario inicio)
         {
             dbHeredadesEntities db = new dbHeredadesEntities();
-            tbUsuario prueba = (from t in db.tbUsuario where t.usuario == inicio.usuario && t.password == inicio.password select t).SingleOrDefault();
+            tbUsuario prueba = db.tbUsuario.Where(t => t.usuario == inicio.usuario && t.password == inicio.password).SingleOrDefault();
             if (prueba != null)
             {
                 if (prueba.estado.Value)

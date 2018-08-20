@@ -12,6 +12,13 @@
         <AssociationConnector Association="dbHeredadesModel.FK_tbPermisoDenegado_tbPermiso" />
         <AssociationConnector Association="dbHeredadesModel.FK_tbPermisoDenegado_tbRol" />
         <AssociationConnector Association="dbHeredadesModel.FK_tbUsuario_tbRol" />
+        <EntityTypeShape EntityType="dbHeredadesModel.tbCategoria" Width="1.5" PointX="0.75" PointY="4.25" />
+        <EntityTypeShape EntityType="dbHeredadesModel.tbPresentacion" Width="1.5" PointX="3" PointY="7.25" />
+        <EntityTypeShape EntityType="dbHeredadesModel.tbProducto" Width="1.5" PointX="3" PointY="4" />
+        <EntityTypeShape EntityType="dbHeredadesModel.tbProductoPresentacion" Width="1.5" PointX="5.25" PointY="4" />
+        <AssociationConnector Association="dbHeredadesModel.FK_tbProducto_tbCategoria" />
+        <AssociationConnector Association="dbHeredadesModel.FK_tbProductoPresentacion_tbPresentacion" />
+        <AssociationConnector Association="dbHeredadesModel.FK_tbProductoPresentacion_tbProducto" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

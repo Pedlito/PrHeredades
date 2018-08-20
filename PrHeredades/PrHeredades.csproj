@@ -157,6 +157,8 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\CategoriaController.cs" />
+    <Compile Include="Controllers\PruebaEntityController.cs" />
     <Compile Include="Controllers\RolController.cs" />
     <Compile Include="Controllers\SesionController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -181,7 +183,19 @@
     </Compile>
     <Compile Include="Models\Paginacion.cs" />
     <Compile Include="Models\Sesion.cs" />
+    <Compile Include="Models\tbCategoria.cs">
+      <DependentUpon>ClasesEntity.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\tbPermiso.cs">
+      <DependentUpon>ClasesEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tbPresentacion.cs">
+      <DependentUpon>ClasesEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tbProducto.cs">
+      <DependentUpon>ClasesEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tbProductoPresentacion.cs">
       <DependentUpon>ClasesEntity.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\tbRol.cs">
@@ -270,6 +284,7 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\jqueryValidator\categoria.js" />
     <Content Include="Scripts\jqueryValidator\rol.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\jqueryValidator\usuario.js" />
@@ -316,6 +331,15 @@
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Rol\_ListaPermisos.cshtml" />
+    <Content Include="Views\PruebaEntity\Create.cshtml" />
+    <Content Include="Views\PruebaEntity\Delete.cshtml" />
+    <Content Include="Views\PruebaEntity\Details.cshtml" />
+    <Content Include="Views\PruebaEntity\Edit.cshtml" />
+    <Content Include="Views\PruebaEntity\Index.cshtml" />
+    <Content Include="Views\Categoria\Index.cshtml" />
+    <Content Include="Views\Categoria\Crear.cshtml" />
+    <Content Include="Views\Categoria\Editar.cshtml" />
+    <Content Include="Views\Categoria\CambiarEstado.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

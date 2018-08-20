@@ -33,7 +33,15 @@ else
 
         <div class="form-group col-md-4 text-center">
             <button type="submit" class="btn btn-primary" onclick="hola()" style="width: 150px">
-                <span class="fa fa-check"></span> @if (Model.estado.Value) { <text>Deshabilitar</text> } else { <text>Habilitar</text> }
+                <span class="fa fa-check"></span> 
+                @if (Model.estado.Value)
+                { 
+                    <text>Deshabilitar</text> 
+                }
+                else
+                {
+                    <text>Habilitar</text> 
+                 }
             </button>
             <a href="@Url.Action("Index")" class="btn btn-danger" style="width: 150px">
                 <span class="fa fa-times"></span> Cancelar
