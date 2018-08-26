@@ -1,0 +1,55 @@
+﻿@model IEnumerable<PrHeredades.Models.tbProductoPresentacion>
+
+@{
+    ViewBag.Title = "_Presentaciones";
+}
+
+@if (Model != null)
+{
+    <table class="table table-sm table-hover">
+        <thead>
+            <tr class="table-primary">
+                <th scope="col">
+                    Presentación
+                </th>
+                <th scope="col" class="text-center">
+                    Precio
+                </th>
+                <th scope="col" class="text-center">
+                    Unidades
+                </th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td class="align-middle">
+                        @item.tbPresentacion.presentacion
+                    </td>
+                    <td class="align-middle text-center">
+                        Q @item.precio
+                    </td>
+                    <td class="align-middle text-center">
+                        @item.unidades
+                    </td>
+                    <td class="align-middle">
+                        <button type="button" class="btn btn-warning btn-sm" onclick="Editar(@item.codPresentacion, '@item.tbPresentacion.presentacion')">
+                            <span class="fa fa-edit"></span> Editar
+                        </button>
+                        @if (Model.Last() == item)
+                        {
+                            <button type="button" class="btn btn-danger btn-sm" onclick="Quitar(@item.codPresentacion, '@item.tbPresentacion.presentacion')">
+                                <span class="fa fa-times"></span> Quitar
+                            </button>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+

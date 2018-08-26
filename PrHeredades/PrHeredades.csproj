@@ -158,6 +158,8 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\CategoriaController.cs" />
+    <Compile Include="Controllers\PresentacionController.cs" />
+    <Compile Include="Controllers\ProductoController.cs" />
     <Compile Include="Controllers\PruebaEntityController.cs" />
     <Compile Include="Controllers\RolController.cs" />
     <Compile Include="Controllers\SesionController.cs" />
@@ -182,6 +184,7 @@
       <DependentUpon>ClasesEntity.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\Paginacion.cs" />
+    <Compile Include="Models\ProductoPresentaciones.cs" />
     <Compile Include="Models\Sesion.cs" />
     <Compile Include="Models\tbCategoria.cs">
       <DependentUpon>ClasesEntity.tt</DependentUpon>
@@ -285,9 +288,13 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\jqueryValidator\categoria.js" />
+    <Content Include="Scripts\jqueryValidator\presentacion.js" />
+    <Content Include="Scripts\jqueryValidator\producto.js" />
+    <Content Include="Scripts\jqueryValidator\productoPresentacion.js" />
     <Content Include="Scripts\jqueryValidator\rol.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\jqueryValidator\usuario.js" />
+    <Content Include="Scripts\myScripts\decimales.js" />
     <Content Include="Scripts\popper-utils.js" />
     <Content Include="Scripts\popper-utils.min.js" />
     <Content Include="Scripts\popper.js" />
@@ -331,15 +338,25 @@
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Rol\_ListaPermisos.cshtml" />
+    <Content Include="Views\Categoria\Index.cshtml" />
+    <Content Include="Views\Categoria\Crear.cshtml" />
+    <Content Include="Views\Categoria\Editar.cshtml" />
+    <Content Include="Views\Categoria\CambiarEstado.cshtml" />
+    <Content Include="Views\Presentacion\Index.cshtml" />
+    <Content Include="Views\Shared\_Estado.cshtml" />
+    <Content Include="Views\Presentacion\Crear.cshtml" />
+    <Content Include="Views\Presentacion\Editar.cshtml" />
+    <Content Include="Views\Presentacion\CambiarEstado.cshtml" />
     <Content Include="Views\PruebaEntity\Create.cshtml" />
     <Content Include="Views\PruebaEntity\Delete.cshtml" />
     <Content Include="Views\PruebaEntity\Details.cshtml" />
     <Content Include="Views\PruebaEntity\Edit.cshtml" />
     <Content Include="Views\PruebaEntity\Index.cshtml" />
-    <Content Include="Views\Categoria\Index.cshtml" />
-    <Content Include="Views\Categoria\Crear.cshtml" />
-    <Content Include="Views\Categoria\Editar.cshtml" />
-    <Content Include="Views\Categoria\CambiarEstado.cshtml" />
+    <Content Include="Views\Producto\Index.cshtml" />
+    <Content Include="Views\Producto\Crear.cshtml" />
+    <Content Include="Views\Producto\_Presentaciones.cshtml" />
+    <Content Include="Views\Producto\_ListaPresentaciones.cshtml" />
+    <Content Include="Views\Producto\Editar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

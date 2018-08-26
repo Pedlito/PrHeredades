@@ -1,4 +1,4 @@
-﻿@model PrHeredades.Models.tbPresentacion
+﻿@model PrHeredades.Models.tbProducto
 
 @{
     ViewBag.Title = "Details";
@@ -7,15 +7,15 @@
 <h2>Details</h2>
 
 <div>
-    <h4>tbPresentacion</h4>
+    <h4>tbProducto</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.presentacion)
+            @Html.DisplayNameFor(model => model.producto)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.presentacion)
+            @Html.DisplayFor(model => model.producto)
         </dd>
 
         <dt>
@@ -26,9 +26,17 @@
             @Html.DisplayFor(model => model.estado)
         </dd>
 
+        <dt>
+            @Html.DisplayNameFor(model => model.tbCategoria.categoria)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.tbCategoria.categoria)
+        </dd>
+
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.codPresentacion }) |
+    @Html.ActionLink("Edit", "Edit", new { id = Model.codProducto }) |
     @Html.ActionLink("Back to List", "Index")
 </p>

@@ -17,7 +17,8 @@ namespace PrHeredades.Controllers
         // GET: PruebaEntity
         public ActionResult Index()
         {
-            return View(db.tbPresentacion.ToList());
+            var tbProducto = db.tbProducto.Include(t => t.tbCategoria);
+            return View(tbProducto.ToList());
         }
 
         // GET: PruebaEntity/Details/5
@@ -27,17 +28,18 @@ namespace PrHeredades.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            tbPresentacion tbPresentacion = db.tbPresentacion.Find(id);
-            if (tbPresentacion == null)
+            tbProducto tbProducto = db.tbProducto.Find(id);
+            if (tbProducto == null)
             {
                 return HttpNotFound();
             }
-            return View(tbPresentacion);
+            return View(tbProducto);
         }
 
         // GET: PruebaEntity/Create
         public ActionResult Create()
         {
+            ViewBag.codCategoria = new SelectList(db.tbCategoria, "codCategoria", "categoria");
             return View();
         }
 
@@ -46,16 +48,17 @@ namespace PrHeredades.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "codPresentacion,presentacion,estado")] tbPresentacion tbPresentacion)
+        public ActionResult Create([Bind(Include = "codProducto,codCategoria,producto,estado")] tbProducto tbProducto)
         {
             if (ModelState.IsValid)
             {
-                db.tbPresentacion.Add(tbPresentacion);
+                db.tbProducto.Add(tbProducto);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(tbPresentacion);
+            ViewBag.codCategoria = new SelectList(db.tbCategoria, "codCategoria", "categoria", tbProducto.codCategoria);
+            return View(tbProducto);
         }
 
         // GET: PruebaEntity/Edit/5
@@ -65,12 +68,13 @@ namespace PrHeredades.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            tbPresentacion tbPresentacion = db.tbPresentacion.Find(id);
-            if (tbPresentacion == null)
+            tbProducto tbProducto = db.tbProducto.Find(id);
+            if (tbProducto == null)
             {
                 return HttpNotFound();
             }
-            return View(tbPresentacion);
+            ViewBag.codCategoria = new SelectList(db.tbCategoria, "codCategoria", "categoria", tbProducto.codCategoria);
+            return View(tbProducto);
         }
 
         // POST: PruebaEntity/Edit/5
@@ -78,15 +82,16 @@ namespace PrHeredades.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "codPresentacion,presentacion,estado")] tbPresentacion tbPresentacion)
+        public ActionResult Edit([Bind(Include = "codProducto,codCategoria,producto,estado")] tbProducto tbProducto)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(tbPresentacion).State = EntityState.Modified;
+                db.Entry(tbProducto).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(tbPresentacion);
+            ViewBag.codCategoria = new SelectList(db.tbCategoria, "codCategoria", "categoria", tbProducto.codCategoria);
+            return View(tbProducto);
         }
 
         // GET: PruebaEntity/Delete/5
@@ -96,12 +101,12 @@ namespace PrHeredades.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            tbPresentacion tbPresentacion = db.tbPresentacion.Find(id);
-            if (tbPresentacion == null)
+            tbProducto tbProducto = db.tbProducto.Find(id);
+            if (tbProducto == null)
             {
                 return HttpNotFound();
             }
-            return View(tbPresentacion);
+            return View(tbProducto);
         }
 
         // POST: PruebaEntity/Delete/5
@@ -109,8 +114,8 @@ namespace PrHeredades.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            tbPresentacion tbPresentacion = db.tbPresentacion.Find(id);
-            db.tbPresentacion.Remove(tbPresentacion);
+            tbProducto tbProducto = db.tbProducto.Find(id);
+            db.tbProducto.Remove(tbProducto);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

@@ -1,0 +1,24 @@
+﻿@model bool
+
+<div class="form-group">
+    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+        @if (Model)
+        {
+            <label class="btn btn-primary active">
+                <input type="radio" name="estado" id="estado" value=True checked onchange="this.form.submit()"> Habilitados
+            </label>
+            <label class="btn btn-primary">
+                <input type="radio" name="estado" id="estado" value=False onchange="this.form.submit()"> Deshabilitados
+            </label>
+        }
+        else
+        {
+            <label class="btn btn-primary">
+                <input type="radio" name="estado" id="estado" value=True onchange="this.form.submit()"> Habilitados
+            </label>
+            <label class="btn btn-primary active">
+                <input type="radio" name="estado" id="estado" value=False checked onchange="this.form.submit()"> Deshabilitados
+            </label>
+        }
+    </div>
+</div>

@@ -1,0 +1,232 @@
+﻿@model PrHeredades.Models.tbProducto
+
+@{
+    ViewBag.Title = "Crear";
+}
+
+<form id="formProducto">
+    <h2>Crear producto </h2>
+    <hr />
+    <h4>
+        <div class="validation-summary-errors text-danger">
+            <ul id="error">
+                <!-- escribe el error de existencia -->
+            </ul>
+        </div>
+    </h4>
+    <div class="form-group">
+        <label for="producto" class="col-form-label">Producto</label>
+        @Html.TextBoxFor(t => t.producto, new { @class = "form-control col-md-4", autocomplete = "off", maxlength = "50" })
+    </div>
+
+    <div class="form-group">
+        <label for="codCategoria" class="col-form-label">Categoría</label>
+        @Html.DropDownListFor(m => m.codCategoria, null, "Elija una categoría", htmlAttributes: new { @class = "form-control col-md-4" })
+    </div>
+</form>
+
+<div id="presentaciones">
+
+</div>
+
+<div class="form-group">
+    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#pedirPresentacion">
+        <span class="fa fa-plus"></span> Agregar presentación
+    </button>
+</div>
+<div class="form-group col-md-4 text-center">
+    <button type="submit" class="btn btn-primary" style="width: 150px" onclick="CrearProducto()">
+        <span class="fa fa-check"></span> Crear
+    </button>
+    <a href="@Url.Action("Index")" class="btn btn-danger" style="width: 150px">
+        <span class="fa fa-times"></span> Cancelar
+    </a>
+</div>
+
+
+<!-- Modal Agregar Presentación -->
+<div class="modal fade" id="pedirPresentacion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Presentación</h5>
+            </div>
+
+            <div class="modal-body">
+                <form id="agrPresentacion">
+                    <div class="form-group">
+                        <label for="codPresentacion" class="col-form-label">Presentación</label>
+                        @Html.DropDownList("codPresentacion", null, "Elija una presentación", htmlAttributes: new { @class = "form-control" })
+                    </div>
+
+                    <div class="form-group">
+                        <label for="precio" class="col-form-label">Precio</label>
+                        @Html.TextBox("precio", "", new { @class = "form-control", autocomplete = "off" })
+                    </div>
+
+                    <div class="form-group">
+                        <label for="unidades" class="col-form-label">Se divide en</label>
+                        @Html.TextBox("unidades", "", new { @class = "form-control", autocomplete = "off", maxlength = "50", placeholder = "Número de unidades" })
+                    </div>
+                </form>
+
+                <div class="form-group text-center">
+                    <button type="button" class="btn btn-primary" onclick="AgregarPresentacion()" style="width: 150px">
+                        <span class="fa fa-plus"></span> Agregar
+                    </button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" style="width: 150px">
+                        <span class="fa fa-times"></span> Cancelar
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Modal Editar Presentación -->
+<div class="modal fade" id="editarPresentacion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Presentación</h5>
+            </div>
+            <div class="modal-body">
+                <form id="editPresentacion">
+                    <div class="form-group">
+                        <label for="presentacion" class="col-form-label">Presentación</label>
+                        @Html.TextBox("presentacion", "", new { @class = "form-control", autocomplete = "off", @readonly = "readonly" })
+                    </div>
+
+                    <div class="form-group">
+                        <label for="precio" class="col-form-label">Precio</label>
+                        @Html.TextBox("editPrecio", "", new { @class = "form-control", autocomplete = "off" })
+                    </div>
+
+                    <div class="form-group">
+                        <label for="unidades" class="col-form-label">Se divide en</label>
+                        @Html.TextBox("editUnidades", "", new { @class = "form-control", autocomplete = "off", maxlength = "50", placeholder = "Número de unidades" })
+                    </div>
+                </form>
+                <div class="form-group text-center">
+                    <button type="button" class="btn btn-primary" onclick="confirmarEdicion()" style="width: 150px">
+                        <span class="fa fa-save"></span> Guardar
+                    </button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" style="width: 150px">
+                        <span class="fa fa-times"></span> Cancelar
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/jqueryValidator/producto.js"></script>
+    <script src="~/Scripts/jqueryValidator/productoPresentacion.js"></script>
+
+    <script>
+        var presentaciones = [];
+        var editar;
+
+        function AgregarPresentacion() {
+            if ($("#agrPresentacion").valid()) {
+                $('#pedirPresentacion').modal('hide');
+                Agregar();
+                $('#agrPresentacion').trigger("reset");
+            }
+
+        }
+
+        function Agregar() {
+            presentaciones.push({
+                codProducto: 0,
+                codPresentacion: $('#codPresentacion').val(),
+                precio: $('#precio').val(),
+                unidades: $('#unidades').val()
+            });
+            ListarPresentaciones();
+            $("#codPresentacion option:selected").remove();
+        }
+
+        function Editar(codPresentacion, presentacion) {
+            editar = presentaciones.find(function (element) { return element.codPresentacion == codPresentacion })
+            $('#presentacion').val(presentacion)
+            $('#editPrecio').val(editar.precio)
+            $('#editUnidades').val(editar.unidades)
+            $('#editarPresentacion').modal('show');
+        }
+
+        function confirmarEdicion() {
+            if ($("#editPresentacion").valid()) {
+                editar.precio = $('#editPrecio').val();
+                editar.unidades = $('#editUnidades').val()
+                $('#editarPresentacion').modal('hide');
+                $('#editPresentacion').trigger("reset");
+                ListarPresentaciones();
+            }
+        }
+
+        function Quitar(codPresentacion, presentacion) {
+            $("#codPresentacion").append('<option value="' + codPresentacion + '">' + presentacion + '</option>');
+            presentaciones.pop();
+            ListarPresentaciones();
+        }
+
+        //Este es el método encargado de finalizar la creación del nuevo producto
+        function CrearProducto() {
+            var producto = {
+                producto: $('#producto').val(),
+                codCategoria: $('#codCategoria').val()
+            };
+            var modelo = {
+                producto: producto,
+                presentaciones: presentaciones
+            };
+            if ($("#formProducto").valid()) {
+                $.ajax({
+                    url: '@Url.Action("Guardar")',
+                    type: "POST",
+                    data: { modelo: modelo },
+                    success: function (response) {
+                        switch (parseInt(response)) {
+                            case 1:
+                                window.location.href = "@Url.Action("Index")";
+                                break;
+                            case 2:
+                                //mostrar error de existencia
+                                $('#error').html("<li>¡Este producto ya existe!</li>");
+                                break;
+                            case 3:
+                                $('#error').html("<li>¡Debe agregar al menos una presentación!</li>");
+                                break;
+                        };
+                    },
+                    error: function (responser) {
+                        alert("error");
+                    }
+                });
+            }
+        }
+
+        function ListarPresentaciones() {
+            $.ajax({
+                url: '@Url.Action("Presentaciones")',
+                type: 'POST',
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(presentaciones),
+                success: function (response) {
+                    $('#presentaciones').html(response);
+                },
+                error: function (response) {
+                    alert("fallido");
+                }
+            });
+        }
+    </script>
+}

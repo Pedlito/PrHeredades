@@ -1,0 +1,31 @@
+﻿@model PrHeredades.Models.tbPresentacion
+
+@{
+    ViewBag.Title = "Crear";
+}
+
+<form action="@Url.Action("Crear")" method="post" id="formPresentacion">
+    @Html.AntiForgeryToken()
+    <h2>Crear presentación</h2>
+    <hr />
+    <h4>@Html.ValidationSummary(true, "", new { @class = "text-danger" })</h4>
+    <div class="form-group">
+        <label for="presentacion" class="col-form-label">Presentación</label>
+        @Html.TextBoxFor(t => t.presentacion, new { @class = "form-control col-md-4", autocomplete = "off", maxlength = "50" })
+    </div>
+    <div class="form-group col-md-4 text-center">
+        <button type="submit" class="btn btn-primary" style="width: 150px">
+            <span class="fa fa-check"></span> Crear
+        </button>
+        <a href="@Url.Action("Index")" class="btn btn-danger" style="width: 150px">
+            <span class="fa fa-times"></span> Cancelar
+        </a>
+    </div>
+</form>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/jqueryValidator/presentacion.js"></script>
+}
+
+

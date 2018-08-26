@@ -1,4 +1,4 @@
-﻿@model IEnumerable<PrHeredades.Models.tbPresentacion>
+﻿@model IEnumerable<PrHeredades.Models.tbProducto>
 
 @{
     ViewBag.Title = "Index";
@@ -12,10 +12,13 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.presentacion)
+            @Html.DisplayNameFor(model => model.producto)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.estado)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.tbCategoria.categoria)
         </th>
         <th></th>
     </tr>
@@ -23,15 +26,18 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.presentacion)
+            @Html.DisplayFor(modelItem => item.producto)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.estado)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.codPresentacion }) |
-            @Html.ActionLink("Details", "Details", new { id=item.codPresentacion }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.codPresentacion })
+            @Html.DisplayFor(modelItem => item.tbCategoria.categoria)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.codProducto }) |
+            @Html.ActionLink("Details", "Details", new { id=item.codProducto }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.codProducto })
         </td>
     </tr>
 }

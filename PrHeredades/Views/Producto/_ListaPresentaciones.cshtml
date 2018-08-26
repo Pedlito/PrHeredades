@@ -1,0 +1,39 @@
+﻿@model IEnumerable<PrHeredades.Models.tbProductoPresentacion>
+
+@{
+    ViewBag.Title = "_ListaPresentaciones";
+}
+
+<table class="table table-sm table-hover">
+    <thead>
+        <tr class="table-primary">
+            <th scope="col">
+                Presentación
+            </th>
+            <th scope="col" class="text-center">
+                Precio
+            </th>
+            <th scope="col" class="text-center">
+                Unidades
+            </th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td class="align-middle">
+                    @item.tbPresentacion.presentacion
+                </td>
+                <td class="align-middle text-center">
+                    Q @item.precio
+                </td>
+                <td class="align-middle text-center">
+                    @item.unidades
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+

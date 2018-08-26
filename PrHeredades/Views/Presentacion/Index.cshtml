@@ -1,15 +1,15 @@
-﻿@model IEnumerable<PrHeredades.Models.tbUsuario>
+﻿@model IEnumerable<PrHeredades.Models.tbPresentacion>
 @using PrHeredades.Models
 
 @{
     ViewBag.Title = "Index";
 }
 
-<h2>Usuarios</h2>
+<h2>Presentaciones</h2>
 
 <p>
     <a class="btn btn-success" href="@Url.Action("Crear")">
-        <span class="fa fa-user-plus"></span> Nuevo usuario
+        <span class="fa fa-plus"></span> Nueva presentación
     </a>
 </p>
 
@@ -19,7 +19,7 @@
     @Html.Partial("_Estado", (bool)ViewBag.estado)
     <div class="row">
         <div class="col-md-4">
-            <input type="text" placeholder="Nombre del usuario" class="form-control" id="filtro" name="filtro" value="@ViewBag.filtro" autocomplete="off" />
+            <input type="text" placeholder="Nombre de presentación" class="form-control" id="filtro" name="filtro" value="@ViewBag.filtro" autocomplete="off" />
         </div>
         <button type="submit" class="btn btn-info">
             <span class="fa fa-search"></span> Filtrar
@@ -32,13 +32,7 @@
     <thead>
         <tr class="table-primary">
             <th scope="col">
-                Nombre
-            </th>
-            <th scope="col">
-                Usuario
-            </th>
-            <th scope="col">
-                Rol
+                Presentación
             </th>
             <th scope="col" class="text-center">
                 Estado
@@ -52,13 +46,7 @@
         {
             <tr>
                 <td class="align-middle">
-                    @item.nombre
-                </td>
-                <td class="align-middle">
-                    @item.usuario
-                </td>
-                <td class="align-middle">
-                    @item.tbRol.rol
+                    @item.presentacion
                 </td>
                 <td class="align-middle text-center">
                     @if (item.estado.Value)
@@ -71,10 +59,10 @@
                     }
                 </td>
                 <td class="align-middle">
-                    <a href="@Url.Action("Editar", new { id = item.codUsuario })" class="btn btn-warning btn-sm">
+                    <a href="@Url.Action("Editar", new { id = item.codPresentacion })" class="btn btn-warning btn-sm">
                         <span class="fa fa-edit"></span> Editar
                     </a>
-                    <a href="@Url.Action("CambiarEstado", new { id = item.codUsuario })" class="align-middle">
+                    <a href="@Url.Action("CambiarEstado", new { id = item.codPresentacion })" class="align-middle">
                         @if (item.estado.Value)
                         {
                             <text>Deshabilitar</text>

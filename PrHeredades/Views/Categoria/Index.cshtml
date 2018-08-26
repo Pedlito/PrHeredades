@@ -16,28 +16,7 @@
 <hr />
 <!-- Filtros -->
 <form action="@Url.Action("Index")" method="get" class="form-group">
-    <div class="form-group">
-        <div class="btn-group btn-group-toggle" data-toggle="buttons">
-            @if (ViewBag.estado)
-            {
-                <label class="btn btn-primary active">
-                    <input type="radio" name="estado" id="estado" value=True checked onchange="this.form.submit()" > Habilitados
-                </label>
-                <label class="btn btn-primary">
-                    <input type="radio" name="estado" id="estado" value=False onchange="this.form.submit()" > Deshabilitados
-                </label>
-            }
-            else
-            {
-                <label class="btn btn-primary">
-                    <input type="radio" name="estado" id="estado" value=True onchange="this.form.submit()" > Habilitados
-                </label>
-                <label class="btn btn-primary active">
-                    <input type="radio" name="estado" id="estado" value=False checked onchange="this.form.submit()" > Deshabilitados
-                </label>
-            }
-        </div>
-    </div>
+    @Html.Partial("_Estado", (bool)ViewBag.estado)
     <div class="row">
         <div class="col-md-4">
             <input type="text" placeholder="Nombre de categoría" class="form-control" id="filtro" name="filtro" value="@ViewBag.filtro" autocomplete="off" />
