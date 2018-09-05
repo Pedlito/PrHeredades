@@ -1,0 +1,111 @@
+﻿@model IEnumerable<PrHeredades.Models.tbProveedor>
+@using PrHeredades.Models;
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Proveedores</h2>
+
+<p>
+    <a class="btn btn-success" href="@Url.Action("Crear")">
+        <span class="fa fa-plus"></span> Nuevo proveedor
+    </a>
+</p>
+
+<hr />
+<!-- Filtros -->
+<form action="@Url.Action("Index")" method="get" class="form-group">
+    @Html.Partial("_Estado", (bool)ViewBag.estado)
+    <div class="row">
+        <div class="col-md-4">
+            <input type="text" placeholder="Nombre de proveedor" class="form-control" id="filtro" name="filtro" value="@ViewBag.filtro" autocomplete="off" />
+        </div>
+        <button type="submit" class="btn btn-info">
+            <span class="fa fa-search"></span> Filtrar
+        </button>
+    </div>
+</form>
+<hr />
+
+<table class="table table-sm table-hover">
+    <thead>
+        <tr class="table-primary">
+            <th scope="col">
+                Proveedor
+            </th>
+            <th scope="col">
+                Teléfono
+            </th>
+            <th scope="col">
+                Dirección
+            </th>
+            <th scope="col" class="text-center">
+                Estado
+            </th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td class="align-middle">
+                @item.proveedor
+            </td>
+            <td class="align-middle">
+                @if (item.telefono != null)
+                {
+                    @item.telefono
+                }
+                else
+                {
+                    <text>Desconocido</text>
+                }
+            </td>
+            <td class="align-middle">
+                @if (item.direccion != null)
+                {
+                    @item.direccion
+                }
+                else
+                {
+                    <text>Desconocida</text>
+                }
+            </td>
+            <td class="align-middle text-center">
+                @if (item.estado.Value)
+                {
+                    <span class="fa fa-check-square"></span>
+                }
+                else
+                {
+                    <span class="fa fa-square"></span>
+                }
+            </td>
+            <td class="align-middle">
+                <a href="@Url.Action("Productos", new { id = item.codProveedor })" class="btn btn-primary btn-sm">
+                    <span class="fa fa-list"></span> Productos
+                </a>
+                <a href="@Url.Action("Editar", new { id = item.codProveedor })" class="btn btn-warning btn-sm">
+                    <span class="fa fa-edit"></span> Editar
+                </a>
+                <a href="@Url.Action("CambiarEstado", new { id = item.codProveedor })" class="align-middle">
+                    @if (item.estado.Value)
+                    {
+                        <text>Deshabilitar</text>
+                    }
+                    else
+                    {
+                        <text>Habilitar</text>
+                    }
+                </a>
+            </td>
+        </tr>
+        }
+    </tbody>
+
+</table>
+
+@Html.Partial("_Paginacion", (Paginacion)ViewBag.paginacion)

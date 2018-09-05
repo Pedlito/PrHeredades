@@ -73,6 +73,7 @@ namespace PrHeredades.Controllers
             dbHeredadesEntities db = new dbHeredadesEntities();
             if (!(db.tbUsuario.Any(t => t.codUsuario != editado.codUsuario && t.usuario == editado.usuario )))
             {
+                editado.password = db.tbUsuario.Find(editado.codUsuario).password;
                 db.Entry(editado).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");

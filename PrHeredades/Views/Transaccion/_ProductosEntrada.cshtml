@@ -1,0 +1,56 @@
+﻿@model IEnumerable<PrHeredades.Models.tbProductoTransaccion>
+
+@if (Model != null)
+{
+    <table class="table table-sm table-hover">
+        <thead>
+            <tr class="table-primary">
+                <th scope="col">
+                    Producto
+                </th>
+                <th scope="col">
+                    Presentación
+                </th>
+                <th scope="col" class="text-center">
+                    Precio compra
+                </th>
+                <th class="text-center">
+                    Cantidad
+                </th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td class="align-middle">
+                        @item.tbProductoPresentacion.tbProducto.producto
+                    </td>
+                    <td class="align-middle">
+                        @item.tbProductoPresentacion.tbPresentacion.presentacion
+                    </td>
+                    <td class="align-middle text-center">
+                        Q @item.precioCompra
+                    </td>
+                    <td class="justify-content-center">
+                        <input type="number" class="form-control form-control-sm col-md-4 offset-md-4" value="@item.cantidad" onkeypress="return ValidarNumero(event)" onchange="CambiarCantidad(@item.codProducto, @item.codPresentacion, this)" />
+                    </td>
+                    <td class="align-middle">
+                        <button type="button" class="btn btn-danger btn-sm" onclick="Quitar(@item.codProducto, @item.codPresentacion)">
+                            <span class="fa fa-times"></span> Quitar
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <p>
+        <h3>
+            Total: Q @ViewBag.total
+        </h3>
+    </p>
+}
+

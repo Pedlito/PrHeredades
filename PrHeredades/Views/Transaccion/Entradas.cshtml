@@ -1,0 +1,154 @@
+﻿@model IEnumerable<PrHeredades.Models.tbTransaccion>
+@using PrHeredades.Models
+
+@{
+    ViewBag.Title = "Entradas";
+}
+
+<h2>Entradas</h2>
+
+<p>
+    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modProveedores">
+        <span class="fa fa-plus"></span> Nueva entrada
+    </button>
+</p>
+
+<hr />
+<!-- Filtros -->
+<form action="@Url.Action("Entradas")" method="get" class="form-group">
+    @Html.Partial("_Estado", (bool)ViewBag.estado)
+    <div class="row">
+        <div class="col-md-2">
+            <input type="date" class="form-control form-control-sm" id="filtro" name="filtro" value="@ViewBag.filtro" autocomplete="off" />
+        </div>
+        <button type="submit" class="btn btn-info btn-sm">
+            <span class="fa fa-search"></span> Filtrar
+        </button>
+    </div>
+</form>
+<hr />
+
+<table class="table table-sm table-hover">
+    <thead>
+        <tr class="table-primary">
+            <th scope="col">
+                Fecha
+            </th>
+            <th>
+                Hora
+            </th>
+            <th scope="col">
+                Descripción
+            </th>
+            <th scope="col" class="text-center">
+                Estado
+            </th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td class="align-middle">
+                    @item.fecha.Value.ToLongDateString()
+                </td>
+                <td class="align-middle">
+                    @item.fecha.Value.ToLongTimeString()
+                </td>
+                <td class="align-middle">
+                    @item.descripcion
+                </td>
+                <td class="align-middle text-center">
+                    @if (item.estado.Value)
+                    {
+                        <span class="fa fa-check-square"></span>
+                    }
+                    else
+                    {
+                        <span class="fa fa-square"></span>
+                    }
+                </td>
+                <td class="align-middle">
+                    <a href="@Url.Action("DetalleEntrada", new { id = item.codTransaccion })" class="btn btn-primary btn-sm">
+                        <span class="fa fa-list"></span> Detalles
+                    </a>
+                    <a href="@Url.Action("CambiarEstado", new { id = item.codTransaccion })" class="align-middle">
+                        @if (item.estado.Value)
+                        {
+                            <text>Deshabilitar</text>
+                        }
+                        else
+                        {
+                            <text>Habilitar</text>
+                        }
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>
+
+@Html.Partial("_Paginacion", (Paginacion)ViewBag.paginacion)
+
+<!-- Modal -->
+<div class="modal fade" id="modProveedores" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="producto">Seleccione un proveedor</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-sm table-hover">
+                    <thead>
+                        <tr class="table-primary">
+                            <th scope="col">
+                                Proveedor
+                            </th>
+                            <th scope="col" class="text-center">
+                                Dirección
+                            </th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach (var item in ViewBag.proveedores)
+                        {
+                            <tr>
+                                <td class="align-middle">
+                                    @item.proveedor
+                                </td>
+                                <td class="align-middle text-center">
+                                    @if (item.direccion != null)
+                                    {
+                                        @item.direccion
+                                    }
+                                    else
+                                    {
+                                        <text>Desconocida</text>
+                                    }
+                                </td>
+                                <td class="align-middle">
+                                    <a type="button" class="btn btn-warning btn-sm" href="@Url.Action("CrearEntrada", new { id = item.codProveedor })">
+                                        <span class="fa fa-edit"></span> Seleccionar
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+
+}
+

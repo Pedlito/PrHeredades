@@ -1,4 +1,4 @@
-﻿@model PrHeredades.Models.tbCategoria
+﻿@model PrHeredades.Models.tbProveedor
 
 @{
     ViewBag.Title = "CambiarEstado";
@@ -16,28 +16,37 @@
     {
         <strong>Habilitar</strong>
     }
-    esta categoría?
+    este proveedor?
 </h3>
 
 
 <div>
     <hr />
     <div class="form-group">
-        <label for="categoria" class="col-form-label">Categoría</label>
-        @Html.TextBoxFor(m => m.categoria, new { @class = "form-control col-md-4", @readonly = "readonly" })
+        <label for="proveedor" class="col-form-label">Proveedor</label>
+        @Html.TextBoxFor(m => m.proveedor, new { @class = "form-control col-md-4", @readonly = "readonly" })
     </div>
-    
+
+    <div class="form-group">
+        <label for="telefono" class="col-form-label">Teléfono</label>
+        @Html.TextBoxFor(m => m.telefono, new { @class = "form-control col-md-4", @readonly = "readonly" })
+    </div>
+
+    <div class="form-group">
+        <label for="direccion" class="col-form-label">Dirección</label>
+        @Html.TextBoxFor(m => m.direccion, new { @class = "form-control col-md-4", @readonly = "readonly" })
+    </div>
     <form action="@Url.Action("CambiarEstado")" method="post">
         @Html.AntiForgeryToken()
-        @Html.HiddenFor(m => m.codCategoria)
+        @Html.HiddenFor(m => m.codProveedor)
 
         <div class="form-group col-md-4 text-center">
             <button type="submit" class="btn btn-primary" style="width: 150px">
-                <span class="fa fa-check"></span> 
+                <span class="fa fa-check"></span>
                 @if (Model.estado.Value)
                 {<text>Deshabilitar</text> }
-                else
-                { <text>Habilitar</text>}
+            else
+            { <text>Habilitar</text>}
             </button>
             <a href="@Url.Action("Index")" class="btn btn-danger" style="width: 150px">
                 <span class="fa fa-times"></span> Cancelar

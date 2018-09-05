@@ -1,0 +1,39 @@
+﻿@model PrHeredades.Models.tbProveedor
+
+@{
+    ViewBag.Title = "Editar";
+}
+
+<form action="@Url.Action("Editar")" method="post" id="formProveedor">
+    @Html.AntiForgeryToken()
+    <h2>Editar proveedor</h2>
+    <hr />
+    <h4>@Html.ValidationSummary(true, "", new { @class = "text-danger" })</h4>
+    @Html.HiddenFor(m => m.codProveedor)
+    @Html.HiddenFor(m => m.estado)
+    <div class="form-group">
+        <label for="proveedor" class="col-form-label">Proveedor</label>
+        @Html.TextBoxFor(m => m.proveedor, new { @class = "form-control col-md-4", autocomplete = "off", maxlength = "50" })
+    </div>
+    <div class="form-group">
+        <label for="telefono" class="col-form-label">Teléfono</label>
+        @Html.TextBoxFor(m => m.telefono, new { @class = "form-control col-md-4", autocomplete = "off", maxlength = "50" })
+    </div>
+    <div class="form-group">
+        <label for="direccion" class="col-form-label">Dirección</label>
+        @Html.TextBoxFor(m => m.direccion, new { @class = "form-control col-md-4", autocomplete = "off", maxlength = "50" })
+    </div>
+    <div class="form-group col-md-4 text-center">
+        <button type="submit" class="btn btn-primary" style="width: 150px">
+            <span class="fa fa-check"></span> Editar
+        </button>
+        <a href="@Url.Action("Index")" class="btn btn-danger" style="width: 150px">
+            <span class="fa fa-times"></span> Cancelar
+        </a>
+    </div>
+</form>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/jqueryValidator/proveedor.js"></script>
+}

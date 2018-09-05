@@ -20,11 +20,13 @@ else
     <hr />
     <div class="form-group">
         <label for="nombre" class="col-form-label">Nombre</label>
-        <input type="text" class="form-control col-md-4" value="@Model.nombre" readonly="readonly" />
+        @Html.TextBoxFor(m => m.nombre, new { @class = "form-control col-md-4", @readonly = "readonly" })
+
     </div>
     <div class="form-group">
         <label for="usuario" class="col-form-label">Usuario</label>
-        <input type="text" class="form-control col-md-4" value="@Model.usuario" readonly="readonly" />
+        @Html.TextBoxFor(m => m.usuario, new { @class = "form-control col-md-4", @readonly = "readonly" })
+
     </div>
 
     <form action="@Url.Action("CambiarEstado")" method="post">

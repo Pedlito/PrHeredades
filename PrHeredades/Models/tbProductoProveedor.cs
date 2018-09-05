@@ -12,13 +12,15 @@ namespace PrHeredades.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class tbRolPermiso
+    public partial class tbProductoProveedor
     {
-        public int codRol { get; set; }
-        public int codPermiso { get; set; }
+        public int codProveedor { get; set; }
+        public int codProducto { get; set; }
+        public int codPresentacion { get; set; }
+        public Nullable<decimal> precioCompra { get; set; }
         public Nullable<bool> estado { get; set; }
     
-        public virtual d tbPermiso { get; set; }
-        public virtual tbRol tbRol { get; set; }
+        public virtual tbProductoPresentacion tbProductoPresentacion { get; set; }
+        public virtual tbProveedor tbProveedor { get; set; }
     }
 }

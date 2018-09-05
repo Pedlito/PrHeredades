@@ -25,7 +25,7 @@ namespace PrHeredades.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<tbPermiso> tbPermiso { get; set; }
+        public virtual DbSet<d> tbPermiso { get; set; }
         public virtual DbSet<tbRol> tbRol { get; set; }
         public virtual DbSet<tbRolPermiso> tbRolPermiso { get; set; }
         public virtual DbSet<tbUsuario> tbUsuario { get; set; }
@@ -33,5 +33,9 @@ namespace PrHeredades.Models
         public virtual DbSet<tbPresentacion> tbPresentacion { get; set; }
         public virtual DbSet<tbProducto> tbProducto { get; set; }
         public virtual DbSet<tbProductoPresentacion> tbProductoPresentacion { get; set; }
+        public virtual DbSet<tbProductoProveedor> tbProductoProveedor { get; set; }
+        public virtual DbSet<tbProveedor> tbProveedor { get; set; }
+        public virtual DbSet<tbProductoTransaccion> tbProductoTransaccion { get; set; }
+        public virtual DbSet<tbTransaccion> tbTransaccion { get; set; }
     }
 }

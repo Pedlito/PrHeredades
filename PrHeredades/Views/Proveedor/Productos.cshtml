@@ -1,0 +1,260 @@
+﻿@model IEnumerable<PrHeredades.Models.tbProductoProveedor>
+
+@{
+    ViewBag.Title = "Productos";
+}
+
+<div class="form-group">
+    <h2>Productos que vende <strong>@ViewBag.proveedor</strong></h2>
+</div>
+
+<div class="validation-summary-errors text-danger">
+    <ul id="error">
+        <!-- escribe el error de existencia -->
+    </ul>
+</div>
+
+<div class="form-group">
+    <div id="productos">
+
+    </div>
+    <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#agregarProducto">
+        <span class="fa fa-plus"></span> Agregar presentación
+    </button>
+</div>
+
+<div class="form-group col-md-4 text-center">
+    <button type="submit" class="btn btn-primary" style="width: 150px" onclick="GuardarProductos()">
+        <span class="fa fa-check"></span> Guardar
+    </button>
+    <a href="@Url.Action("Index")" class="btn btn-danger" style="width: 150px">
+        <span class="fa fa-times"></span> Regresar
+    </a>
+</div>
+
+<!-- Modal Agregar Productos -->
+<div class="modal fade" id="agregarProducto" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Producto</h5>
+            </div>
+
+            <div class="modal-body">
+                <form id="agrProducto">
+                    <div class="form-group">
+                        <label for="codProducto" class="col-form-label">Producto</label>
+                        @Html.DropDownList("codProducto", null, "Elija un producto", htmlAttributes: new { @class = "form-control", onchange = "CargarPresentaciones(this.value)" })
+                    </div>
+
+                    <div class="form-group">
+                        <label for="codPresentacion" class="col-form-label">Presentación</label>
+                        @Html.DropDownList("codPresentacion", null, null, htmlAttributes: new { @class = "form-control" })
+                    </div>
+
+                    <div class="form-group">
+                        <label for="precioCompra" class="col-form-label">Precio de compra</label>
+                        @Html.TextBox("precioCompra", "", new { @class = "form-control", autocomplete = "off" })
+                    </div>
+
+
+                    <div class="form-group text-center">
+                        <button type="button" class="btn btn-primary" onclick="AgregarProducto()" style="width: 150px">
+                            <span class="fa fa-plus"></span> Agregar
+                        </button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal" style="width: 150px" onclick="ResetarFormulario()">
+                            <span class="fa fa-times"></span> Cancelar
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Modal Editar Productos -->
+<div class="modal fade" id="editarProducto" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Producto</h5>
+            </div>
+
+            <div class="modal-body">
+                <form id="editProducto">
+                    <div class="form-group">
+                        <label for="producto" class="col-form-label">Producto</label>
+                        @Html.TextBox("producto", "", new { @class = "form-control", autocomplete = "off", @readonly = "readonly" })
+                    </div>
+
+                    <div class="form-group">
+                        <label for="presentacion" class="col-form-label">Presentación</label>
+                        @Html.TextBox("presentacion", "", new { @class = "form-control", autocomplete = "off", @readonly = "readonly" })
+                    </div>
+
+                    <div class="form-group">
+                        <label for="precioCompra" class="col-form-label">Precio de compra</label>
+                        @Html.TextBox("editPrecioCompra", "", new { @class = "form-control", autocomplete = "off" })
+                    </div>
+
+
+                    <div class="form-group text-center">
+                        <button type="button" class="btn btn-primary" onclick="confirmarEdicion()" style="width: 150px">
+                            <span class="fa fa-save"></span> Guardar
+                        </button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal" style="width: 150px" onclick="ResetarFormulario()">
+                            <span class="fa fa-times"></span> Cancelar
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/jqueryValidator/productoProveedor.js"></script>
+
+    <script>
+        var productos = [];
+        var editar;
+        Inicializar();
+
+        function Inicializar() {
+            productos = @Html.Raw(Json.Encode(@ViewBag.productos));
+            ListarProductos();
+        }
+
+        function CargarPresentaciones(codProducto) {
+            $('#codPresentacion').empty();
+            if (codProducto > 0) {
+                $.ajax({
+                    url: '@Url.Action("CargarPresentaciones")',
+                    type: "POST",
+                    data: { codProducto: codProducto },
+                    success: function (response) {
+                        response.forEach(function (item) {
+                            var codProducto = $('#codProducto').val();
+                            var encontrado = false;
+                            var i = 0;
+                            while (!encontrado && i < productos.length) {
+                                if (productos[i].codPresentacion == item.codPresentacion && productos[i].codProducto == codProducto) {
+                                    encontrado = true;
+                                }
+                                i++;
+                            }
+                            if (!encontrado) {
+                                var option = $(document.createElement('option'));
+                                option.val(item.codPresentacion);
+                                option.text(item.presentacion);
+                                $("#codPresentacion").append(option);
+                            }
+                        });
+                    },
+                    error: function (msg) {
+                        console.log(msg);
+                    }
+                });
+            }
+        }
+
+        //Este es el método encargado de finalizar todo el proceso
+        function GuardarProductos() {
+            if (productos.length > 0) {
+                $.ajax({
+                    url: '@Url.Action("GuardarProductos")',
+                    type: "POST",
+                    data: { modelo: productos },
+                    success: function (response) {
+                        switch (parseInt(response)) {
+                            case 1:
+                                window.location.href = "@Url.Action("Index")";
+                                break;
+                            default:
+                                $('#error').html("<li>¡Error al ingresar datos!</li>");
+                        };
+                    },
+                    error: function (responser) {
+                        alert("error");
+                    }
+                });
+            }
+            else {
+                // no hay productos
+                $('#error').html("<li>¡Debe agregar al menos un producto!</li>");
+            }
+        }
+
+        function AgregarProducto() {
+            if ($("#agrProducto").valid()) {
+                $('#agregarProducto').modal('hide');
+                Agregar();
+                $('#agrProducto').trigger("reset");
+                $('#codPresentacion').empty();
+                $('#error').empty(); 
+            }
+        }
+
+        function Editar(codProducto, producto, codPresentacion, presentacion) {
+            editar = productos.find(function (element) { return element.codProducto == codProducto && element.codPresentacion == codPresentacion })
+            $('#producto').val(producto)
+            $('#presentacion').val(presentacion)
+            $('#editPrecioCompra').val(editar.precioCompra)
+            $('#editarProducto').modal('show');
+        }
+
+        function confirmarEdicion() {
+            if ($("#editProducto").valid()) {
+                editar.precioCompra = $('#editPrecioCompra').val();
+                $('#editarProducto').modal('hide');
+                $('#editProducto').trigger("reset");
+                ListarProductos();
+            }
+        }
+
+        function Quitar(codProducto, codPresentacion) {
+            var index = productos.findIndex(t => t.codProducto == codProducto && t.codPresentacion == codPresentacion);
+            console.log(index);
+            if (index > -1) {
+                productos.splice(index, 1);
+                ListarProductos();
+            }
+        }
+
+        function Agregar() {
+            productos.push({
+                codProveedor: @ViewBag.codProveedor,
+                codProducto: $('#codProducto').val(),
+                codPresentacion: $('#codPresentacion').val(),
+                precioCompra: $('#precioCompra').val(),
+                estado: true
+            });
+            ListarProductos();
+        }
+
+        function ListarProductos() {
+            $.ajax({
+                url: '@Url.Action("ListarProductos")',
+                type: 'POST',
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(productos),
+                success: function (response) {
+                    $('#productos').html(response);
+                },
+                error: function (response) {
+                    alert("fallido");
+                }
+            });
+        }
+
+        function ResetarFormulario() {
+            $('#agrProducto').trigger("reset");
+            $('#codPresentacion').empty();
+        }
+    </script>
+}

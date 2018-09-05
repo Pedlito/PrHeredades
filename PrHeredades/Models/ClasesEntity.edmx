@@ -44,9 +44,43 @@
           </Key>
           <Property Name="codProducto" Type="int" Nullable="false" />
           <Property Name="codPresentacion" Type="int" Nullable="false" />
-          <Property Name="precio" Type="decimal" Precision="6" Scale="2" />
+          <Property Name="precioVenta" Type="decimal" Precision="6" Scale="2" />
           <Property Name="unidades" Type="smallint" />
           <Property Name="correlativo" Type="smallint" />
+        </EntityType>
+        <EntityType Name="tbProductoProveedor">
+          <Key>
+            <PropertyRef Name="codProveedor" />
+            <PropertyRef Name="codProducto" />
+            <PropertyRef Name="codPresentacion" />
+          </Key>
+          <Property Name="codProveedor" Type="int" Nullable="false" />
+          <Property Name="codProducto" Type="int" Nullable="false" />
+          <Property Name="codPresentacion" Type="int" Nullable="false" />
+          <Property Name="precioCompra" Type="decimal" Precision="6" Scale="2" />
+          <Property Name="estado" Type="bit" />
+        </EntityType>
+        <EntityType Name="tbProductoTransaccion">
+          <Key>
+            <PropertyRef Name="codTransaccion" />
+            <PropertyRef Name="codProducto" />
+            <PropertyRef Name="codPresentacion" />
+          </Key>
+          <Property Name="codTransaccion" Type="int" Nullable="false" />
+          <Property Name="codProducto" Type="int" Nullable="false" />
+          <Property Name="codPresentacion" Type="int" Nullable="false" />
+          <Property Name="cantidad" Type="int" />
+          <Property Name="precioCompra" Type="decimal" Precision="6" Scale="2" />
+        </EntityType>
+        <EntityType Name="tbProveedor">
+          <Key>
+            <PropertyRef Name="codProveedor" />
+          </Key>
+          <Property Name="codProveedor" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="proveedor" Type="varchar" MaxLength="50" />
+          <Property Name="telefono" Type="varchar" MaxLength="10" />
+          <Property Name="direccion" Type="varchar" MaxLength="30" />
+          <Property Name="estado" Type="bit" />
         </EntityType>
         <EntityType Name="tbRol">
           <Key>
@@ -62,6 +96,17 @@
           </Key>
           <Property Name="codRol" Type="int" Nullable="false" />
           <Property Name="codPermiso" Type="int" Nullable="false" />
+          <Property Name="estado" Type="bit" />
+        </EntityType>
+        <EntityType Name="tbTransaccion">
+          <Key>
+            <PropertyRef Name="codTransaccion" />
+          </Key>
+          <Property Name="codTransaccion" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="codProveedor" Type="int" />
+          <Property Name="codTipoTransaccion" Type="smallint" />
+          <Property Name="descripcion" Type="varchar" MaxLength="500" />
+          <Property Name="fecha" Type="datetime" />
           <Property Name="estado" Type="bit" />
         </EntityType>
         <EntityType Name="tbUsuario">
@@ -135,6 +180,70 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_tbProductoProveedor_tbProductoPresentacion">
+          <End Role="tbProductoPresentacion" Type="Self.tbProductoPresentacion" Multiplicity="1" />
+          <End Role="tbProductoProveedor" Type="Self.tbProductoProveedor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbProductoPresentacion">
+              <PropertyRef Name="codProducto" />
+              <PropertyRef Name="codPresentacion" />
+            </Principal>
+            <Dependent Role="tbProductoProveedor">
+              <PropertyRef Name="codProducto" />
+              <PropertyRef Name="codPresentacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbProductoProveedor_tbProveedor">
+          <End Role="tbProveedor" Type="Self.tbProveedor" Multiplicity="1" />
+          <End Role="tbProductoProveedor" Type="Self.tbProductoProveedor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbProveedor">
+              <PropertyRef Name="codProveedor" />
+            </Principal>
+            <Dependent Role="tbProductoProveedor">
+              <PropertyRef Name="codProveedor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbProductoTransaccion_tbProductoPresentacion">
+          <End Role="tbProductoPresentacion" Type="Self.tbProductoPresentacion" Multiplicity="1" />
+          <End Role="tbProductoTransaccion" Type="Self.tbProductoTransaccion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbProductoPresentacion">
+              <PropertyRef Name="codProducto" />
+              <PropertyRef Name="codPresentacion" />
+            </Principal>
+            <Dependent Role="tbProductoTransaccion">
+              <PropertyRef Name="codProducto" />
+              <PropertyRef Name="codPresentacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbProductoTransaccion_tbTransaccion">
+          <End Role="tbTransaccion" Type="Self.tbTransaccion" Multiplicity="1" />
+          <End Role="tbProductoTransaccion" Type="Self.tbProductoTransaccion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbTransaccion">
+              <PropertyRef Name="codTransaccion" />
+            </Principal>
+            <Dependent Role="tbProductoTransaccion">
+              <PropertyRef Name="codTransaccion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbTransaccion_tbProveedor">
+          <End Role="tbProveedor" Type="Self.tbProveedor" Multiplicity="0..1" />
+          <End Role="tbTransaccion" Type="Self.tbTransaccion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbProveedor">
+              <PropertyRef Name="codProveedor" />
+            </Principal>
+            <Dependent Role="tbTransaccion">
+              <PropertyRef Name="codProveedor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_tbUsuario_tbRol">
           <End Role="tbRol" Type="Self.tbRol" Multiplicity="1" />
           <End Role="tbUsuario" Type="Self.tbUsuario" Multiplicity="*" />
@@ -153,8 +262,12 @@
           <EntitySet Name="tbPresentacion" EntityType="Self.tbPresentacion" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbProducto" EntityType="Self.tbProducto" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbProductoPresentacion" EntityType="Self.tbProductoPresentacion" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbProductoProveedor" EntityType="Self.tbProductoProveedor" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbProductoTransaccion" EntityType="Self.tbProductoTransaccion" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbProveedor" EntityType="Self.tbProveedor" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbRol" EntityType="Self.tbRol" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbRolPermiso" EntityType="Self.tbRolPermiso" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbTransaccion" EntityType="Self.tbTransaccion" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbUsuario" EntityType="Self.tbUsuario" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_tbPermisoDenegado_tbPermiso" Association="Self.FK_tbPermisoDenegado_tbPermiso">
             <End Role="tbPermiso" EntitySet="tbPermiso" />
@@ -176,6 +289,26 @@
             <End Role="tbProducto" EntitySet="tbProducto" />
             <End Role="tbProductoPresentacion" EntitySet="tbProductoPresentacion" />
           </AssociationSet>
+          <AssociationSet Name="FK_tbProductoProveedor_tbProductoPresentacion" Association="Self.FK_tbProductoProveedor_tbProductoPresentacion">
+            <End Role="tbProductoPresentacion" EntitySet="tbProductoPresentacion" />
+            <End Role="tbProductoProveedor" EntitySet="tbProductoProveedor" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbProductoProveedor_tbProveedor" Association="Self.FK_tbProductoProveedor_tbProveedor">
+            <End Role="tbProveedor" EntitySet="tbProveedor" />
+            <End Role="tbProductoProveedor" EntitySet="tbProductoProveedor" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbProductoTransaccion_tbProductoPresentacion" Association="Self.FK_tbProductoTransaccion_tbProductoPresentacion">
+            <End Role="tbProductoPresentacion" EntitySet="tbProductoPresentacion" />
+            <End Role="tbProductoTransaccion" EntitySet="tbProductoTransaccion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbProductoTransaccion_tbTransaccion" Association="Self.FK_tbProductoTransaccion_tbTransaccion">
+            <End Role="tbTransaccion" EntitySet="tbTransaccion" />
+            <End Role="tbProductoTransaccion" EntitySet="tbProductoTransaccion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbTransaccion_tbProveedor" Association="Self.FK_tbTransaccion_tbProveedor">
+            <End Role="tbProveedor" EntitySet="tbProveedor" />
+            <End Role="tbTransaccion" EntitySet="tbTransaccion" />
+          </AssociationSet>
           <AssociationSet Name="FK_tbUsuario_tbRol" Association="Self.FK_tbUsuario_tbRol">
             <End Role="tbRol" EntitySet="tbRol" />
             <End Role="tbUsuario" EntitySet="tbUsuario" />
@@ -186,7 +319,7 @@
     <edmx:ConceptualModels>
       <Schema Namespace="dbHeredadesModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="dbHeredadesEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="tbPermiso" EntityType="dbHeredadesModel.tbPermiso" />
+          <EntitySet Name="tbPermiso" EntityType="dbHeredadesModel.d" />
           <EntitySet Name="tbRol" EntityType="dbHeredadesModel.tbRol" />
           <EntitySet Name="tbRolPermiso" EntityType="dbHeredadesModel.tbRolPermiso" />
           <EntitySet Name="tbUsuario" EntityType="dbHeredadesModel.tbUsuario" />
@@ -205,11 +338,11 @@
           <EntitySet Name="tbCategoria" EntityType="dbHeredadesModel.tbCategoria" />
           <EntitySet Name="tbPresentacion" EntityType="dbHeredadesModel.tbPresentacion" />
           <EntitySet Name="tbProducto" EntityType="dbHeredadesModel.tbProducto" />
-          <EntitySet Name="tbProductoPresentacion" EntityType="dbHeredadesModel.tbProductoPresentacion" />
           <AssociationSet Name="FK_tbProducto_tbCategoria" Association="dbHeredadesModel.FK_tbProducto_tbCategoria">
             <End Role="tbCategoria" EntitySet="tbCategoria" />
             <End Role="tbProducto" EntitySet="tbProducto" />
           </AssociationSet>
+          <EntitySet Name="tbProductoPresentacion" EntityType="dbHeredadesModel.tbProductoPresentacion" />
           <AssociationSet Name="FK_tbProductoPresentacion_tbPresentacion" Association="dbHeredadesModel.FK_tbProductoPresentacion_tbPresentacion">
             <End Role="tbPresentacion" EntitySet="tbPresentacion" />
             <End Role="tbProductoPresentacion" EntitySet="tbProductoPresentacion" />
@@ -218,8 +351,32 @@
             <End Role="tbProducto" EntitySet="tbProducto" />
             <End Role="tbProductoPresentacion" EntitySet="tbProductoPresentacion" />
           </AssociationSet>
-        </EntityContainer>
-        <EntityType Name="tbPermiso">
+          <EntitySet Name="tbProductoProveedor" EntityType="dbHeredadesModel.tbProductoProveedor" />
+          <EntitySet Name="tbProveedor" EntityType="dbHeredadesModel.tbProveedor" />
+          <AssociationSet Name="FK_tbProductoProveedor_tbProductoPresentacion" Association="dbHeredadesModel.FK_tbProductoProveedor_tbProductoPresentacion">
+            <End Role="tbProductoPresentacion" EntitySet="tbProductoPresentacion" />
+            <End Role="tbProductoProveedor" EntitySet="tbProductoProveedor" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbProductoProveedor_tbProveedor" Association="dbHeredadesModel.FK_tbProductoProveedor_tbProveedor">
+            <End Role="tbProveedor" EntitySet="tbProveedor" />
+            <End Role="tbProductoProveedor" EntitySet="tbProductoProveedor" />
+          </AssociationSet>
+          <EntitySet Name="tbProductoTransaccion" EntityType="dbHeredadesModel.tbProductoTransaccion" />
+          <EntitySet Name="tbTransaccion" EntityType="dbHeredadesModel.tbTransaccion" />
+          <AssociationSet Name="FK_tbProductoTransaccion_tbProductoPresentacion" Association="dbHeredadesModel.FK_tbProductoTransaccion_tbProductoPresentacion">
+            <End Role="tbProductoPresentacion" EntitySet="tbProductoPresentacion" />
+            <End Role="tbProductoTransaccion" EntitySet="tbProductoTransaccion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbProductoTransaccion_tbTransaccion" Association="dbHeredadesModel.FK_tbProductoTransaccion_tbTransaccion">
+            <End Role="tbTransaccion" EntitySet="tbTransaccion" />
+            <End Role="tbProductoTransaccion" EntitySet="tbProductoTransaccion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbTransaccion_tbProveedor" Association="dbHeredadesModel.FK_tbTransaccion_tbProveedor">
+            <End Role="tbProveedor" EntitySet="tbProveedor" />
+            <End Role="tbTransaccion" EntitySet="tbTransaccion" />
+          </AssociationSet>
+          </EntityContainer>
+        <EntityType Name="d">
           <Key>
             <PropertyRef Name="codPermiso" />
           </Key>
@@ -260,7 +417,7 @@
           <NavigationProperty Name="tbRol" Relationship="dbHeredadesModel.FK_tbUsuario_tbRol" FromRole="tbUsuario" ToRole="tbRol" />
         </EntityType>
         <Association Name="FK_tbPermisoDenegado_tbPermiso">
-          <End Type="dbHeredadesModel.tbPermiso" Role="tbPermiso" Multiplicity="1" />
+          <End Type="dbHeredadesModel.d" Role="tbPermiso" Multiplicity="1" />
           <End Type="dbHeredadesModel.tbRolPermiso" Role="tbRolPermiso" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tbPermiso">
@@ -324,19 +481,6 @@
           <NavigationProperty Name="tbCategoria" Relationship="dbHeredadesModel.FK_tbProducto_tbCategoria" FromRole="tbProducto" ToRole="tbCategoria" />
           <NavigationProperty Name="tbProductoPresentacion" Relationship="dbHeredadesModel.FK_tbProductoPresentacion_tbProducto" FromRole="tbProducto" ToRole="tbProductoPresentacion" />
         </EntityType>
-        <EntityType Name="tbProductoPresentacion">
-          <Key>
-            <PropertyRef Name="codProducto" />
-            <PropertyRef Name="codPresentacion" />
-          </Key>
-          <Property Name="codProducto" Type="Int32" Nullable="false" />
-          <Property Name="codPresentacion" Type="Int32" Nullable="false" />
-          <Property Name="precio" Type="Decimal" Precision="6" Scale="2" />
-          <Property Name="unidades" Type="Int16" />
-          <Property Name="correlativo" Type="Int16" />
-          <NavigationProperty Name="tbPresentacion" Relationship="dbHeredadesModel.FK_tbProductoPresentacion_tbPresentacion" FromRole="tbProductoPresentacion" ToRole="tbPresentacion" />
-          <NavigationProperty Name="tbProducto" Relationship="dbHeredadesModel.FK_tbProductoPresentacion_tbProducto" FromRole="tbProductoPresentacion" ToRole="tbProducto" />
-        </EntityType>
         <Association Name="FK_tbProducto_tbCategoria">
           <End Type="dbHeredadesModel.tbCategoria" Role="tbCategoria" Multiplicity="0..1" />
           <End Type="dbHeredadesModel.tbProducto" Role="tbProducto" Multiplicity="*" />
@@ -349,6 +493,21 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="tbProductoPresentacion">
+          <Key>
+            <PropertyRef Name="codProducto" />
+            <PropertyRef Name="codPresentacion" />
+          </Key>
+          <Property Name="codProducto" Type="Int32" Nullable="false" />
+          <Property Name="codPresentacion" Type="Int32" Nullable="false" />
+          <Property Name="precioVenta" Type="Decimal" Precision="6" Scale="2" />
+          <Property Name="unidades" Type="Int16" />
+          <Property Name="correlativo" Type="Int16" />
+          <NavigationProperty Name="tbPresentacion" Relationship="dbHeredadesModel.FK_tbProductoPresentacion_tbPresentacion" FromRole="tbProductoPresentacion" ToRole="tbPresentacion" />
+          <NavigationProperty Name="tbProducto" Relationship="dbHeredadesModel.FK_tbProductoPresentacion_tbProducto" FromRole="tbProductoPresentacion" ToRole="tbProducto" />
+          <NavigationProperty Name="tbProductoProveedor" Relationship="dbHeredadesModel.FK_tbProductoProveedor_tbProductoPresentacion" FromRole="tbProductoPresentacion" ToRole="tbProductoProveedor" />
+          <NavigationProperty Name="tbProductoTransaccion" Relationship="dbHeredadesModel.FK_tbProductoTransaccion_tbProductoPresentacion" FromRole="tbProductoPresentacion" ToRole="tbProductoTransaccion" />
+        </EntityType>
         <Association Name="FK_tbProductoPresentacion_tbPresentacion">
           <End Type="dbHeredadesModel.tbPresentacion" Role="tbPresentacion" Multiplicity="1" />
           <End Type="dbHeredadesModel.tbProductoPresentacion" Role="tbProductoPresentacion" Multiplicity="*" />
@@ -373,6 +532,123 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="tbProductoProveedor">
+          <Key>
+            <PropertyRef Name="codProveedor" />
+            <PropertyRef Name="codProducto" />
+            <PropertyRef Name="codPresentacion" />
+          </Key>
+          <Property Name="codProveedor" Type="Int32" Nullable="false" />
+          <Property Name="codProducto" Type="Int32" Nullable="false" />
+          <Property Name="codPresentacion" Type="Int32" Nullable="false" />
+          <Property Name="precioCompra" Type="Decimal" Precision="6" Scale="2" />
+          <Property Name="estado" Type="Boolean" />
+          <NavigationProperty Name="tbProductoPresentacion" Relationship="dbHeredadesModel.FK_tbProductoProveedor_tbProductoPresentacion" FromRole="tbProductoProveedor" ToRole="tbProductoPresentacion" />
+          <NavigationProperty Name="tbProveedor" Relationship="dbHeredadesModel.FK_tbProductoProveedor_tbProveedor" FromRole="tbProductoProveedor" ToRole="tbProveedor" />
+        </EntityType>
+        <EntityType Name="tbProveedor">
+          <Key>
+            <PropertyRef Name="codProveedor" />
+          </Key>
+          <Property Name="codProveedor" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="proveedor" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="telefono" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="direccion" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="tbProductoProveedor" Relationship="dbHeredadesModel.FK_tbProductoProveedor_tbProveedor" FromRole="tbProveedor" ToRole="tbProductoProveedor" />
+          <Property Name="estado" Type="Boolean" />
+          <NavigationProperty Name="tbTransaccion" Relationship="dbHeredadesModel.FK_tbTransaccion_tbProveedor" FromRole="tbProveedor" ToRole="tbTransaccion" />
+        </EntityType>
+        <Association Name="FK_tbProductoProveedor_tbProductoPresentacion">
+          <End Type="dbHeredadesModel.tbProductoPresentacion" Role="tbProductoPresentacion" Multiplicity="1" />
+          <End Type="dbHeredadesModel.tbProductoProveedor" Role="tbProductoProveedor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbProductoPresentacion">
+              <PropertyRef Name="codProducto" />
+              <PropertyRef Name="codPresentacion" />
+            </Principal>
+            <Dependent Role="tbProductoProveedor">
+              <PropertyRef Name="codProducto" />
+              <PropertyRef Name="codPresentacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbProductoProveedor_tbProveedor">
+          <End Type="dbHeredadesModel.tbProveedor" Role="tbProveedor" Multiplicity="1" />
+          <End Type="dbHeredadesModel.tbProductoProveedor" Role="tbProductoProveedor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbProveedor">
+              <PropertyRef Name="codProveedor" />
+            </Principal>
+            <Dependent Role="tbProductoProveedor">
+              <PropertyRef Name="codProveedor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="tbProductoTransaccion">
+          <Key>
+            <PropertyRef Name="codTransaccion" />
+            <PropertyRef Name="codProducto" />
+            <PropertyRef Name="codPresentacion" />
+          </Key>
+          <Property Name="codTransaccion" Type="Int32" Nullable="false" />
+          <Property Name="codProducto" Type="Int32" Nullable="false" />
+          <Property Name="codPresentacion" Type="Int32" Nullable="false" />
+          <Property Name="cantidad" Type="Int32" />
+          <NavigationProperty Name="tbProductoPresentacion" Relationship="dbHeredadesModel.FK_tbProductoTransaccion_tbProductoPresentacion" FromRole="tbProductoTransaccion" ToRole="tbProductoPresentacion" />
+          <NavigationProperty Name="tbTransaccion" Relationship="dbHeredadesModel.FK_tbProductoTransaccion_tbTransaccion" FromRole="tbProductoTransaccion" ToRole="tbTransaccion" />
+          <Property Name="precioCompra" Type="Decimal" Precision="6" Scale="2" />
+        </EntityType>
+        <EntityType Name="tbTransaccion">
+          <Key>
+            <PropertyRef Name="codTransaccion" />
+          </Key>
+          <Property Name="codTransaccion" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="codProveedor" Type="Int32" />
+          <Property Name="codTipoTransaccion" Type="Int16" />
+          <Property Name="descripcion" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="fecha" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="tbProductoTransaccion" Relationship="dbHeredadesModel.FK_tbProductoTransaccion_tbTransaccion" FromRole="tbTransaccion" ToRole="tbProductoTransaccion" />
+          <NavigationProperty Name="tbProveedor" Relationship="dbHeredadesModel.FK_tbTransaccion_tbProveedor" FromRole="tbTransaccion" ToRole="tbProveedor" />
+          <Property Name="estado" Type="Boolean" />
+        </EntityType>
+        <Association Name="FK_tbProductoTransaccion_tbProductoPresentacion">
+          <End Type="dbHeredadesModel.tbProductoPresentacion" Role="tbProductoPresentacion" Multiplicity="1" />
+          <End Type="dbHeredadesModel.tbProductoTransaccion" Role="tbProductoTransaccion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbProductoPresentacion">
+              <PropertyRef Name="codProducto" />
+              <PropertyRef Name="codPresentacion" />
+            </Principal>
+            <Dependent Role="tbProductoTransaccion">
+              <PropertyRef Name="codProducto" />
+              <PropertyRef Name="codPresentacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbProductoTransaccion_tbTransaccion">
+          <End Type="dbHeredadesModel.tbTransaccion" Role="tbTransaccion" Multiplicity="1" />
+          <End Type="dbHeredadesModel.tbProductoTransaccion" Role="tbProductoTransaccion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbTransaccion">
+              <PropertyRef Name="codTransaccion" />
+            </Principal>
+            <Dependent Role="tbProductoTransaccion">
+              <PropertyRef Name="codTransaccion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbTransaccion_tbProveedor">
+          <End Type="dbHeredadesModel.tbProveedor" Role="tbProveedor" Multiplicity="0..1" />
+          <End Type="dbHeredadesModel.tbTransaccion" Role="tbTransaccion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbProveedor">
+              <PropertyRef Name="codProveedor" />
+            </Principal>
+            <Dependent Role="tbTransaccion">
+              <PropertyRef Name="codProveedor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -380,7 +656,7 @@
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="dbHeredadesModelStoreContainer" CdmEntityContainer="dbHeredadesEntities">
           <EntitySetMapping Name="tbPermiso">
-            <EntityTypeMapping TypeName="dbHeredadesModel.tbPermiso">
+            <EntityTypeMapping TypeName="dbHeredadesModel.d">
               <MappingFragment StoreEntitySet="tbPermiso">
                 <ScalarProperty Name="permiso" ColumnName="permiso" />
                 <ScalarProperty Name="codPermiso" ColumnName="codPermiso" />
@@ -449,9 +725,54 @@
               <MappingFragment StoreEntitySet="tbProductoPresentacion">
                 <ScalarProperty Name="correlativo" ColumnName="correlativo" />
                 <ScalarProperty Name="unidades" ColumnName="unidades" />
-                <ScalarProperty Name="precio" ColumnName="precio" />
+                <ScalarProperty Name="precioVenta" ColumnName="precioVenta" />
                 <ScalarProperty Name="codPresentacion" ColumnName="codPresentacion" />
                 <ScalarProperty Name="codProducto" ColumnName="codProducto" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbProductoProveedor">
+            <EntityTypeMapping TypeName="dbHeredadesModel.tbProductoProveedor">
+              <MappingFragment StoreEntitySet="tbProductoProveedor">
+                <ScalarProperty Name="estado" ColumnName="estado" />
+                <ScalarProperty Name="precioCompra" ColumnName="precioCompra" />
+                <ScalarProperty Name="codPresentacion" ColumnName="codPresentacion" />
+                <ScalarProperty Name="codProducto" ColumnName="codProducto" />
+                <ScalarProperty Name="codProveedor" ColumnName="codProveedor" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbProveedor">
+            <EntityTypeMapping TypeName="dbHeredadesModel.tbProveedor">
+              <MappingFragment StoreEntitySet="tbProveedor">
+                <ScalarProperty Name="estado" ColumnName="estado" />
+                <ScalarProperty Name="direccion" ColumnName="direccion" />
+                <ScalarProperty Name="telefono" ColumnName="telefono" />
+                <ScalarProperty Name="proveedor" ColumnName="proveedor" />
+                <ScalarProperty Name="codProveedor" ColumnName="codProveedor" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbProductoTransaccion">
+            <EntityTypeMapping TypeName="dbHeredadesModel.tbProductoTransaccion">
+              <MappingFragment StoreEntitySet="tbProductoTransaccion">
+                <ScalarProperty Name="precioCompra" ColumnName="precioCompra" />
+                <ScalarProperty Name="cantidad" ColumnName="cantidad" />
+                <ScalarProperty Name="codPresentacion" ColumnName="codPresentacion" />
+                <ScalarProperty Name="codProducto" ColumnName="codProducto" />
+                <ScalarProperty Name="codTransaccion" ColumnName="codTransaccion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbTransaccion">
+            <EntityTypeMapping TypeName="dbHeredadesModel.tbTransaccion">
+              <MappingFragment StoreEntitySet="tbTransaccion">
+                <ScalarProperty Name="estado" ColumnName="estado" />
+                <ScalarProperty Name="fecha" ColumnName="fecha" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+                <ScalarProperty Name="codTipoTransaccion" ColumnName="codTipoTransaccion" />
+                <ScalarProperty Name="codProveedor" ColumnName="codProveedor" />
+                <ScalarProperty Name="codTransaccion" ColumnName="codTransaccion" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

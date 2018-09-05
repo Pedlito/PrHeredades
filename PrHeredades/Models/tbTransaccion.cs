@@ -12,18 +12,23 @@ namespace PrHeredades.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class tbPermiso
+    public partial class tbTransaccion
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public tbPermiso()
+        public tbTransaccion()
         {
-            this.tbRolPermiso = new HashSet<tbRolPermiso>();
+            this.tbProductoTransaccion = new HashSet<tbProductoTransaccion>();
         }
     
-        public int codPermiso { get; set; }
-        public string permiso { get; set; }
+        public int codTransaccion { get; set; }
+        public Nullable<int> codProveedor { get; set; }
+        public Nullable<short> codTipoTransaccion { get; set; }
+        public string descripcion { get; set; }
+        public Nullable<System.DateTime> fecha { get; set; }
+        public Nullable<bool> estado { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tbRolPermiso> tbRolPermiso { get; set; }
+        public virtual ICollection<tbProductoTransaccion> tbProductoTransaccion { get; set; }
+        public virtual tbProveedor tbProveedor { get; set; }
     }
 }

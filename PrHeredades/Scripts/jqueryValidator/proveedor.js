@@ -7,38 +7,29 @@
 );
 
 $.validator.addMethod(
-    "categoria",
-    function (value, element, argumento) {
-        return argumento !== value;
+    "soloNumeros",
+    function (value, element) {
+        return /^[0-9- ]*$/ig.test(value);
     },
-    "No a seleccionado una categoría"
+    "Solo se permiten números"
 );
 
-$.validator.addMethod(
-    "presentacion",
-    function (value, element, argumento) {
-        return argumento !== value;
-    },
-    "No a seleccionado una presentación"
-);
-
-
-$("#formProducto").validate({
+$("#formProveedor").validate({
     errorClass: 'text-danger',
     errorElement: 'li',
     wrapper: 'ul',
     rules: {
-        producto: {
+        proveedor: {
             required: true,
             minlength: 3,
         },
-        codCategoria: {
-            categoria: ""
+        telefono: {
+            soloNumeros: true
         }
     },
     messages: {
-        producto: {
-            required: "Ingrese el nombre del producto",
+        proveedor: {
+            required: "Ingrese el nombre del proveedor",
             minlength: jQuery.validator.format("Al menos {0} caracteres requeridos!")
         }
     }

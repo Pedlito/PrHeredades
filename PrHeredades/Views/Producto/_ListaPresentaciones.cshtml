@@ -11,7 +11,7 @@
                 Presentación
             </th>
             <th scope="col" class="text-center">
-                Precio
+                Precio venta
             </th>
             <th scope="col" class="text-center">
                 Unidades
@@ -22,17 +22,17 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
-                <td class="align-middle">
-                    @item.tbPresentacion.presentacion
-                </td>
-                <td class="align-middle text-center">
-                    Q @item.precio
-                </td>
-                <td class="align-middle text-center">
-                    @item.unidades
-                </td>
-            </tr>
+        <tr>
+            <td class="align-middle">
+                @item.tbPresentacion.presentacion
+            </td>
+            <td class="align-middle text-center">
+                Q @item.precioVenta
+            </td>
+            <td class="align-middle text-center">
+                @item.unidades
+            </td>
+        </tr>
         }
     </tbody>
 </table>

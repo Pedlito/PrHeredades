@@ -160,10 +160,12 @@
     <Compile Include="Controllers\CategoriaController.cs" />
     <Compile Include="Controllers\PresentacionController.cs" />
     <Compile Include="Controllers\ProductoController.cs" />
+    <Compile Include="Controllers\ProveedorController.cs" />
     <Compile Include="Controllers\PruebaEntityController.cs" />
     <Compile Include="Controllers\RolController.cs" />
     <Compile Include="Controllers\SesionController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\TransaccionController.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -183,13 +185,13 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ClasesEntity.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\d.cs">
+      <DependentUpon>ClasesEntity.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Paginacion.cs" />
     <Compile Include="Models\ProductoPresentaciones.cs" />
     <Compile Include="Models\Sesion.cs" />
     <Compile Include="Models\tbCategoria.cs">
-      <DependentUpon>ClasesEntity.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\tbPermiso.cs">
       <DependentUpon>ClasesEntity.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\tbPresentacion.cs">
@@ -201,10 +203,22 @@
     <Compile Include="Models\tbProductoPresentacion.cs">
       <DependentUpon>ClasesEntity.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\tbProductoProveedor.cs">
+      <DependentUpon>ClasesEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tbProductoTransaccion.cs">
+      <DependentUpon>ClasesEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tbProveedor.cs">
+      <DependentUpon>ClasesEntity.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\tbRol.cs">
       <DependentUpon>ClasesEntity.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\tbRolPermiso.cs">
+      <DependentUpon>ClasesEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tbTransaccion.cs">
       <DependentUpon>ClasesEntity.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\tbUsuario.cs">
@@ -291,7 +305,10 @@
     <Content Include="Scripts\jqueryValidator\presentacion.js" />
     <Content Include="Scripts\jqueryValidator\producto.js" />
     <Content Include="Scripts\jqueryValidator\productoPresentacion.js" />
+    <Content Include="Scripts\jqueryValidator\productoProveedor.js" />
+    <Content Include="Scripts\jqueryValidator\proveedor.js" />
     <Content Include="Scripts\jqueryValidator\rol.js" />
+    <Content Include="Scripts\jqueryValidator\transaccion.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\jqueryValidator\usuario.js" />
     <Content Include="Scripts\myScripts\decimales.js" />
@@ -357,6 +374,16 @@
     <Content Include="Views\Producto\_Presentaciones.cshtml" />
     <Content Include="Views\Producto\_ListaPresentaciones.cshtml" />
     <Content Include="Views\Producto\Editar.cshtml" />
+    <Content Include="Views\Producto\CambiarEstado.cshtml" />
+    <Content Include="Views\Proveedor\Index.cshtml" />
+    <Content Include="Views\Proveedor\Crear.cshtml" />
+    <Content Include="Views\Proveedor\Editar.cshtml" />
+    <Content Include="Views\Proveedor\CambiarEstado.cshtml" />
+    <Content Include="Views\Proveedor\Productos.cshtml" />
+    <Content Include="Views\Proveedor\_Productos.cshtml" />
+    <Content Include="Views\Transaccion\Entradas.cshtml" />
+    <Content Include="Views\Transaccion\CrearEntrada.cshtml" />
+    <Content Include="Views\Transaccion\_ProductosEntrada.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

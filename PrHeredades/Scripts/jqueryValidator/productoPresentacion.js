@@ -23,7 +23,7 @@ $("#agrPresentacion").validate({
         codPresentacion: {
             presentacion: ""
         },
-        precio: {
+        precioVenta: {
             required: true,
             number: true
         },
@@ -33,8 +33,8 @@ $("#agrPresentacion").validate({
         }
     },
     messages: {
-        precio: {
-            required: "Especifique el precio",
+        precioVenta: {
+            required: "Especifique el precio de venta",
             number: "Ingrese un número valido"
         },
         unidades: {
@@ -48,7 +48,7 @@ $("#editPresentacion").validate({
     errorElement: 'li',
     wrapper: 'ul',
     rules: {
-        editPrecio: {
+        editPrecioVenta: {
             required: true,
             number: true
         },
@@ -58,8 +58,8 @@ $("#editPresentacion").validate({
         }
     },
     messages: {
-        editPrecio: {
-            required: "Especifique el precio",
+        editPrecioVenta: {
+            required: "Especifique el precio de venta",
             number: "Ingrese un número valido"
         },
         editUnidades: {
