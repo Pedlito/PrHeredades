@@ -26,7 +26,12 @@ namespace PrHeredades.Controllers
             {
                 if (prueba.estado.Value)
                 {
-                    Sesion.Iniciar(new Usuario { codUsuario = prueba.codUsuario, nombre = prueba.nombre, usuario = prueba.usuario });
+                    Sesion.Iniciar(new Usuario {
+                        codUsuario = prueba.codUsuario,
+                        codRol = prueba.codRol,
+                        nombre = prueba.nombre,
+                        usuario = prueba.usuario
+                    });
                     return RedirectToAction("Index", "Home");
                 }
                 else

@@ -1,0 +1,103 @@
+﻿@model IEnumerable<PrHeredades.Models.tbTransaccion>
+@using PrHeredades.Models
+
+@{
+    ViewBag.Title = "Salidas";
+}
+
+<h2>Salidas</h2>
+
+<p>
+    <a href="@Url.Action("CrearSalida", "Transaccion")" class="btn btn-success">
+        <span class="fa fa-plus"></span> Nueva salida
+    </a>
+</p>
+
+<hr />
+<!-- Filtros -->
+<form action="@Url.Action("Salidas")" method="get" class="form-group">
+    @Html.Partial("_Estado", (bool)ViewBag.estado)
+    <div class="row">
+        <div class="col-md-2">
+            <input type="date" class="form-control form-control-sm" id="filtro" name="filtro" value="@ViewBag.filtro" autocomplete="off" />
+        </div>
+        <button type="submit" class="btn btn-info btn-sm">
+            <span class="fa fa-search"></span> Filtrar
+        </button>
+    </div>
+</form>
+<hr />
+
+<table class="table table-sm table-hover">
+    <thead>
+        <tr class="table-primary">
+            <th scope="col">
+                Fecha
+            </th>
+            <th>
+                Hora
+            </th>
+            <th scope="col">
+                Descripción
+            </th>
+            <th scope="col" class="text-center">
+                Estado
+            </th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td class="align-middle">
+                    @item.fecha.ToLongDateString()
+                </td>
+                <td class="align-middle">
+                    @item.fecha.ToShortTimeString()
+                </td>
+                <td class="align-middle">
+                    @item.descripcion
+                </td>
+                <td class="align-middle text-center">
+                    @if (item.estado.Value)
+                    {
+                        <span class="fa fa-check-square"></span>
+                    }
+                    else
+                    {
+                        <span class="fa fa-square"></span>
+                    }
+                </td>
+                <td class="align-middle">
+                    <a href="@Url.Action("DetalleSalida", new { id = item.codTransaccion })" class="btn btn-primary btn-sm">
+                        <span class="fa fa-list"></span> Detalles
+                    </a>
+                    @if (Sesion.ObtenerRol() <= 2)
+                    {
+                        <a href="@Url.Action("CambiarEstado", new { id = item.codTransaccion, tipoTransaccion = 2 })" class="align-middle">
+                            @if (item.estado.Value)
+                            {
+                                <text>Deshabilitar</text>
+                            }
+                            else
+                            {
+                                <text>Habilitar</text>
+                            }
+                        </a>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>
+
+@Html.Partial("_Paginacion", (Paginacion)ViewBag.paginacion)
+
+@section Scripts {
+
+}
+
+

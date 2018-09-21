@@ -3,38 +3,55 @@
 
 @if (Sesion.Existe())
 {
-    <ul class="navbar-nav">
-        @if (Sesion.TienePermiso(EnumPermisos.Usuarios) == true || Sesion.TienePermiso(EnumPermisos.Catalogos) == true || Sesion.TienePermiso(EnumPermisos.Inventario) == true)
-        {
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" id="navbarDrop" role="button" aria-expanded="false" aria-haspopup="true">Administración</a>
-                <div class="dropdown-menu" aria-labelledby="navbarDrop">
-                    @if (Sesion.TienePermiso(EnumPermisos.Inventario))
-                    {
-                        <a class="dropdown-item" href="#">Inventario</a>
-                    }
-                    @if (Sesion.TienePermiso(EnumPermisos.Catalogos))
-                    {
-                        <a class="dropdown-item" href="#">Catalogos</a>
-                    }
-                    @if (Sesion.TienePermiso(EnumPermisos.Usuarios))
-                    {
-                        <a class="dropdown-item" href="@Url.Action("Index", "Usuario")">Usuarios</a>
-                    }
-                    @if (Sesion.TienePermiso(EnumPermisos.Roles))
-                    {
-                        <a class="dropdown-item" href="@Url.Action("Index", "Rol")">Roles</a>
-                    }
-                </div>
-            </li>
-        }
-        <li class="nav-item">
-            <a class="nav-link" href="#">Caracteristicas</a>
+<ul class="navbar-nav">
+    @if (Sesion.TienePermiso(EnumPermisos.Usuarios) == true || Sesion.TienePermiso(EnumPermisos.Catalogos) == true || Sesion.TienePermiso(EnumPermisos.Inventario) == true)
+    {
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" id="navbarDropAdmin" role="button" aria-expanded="false" aria-haspopup="true">Administración</a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropAdmin">
+                @if (Sesion.TienePermiso(EnumPermisos.Inventario))
+                {
+                    <a class="dropdown-item" href="@Url.Action("Index", "Inventario")">Inventario</a>
+                }
+                @if (Sesion.TienePermiso(EnumPermisos.Catalogos))
+                {
+                    <a class="dropdown-item" href="@Url.Action("Catalogos", "Home")">Catalogos</a>
+                }
+                @if (Sesion.TienePermiso(EnumPermisos.Proveedores))
+                {
+                    <a class="dropdown-item" href="@Url.Action("Index", "Proveedor")">Proveedores</a>
+                }
+                @if (Sesion.TienePermiso(EnumPermisos.Usuarios))
+                {
+                    <a class="dropdown-item" href="@Url.Action("Index", "Usuario")">Usuarios</a>
+                }
+                @if (Sesion.TienePermiso(EnumPermisos.Roles))
+                {
+                    <a class="dropdown-item" href="@Url.Action("Index", "Rol")">Roles</a>
+                }
+                @if (Sesion.TienePermiso(EnumPermisos.Compras))
+                {
+                    <a class="dropdown-item" href="@Url.Action("Entradas", "Transaccion")">Compras</a>
+                }
+                @if (Sesion.TienePermiso(EnumPermisos.Salidas))
+                {
+                    <a class="dropdown-item" href="@Url.Action("Salidas", "Transaccion")">Salidas</a>
+                }
+            </div>
         </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#">Acerca de</a>
-        </li>
-    </ul>
+    }
+
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" id="navbarDropConta" role="button" aria-expanded="false" aria-haspopup="true">Contabilidad</a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropConta">
+            <a class="dropdown-item" href="@Url.Action("Index", "DeudaProveedor")">Deudas a proveedores</a>
+        </div>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link" href="#">Acerca de</a>
+    </li>
+</ul>
     <form action="@Url.Action("CerrarSesion", "Sesion")" method="post" class="ml-auto" id="navForm">
         <ul class="navbar-nav">
             <li class="nav-item">

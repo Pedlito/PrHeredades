@@ -5,11 +5,11 @@
     ViewBag.Title = "Entradas";
 }
 
-<h2>Entradas</h2>
+<h2>Compras</h2>
 
 <p>
     <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modProveedores">
-        <span class="fa fa-plus"></span> Nueva entrada
+        <span class="fa fa-plus"></span> Nueva compra
     </button>
 </p>
 
@@ -35,7 +35,7 @@
                 Fecha
             </th>
             <th>
-                Hora
+                Proveedor
             </th>
             <th scope="col">
                 Descripción
@@ -52,10 +52,10 @@
         {
             <tr>
                 <td class="align-middle">
-                    @item.fecha.Value.ToLongDateString()
+                    @item.fecha.ToLongDateString()
                 </td>
                 <td class="align-middle">
-                    @item.fecha.Value.ToLongTimeString()
+                    @item.tbProveedor.proveedor
                 </td>
                 <td class="align-middle">
                     @item.descripcion
@@ -74,16 +74,19 @@
                     <a href="@Url.Action("DetalleEntrada", new { id = item.codTransaccion })" class="btn btn-primary btn-sm">
                         <span class="fa fa-list"></span> Detalles
                     </a>
-                    <a href="@Url.Action("CambiarEstado", new { id = item.codTransaccion })" class="align-middle">
-                        @if (item.estado.Value)
-                        {
-                            <text>Deshabilitar</text>
-                        }
-                        else
-                        {
-                            <text>Habilitar</text>
-                        }
-                    </a>
+                    @if (Sesion.ObtenerRol() <= 2)
+                    {
+                        <a href="@Url.Action("CambiarEstado", new { id = item.codTransaccion, tipoTransaccion = 1 })" class="align-middle">
+                            @if (item.estado.Value)
+                            {
+                                <text>Deshabilitar</text>
+                            }
+                            else
+                            {
+                                <text>Habilitar</text>
+                            }
+                        </a>
+                    }
                 </td>
             </tr>
         }

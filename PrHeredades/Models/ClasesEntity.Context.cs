@@ -12,6 +12,8 @@ namespace PrHeredades.Models
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Core.Objects;
+    using System.Linq;
     
     public partial class dbHeredadesEntities : DbContext
     {
@@ -37,5 +39,21 @@ namespace PrHeredades.Models
         public virtual DbSet<tbProveedor> tbProveedor { get; set; }
         public virtual DbSet<tbProductoTransaccion> tbProductoTransaccion { get; set; }
         public virtual DbSet<tbTransaccion> tbTransaccion { get; set; }
+        public virtual DbSet<vExistencias> vExistencias { get; set; }
+        public virtual DbSet<vDeudaProveedor> vDeudaProveedor { get; set; }
+        public virtual DbSet<tbPagoProveedor> tbPagoProveedor { get; set; }
+    
+        public virtual int DeshabilitarProductos(Nullable<int> codProd, Nullable<int> codPres)
+        {
+            var codProdParameter = codProd.HasValue ?
+                new ObjectParameter("codProd", codProd) :
+                new ObjectParameter("codProd", typeof(int));
+    
+            var codPresParameter = codPres.HasValue ?
+                new ObjectParameter("codPres", codPres) :
+                new ObjectParameter("codPres", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("DeshabilitarProductos", codProdParameter, codPresParameter);
+        }
     }
 }

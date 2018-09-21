@@ -105,8 +105,8 @@ namespace PrHeredades.Controllers
             ViewBag.codProducto = new SelectList(productos, "codProducto", "producto");
             ViewBag.codPresentacion = new SelectList(new List<tbPresentacion>(), "codPresentacion", "presentacion");
             ViewBag.productos = (from t in db.tbProductoProveedor
-                                 where t.codProveedor == id && t.estado == true
-                                 orderby t.tbProductoPresentacion.tbProducto.producto
+                                 where t.codProveedor == id && t.estado.Value
+                                 orderby t.tbProductoPresentacion.correlativo descending
                                  select new
                                  {
                                      t.codProveedor,

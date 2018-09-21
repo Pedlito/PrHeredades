@@ -14,6 +14,13 @@ namespace PrHeredades.Models
     
     public partial class tbUsuario
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public tbUsuario()
+        {
+            this.tbTransaccion = new HashSet<tbTransaccion>();
+            this.tbPagoProveedor = new HashSet<tbPagoProveedor>();
+        }
+    
         public int codUsuario { get; set; }
         public int codRol { get; set; }
         public string usuario { get; set; }
@@ -22,5 +29,9 @@ namespace PrHeredades.Models
         public Nullable<bool> estado { get; set; }
     
         public virtual tbRol tbRol { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tbTransaccion> tbTransaccion { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tbPagoProveedor> tbPagoProveedor { get; set; }
     }
 }

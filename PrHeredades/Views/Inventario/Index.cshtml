@@ -1,0 +1,45 @@
+﻿@model IEnumerable<PrHeredades.Models.vExistencias>
+
+@{
+    ViewBag.Title = "Crear";
+}
+
+<h2>Inventario</h2>
+
+<hr />
+
+<table class="table table-sm table-hover">
+    <thead>
+        <tr class="table-primary">
+            <th scope="col">
+                Producto
+            </th>
+            <th scope="col">
+                Presentación
+            </th>
+            <th scope="col" class="text-center">
+                Existencias
+            </th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td class="align-middle">
+                    @item.producto
+                </td>
+                <td class="align-middle">
+                    @item.presentacion
+                </td>
+                <td class="align-middle text-center">
+                    @item.existencia
+                </td>  
+            </tr>
+        }
+    </tbody>
+
+</table>
+
+

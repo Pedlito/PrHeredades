@@ -13,6 +13,18 @@
           <Property Name="categoria" Type="varchar" MaxLength="50" />
           <Property Name="estado" Type="bit" />
         </EntityType>
+        <EntityType Name="tbPagoProveedor">
+          <Key>
+            <PropertyRef Name="codPagoProveedor" />
+          </Key>
+          <Property Name="codPagoProveedor" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="codProveedor" Type="int" />
+          <Property Name="codUsuario" Type="int" />
+          <Property Name="fecha" Type="datetime" />
+          <Property Name="pago" Type="decimal" Precision="8" Scale="2" />
+          <Property Name="descripcion" Type="varchar" MaxLength="150" />
+          <Property Name="estado" Type="bit" />
+        </EntityType>
         <EntityType Name="tbPermiso">
           <Key>
             <PropertyRef Name="codPermiso" />
@@ -79,7 +91,7 @@
           <Property Name="codProveedor" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="proveedor" Type="varchar" MaxLength="50" />
           <Property Name="telefono" Type="varchar" MaxLength="10" />
-          <Property Name="direccion" Type="varchar" MaxLength="30" />
+          <Property Name="direccion" Type="varchar" MaxLength="50" />
           <Property Name="estado" Type="bit" />
         </EntityType>
         <EntityType Name="tbRol">
@@ -106,8 +118,9 @@
           <Property Name="codProveedor" Type="int" />
           <Property Name="codTipoTransaccion" Type="smallint" />
           <Property Name="descripcion" Type="varchar" MaxLength="500" />
-          <Property Name="fecha" Type="datetime" />
+          <Property Name="fecha" Type="datetime" Nullable="false" />
           <Property Name="estado" Type="bit" />
+          <Property Name="codUsuario" Type="int" />
         </EntityType>
         <EntityType Name="tbUsuario">
           <Key>
@@ -120,6 +133,54 @@
           <Property Name="password" Type="varchar" MaxLength="30" Nullable="false" />
           <Property Name="estado" Type="bit" />
         </EntityType>
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'dbHeredades.dbo.vDeudaProveedor' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <EntityType Name="vDeudaProveedor">
+          <Key>
+            <PropertyRef Name="codProveedor" />
+          </Key>
+          <Property Name="codProveedor" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="proveedor" Type="varchar" MaxLength="50" />
+          <Property Name="telefono" Type="varchar" MaxLength="10" />
+          <Property Name="deuda" Type="decimal" Precision="19" Scale="0" />
+        </EntityType>
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'dbHeredades.dbo.vExistencias' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <EntityType Name="vExistencias">
+          <Key>
+            <PropertyRef Name="codProducto" />
+            <PropertyRef Name="codPresentacion" />
+          </Key>
+          <Property Name="codProducto" Type="int" Nullable="false" />
+          <Property Name="producto" Type="varchar" MaxLength="50" />
+          <Property Name="codPresentacion" Type="int" Nullable="false" />
+          <Property Name="presentacion" Type="varchar" MaxLength="50" />
+          <Property Name="existencia" Type="int" />
+        </EntityType>
+        <Association Name="FK_tbPagoProveedor_tbProveedor">
+          <End Role="tbProveedor" Type="Self.tbProveedor" Multiplicity="0..1" />
+          <End Role="tbPagoProveedor" Type="Self.tbPagoProveedor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbProveedor">
+              <PropertyRef Name="codProveedor" />
+            </Principal>
+            <Dependent Role="tbPagoProveedor">
+              <PropertyRef Name="codProveedor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbPagoProveedor_tbUsuario">
+          <End Role="tbUsuario" Type="Self.tbUsuario" Multiplicity="0..1" />
+          <End Role="tbPagoProveedor" Type="Self.tbPagoProveedor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbUsuario">
+              <PropertyRef Name="codUsuario" />
+            </Principal>
+            <Dependent Role="tbPagoProveedor">
+              <PropertyRef Name="codUsuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_tbPermisoDenegado_tbPermiso">
           <End Role="tbPermiso" Type="Self.tbPermiso" Multiplicity="1" />
           <End Role="tbRolPermiso" Type="Self.tbRolPermiso" Multiplicity="*" />
@@ -244,6 +305,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_tbTransaccion_tbUsuario">
+          <End Role="tbUsuario" Type="Self.tbUsuario" Multiplicity="0..1" />
+          <End Role="tbTransaccion" Type="Self.tbTransaccion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbUsuario">
+              <PropertyRef Name="codUsuario" />
+            </Principal>
+            <Dependent Role="tbTransaccion">
+              <PropertyRef Name="codUsuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_tbUsuario_tbRol">
           <End Role="tbRol" Type="Self.tbRol" Multiplicity="1" />
           <End Role="tbUsuario" Type="Self.tbUsuario" Multiplicity="*" />
@@ -256,8 +329,13 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="DeshabilitarProductos" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="codProd" Type="int" Mode="In" />
+          <Parameter Name="codPres" Type="int" Mode="In" />
+        </Function>
         <EntityContainer Name="dbHeredadesModelStoreContainer">
           <EntitySet Name="tbCategoria" EntityType="Self.tbCategoria" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbPagoProveedor" EntityType="Self.tbPagoProveedor" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbPermiso" EntityType="Self.tbPermiso" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbPresentacion" EntityType="Self.tbPresentacion" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbProducto" EntityType="Self.tbProducto" Schema="dbo" store:Type="Tables" />
@@ -269,6 +347,31 @@
           <EntitySet Name="tbRolPermiso" EntityType="Self.tbRolPermiso" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbTransaccion" EntityType="Self.tbTransaccion" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbUsuario" EntityType="Self.tbUsuario" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="vDeudaProveedor" EntityType="Self.vDeudaProveedor" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vDeudaProveedor].[codProveedor] AS [codProveedor], 
+    [vDeudaProveedor].[proveedor] AS [proveedor], 
+    [vDeudaProveedor].[telefono] AS [telefono], 
+    [vDeudaProveedor].[deuda] AS [deuda]
+    FROM [dbo].[vDeudaProveedor] AS [vDeudaProveedor]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vExistencias" EntityType="Self.vExistencias" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vExistencias].[codProducto] AS [codProducto], 
+    [vExistencias].[producto] AS [producto], 
+    [vExistencias].[codPresentacion] AS [codPresentacion], 
+    [vExistencias].[presentacion] AS [presentacion], 
+    [vExistencias].[existencia] AS [existencia]
+    FROM [dbo].[vExistencias] AS [vExistencias]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_tbPagoProveedor_tbProveedor" Association="Self.FK_tbPagoProveedor_tbProveedor">
+            <End Role="tbProveedor" EntitySet="tbProveedor" />
+            <End Role="tbPagoProveedor" EntitySet="tbPagoProveedor" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbPagoProveedor_tbUsuario" Association="Self.FK_tbPagoProveedor_tbUsuario">
+            <End Role="tbUsuario" EntitySet="tbUsuario" />
+            <End Role="tbPagoProveedor" EntitySet="tbPagoProveedor" />
+          </AssociationSet>
           <AssociationSet Name="FK_tbPermisoDenegado_tbPermiso" Association="Self.FK_tbPermisoDenegado_tbPermiso">
             <End Role="tbPermiso" EntitySet="tbPermiso" />
             <End Role="tbRolPermiso" EntitySet="tbRolPermiso" />
@@ -307,6 +410,10 @@
           </AssociationSet>
           <AssociationSet Name="FK_tbTransaccion_tbProveedor" Association="Self.FK_tbTransaccion_tbProveedor">
             <End Role="tbProveedor" EntitySet="tbProveedor" />
+            <End Role="tbTransaccion" EntitySet="tbTransaccion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbTransaccion_tbUsuario" Association="Self.FK_tbTransaccion_tbUsuario">
+            <End Role="tbUsuario" EntitySet="tbUsuario" />
             <End Role="tbTransaccion" EntitySet="tbTransaccion" />
           </AssociationSet>
           <AssociationSet Name="FK_tbUsuario_tbRol" Association="Self.FK_tbUsuario_tbRol">
@@ -375,6 +482,25 @@
             <End Role="tbProveedor" EntitySet="tbProveedor" />
             <End Role="tbTransaccion" EntitySet="tbTransaccion" />
           </AssociationSet>
+          <FunctionImport Name="DeshabilitarProductos">
+            <Parameter Name="codProd" Mode="In" Type="Int32" />
+            <Parameter Name="codPres" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <EntitySet Name="vExistencias" EntityType="dbHeredadesModel.vExistencias" />
+          <AssociationSet Name="FK_tbTransaccion_tbUsuario" Association="dbHeredadesModel.FK_tbTransaccion_tbUsuario">
+            <End Role="tbUsuario" EntitySet="tbUsuario" />
+            <End Role="tbTransaccion" EntitySet="tbTransaccion" />
+          </AssociationSet>
+          <EntitySet Name="vDeudaProveedor" EntityType="dbHeredadesModel.vDeudaProveedor" />
+          <EntitySet Name="tbPagoProveedor" EntityType="dbHeredadesModel.tbPagoProveedor" />
+          <AssociationSet Name="FK_tbPagoProveedor_tbProveedor" Association="dbHeredadesModel.FK_tbPagoProveedor_tbProveedor">
+            <End Role="tbProveedor" EntitySet="tbProveedor" />
+            <End Role="tbPagoProveedor" EntitySet="tbPagoProveedor" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbPagoProveedor_tbUsuario" Association="dbHeredadesModel.FK_tbPagoProveedor_tbUsuario">
+            <End Role="tbUsuario" EntitySet="tbUsuario" />
+            <End Role="tbPagoProveedor" EntitySet="tbPagoProveedor" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="d">
           <Key>
@@ -415,6 +541,8 @@
           <Property Name="password" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
           <Property Name="estado" Type="Boolean" />
           <NavigationProperty Name="tbRol" Relationship="dbHeredadesModel.FK_tbUsuario_tbRol" FromRole="tbUsuario" ToRole="tbRol" />
+          <NavigationProperty Name="tbTransaccion" Relationship="dbHeredadesModel.FK_tbTransaccion_tbUsuario" FromRole="tbUsuario" ToRole="tbTransaccion" />
+          <NavigationProperty Name="tbPagoProveedor" Relationship="dbHeredadesModel.FK_tbPagoProveedor_tbUsuario" FromRole="tbUsuario" ToRole="tbPagoProveedor" />
         </EntityType>
         <Association Name="FK_tbPermisoDenegado_tbPermiso">
           <End Type="dbHeredadesModel.d" Role="tbPermiso" Multiplicity="1" />
@@ -553,10 +681,11 @@
           <Property Name="codProveedor" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="proveedor" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="telefono" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="direccion" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="direccion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="tbProductoProveedor" Relationship="dbHeredadesModel.FK_tbProductoProveedor_tbProveedor" FromRole="tbProveedor" ToRole="tbProductoProveedor" />
           <Property Name="estado" Type="Boolean" />
           <NavigationProperty Name="tbTransaccion" Relationship="dbHeredadesModel.FK_tbTransaccion_tbProveedor" FromRole="tbProveedor" ToRole="tbTransaccion" />
+          <NavigationProperty Name="tbPagoProveedor" Relationship="dbHeredadesModel.FK_tbPagoProveedor_tbProveedor" FromRole="tbProveedor" ToRole="tbPagoProveedor" />
         </EntityType>
         <Association Name="FK_tbProductoProveedor_tbProductoPresentacion">
           <End Type="dbHeredadesModel.tbProductoPresentacion" Role="tbProductoPresentacion" Multiplicity="1" />
@@ -606,10 +735,12 @@
           <Property Name="codProveedor" Type="Int32" />
           <Property Name="codTipoTransaccion" Type="Int16" />
           <Property Name="descripcion" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="fecha" Type="DateTime" Precision="3" />
+          <Property Name="fecha" Type="DateTime" Precision="3" Nullable="false" />
           <NavigationProperty Name="tbProductoTransaccion" Relationship="dbHeredadesModel.FK_tbProductoTransaccion_tbTransaccion" FromRole="tbTransaccion" ToRole="tbProductoTransaccion" />
           <NavigationProperty Name="tbProveedor" Relationship="dbHeredadesModel.FK_tbTransaccion_tbProveedor" FromRole="tbTransaccion" ToRole="tbProveedor" />
           <Property Name="estado" Type="Boolean" />
+          <Property Name="codUsuario" Type="Int32" />
+          <NavigationProperty Name="tbUsuario" Relationship="dbHeredadesModel.FK_tbTransaccion_tbUsuario" FromRole="tbTransaccion" ToRole="tbUsuario" />
         </EntityType>
         <Association Name="FK_tbProductoTransaccion_tbProductoPresentacion">
           <End Type="dbHeredadesModel.tbProductoPresentacion" Role="tbProductoPresentacion" Multiplicity="1" />
@@ -646,6 +777,76 @@
             </Principal>
             <Dependent Role="tbTransaccion">
               <PropertyRef Name="codProveedor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="vExistencias">
+          <Key>
+            <PropertyRef Name="codProducto" />
+            <PropertyRef Name="codPresentacion" />
+          </Key>
+          <Property Name="codProducto" Type="Int32" Nullable="false" />
+          <Property Name="producto" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="codPresentacion" Type="Int32" Nullable="false" />
+          <Property Name="presentacion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="existencia" Type="Int32" />
+        </EntityType>
+        <Association Name="FK_tbTransaccion_tbUsuario">
+          <End Type="dbHeredadesModel.tbUsuario" Role="tbUsuario" Multiplicity="0..1" />
+          <End Type="dbHeredadesModel.tbTransaccion" Role="tbTransaccion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbUsuario">
+              <PropertyRef Name="codUsuario" />
+            </Principal>
+            <Dependent Role="tbTransaccion">
+              <PropertyRef Name="codUsuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="vDeudaProveedor">
+          <Key>
+            <PropertyRef Name="codProveedor" />
+          </Key>
+          <Property Name="codProveedor" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="proveedor" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="telefono" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="deuda" Type="Decimal" Precision="19" Scale="0" />
+        </EntityType>
+        <EntityType Name="tbPagoProveedor">
+          <Key>
+            <PropertyRef Name="codPagoProveedor" />
+          </Key>
+          <Property Name="codPagoProveedor" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="codProveedor" Type="Int32" />
+          <Property Name="codUsuario" Type="Int32" />
+          <Property Name="fecha" Type="DateTime" Precision="3" />
+          <Property Name="pago" Type="Decimal" Precision="8" Scale="2" />
+          <Property Name="descripcion" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="estado" Type="Boolean" />
+          <NavigationProperty Name="tbProveedor" Relationship="dbHeredadesModel.FK_tbPagoProveedor_tbProveedor" FromRole="tbPagoProveedor" ToRole="tbProveedor" />
+          <NavigationProperty Name="tbUsuario" Relationship="dbHeredadesModel.FK_tbPagoProveedor_tbUsuario" FromRole="tbPagoProveedor" ToRole="tbUsuario" />
+        </EntityType>
+        <Association Name="FK_tbPagoProveedor_tbProveedor">
+          <End Type="dbHeredadesModel.tbProveedor" Role="tbProveedor" Multiplicity="0..1" />
+          <End Type="dbHeredadesModel.tbPagoProveedor" Role="tbPagoProveedor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbProveedor">
+              <PropertyRef Name="codProveedor" />
+            </Principal>
+            <Dependent Role="tbPagoProveedor">
+              <PropertyRef Name="codProveedor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbPagoProveedor_tbUsuario">
+          <End Type="dbHeredadesModel.tbUsuario" Role="tbUsuario" Multiplicity="0..1" />
+          <End Type="dbHeredadesModel.tbPagoProveedor" Role="tbPagoProveedor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbUsuario">
+              <PropertyRef Name="codUsuario" />
+            </Principal>
+            <Dependent Role="tbPagoProveedor">
+              <PropertyRef Name="codUsuario" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -767,12 +968,48 @@
           <EntitySetMapping Name="tbTransaccion">
             <EntityTypeMapping TypeName="dbHeredadesModel.tbTransaccion">
               <MappingFragment StoreEntitySet="tbTransaccion">
+                <ScalarProperty Name="codUsuario" ColumnName="codUsuario" />
                 <ScalarProperty Name="estado" ColumnName="estado" />
                 <ScalarProperty Name="fecha" ColumnName="fecha" />
                 <ScalarProperty Name="descripcion" ColumnName="descripcion" />
                 <ScalarProperty Name="codTipoTransaccion" ColumnName="codTipoTransaccion" />
                 <ScalarProperty Name="codProveedor" ColumnName="codProveedor" />
                 <ScalarProperty Name="codTransaccion" ColumnName="codTransaccion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="DeshabilitarProductos" FunctionName="dbHeredadesModel.Store.DeshabilitarProductos" />
+          <EntitySetMapping Name="vExistencias">
+            <EntityTypeMapping TypeName="dbHeredadesModel.vExistencias">
+              <MappingFragment StoreEntitySet="vExistencias">
+                <ScalarProperty Name="existencia" ColumnName="existencia" />
+                <ScalarProperty Name="presentacion" ColumnName="presentacion" />
+                <ScalarProperty Name="codPresentacion" ColumnName="codPresentacion" />
+                <ScalarProperty Name="producto" ColumnName="producto" />
+                <ScalarProperty Name="codProducto" ColumnName="codProducto" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vDeudaProveedor">
+            <EntityTypeMapping TypeName="dbHeredadesModel.vDeudaProveedor">
+              <MappingFragment StoreEntitySet="vDeudaProveedor">
+                <ScalarProperty Name="deuda" ColumnName="deuda" />
+                <ScalarProperty Name="telefono" ColumnName="telefono" />
+                <ScalarProperty Name="proveedor" ColumnName="proveedor" />
+                <ScalarProperty Name="codProveedor" ColumnName="codProveedor" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbPagoProveedor">
+            <EntityTypeMapping TypeName="dbHeredadesModel.tbPagoProveedor">
+              <MappingFragment StoreEntitySet="tbPagoProveedor">
+                <ScalarProperty Name="estado" ColumnName="estado" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+                <ScalarProperty Name="pago" ColumnName="pago" />
+                <ScalarProperty Name="fecha" ColumnName="fecha" />
+                <ScalarProperty Name="codUsuario" ColumnName="codUsuario" />
+                <ScalarProperty Name="codProveedor" ColumnName="codProveedor" />
+                <ScalarProperty Name="codPagoProveedor" ColumnName="codPagoProveedor" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

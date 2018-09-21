@@ -19,9 +19,9 @@
     @Html.Partial("_Estado", (bool)ViewBag.estado)
     <div class="row">
         <div class="col-md-4">
-            <input type="text" placeholder="Nombre de proveedor" class="form-control" id="filtro" name="filtro" value="@ViewBag.filtro" autocomplete="off" />
+            <input type="text" placeholder="Nombre de proveedor" class="form-control form-control-sm" id="filtro" name="filtro" value="@ViewBag.filtro" autocomplete="off" />
         </div>
-        <button type="submit" class="btn btn-info">
+        <button type="submit" class="btn btn-info btn-sm">
             <span class="fa fa-search"></span> Filtrar
         </button>
     </div>

@@ -30,12 +30,12 @@
     </button>
 </div>
 
-<div class="form-group col-md-4 text-center">
+<div class="form-group col-md-4 text-center" style="padding-left:0; padding-right:0">
     <button type="submit" class="btn btn-primary" style="width: 150px" onclick="GuardarProductos()">
         <span class="fa fa-check"></span> Guardar
     </button>
-    <a href="@Url.Action("Index")" class="btn btn-danger" style="width: 150px">
-        <span class="fa fa-times"></span> Regresar
+    <a href="@Url.Action("Entradas")" class="btn btn-danger" style="width: 150px">
+        <span class="fa fa-times"></span> Cancelar
     </a>
 </div>
 
@@ -64,49 +64,7 @@
                         <button type="button" class="btn btn-primary" onclick="AgregarProducto()" style="width: 150px">
                             <span class="fa fa-plus"></span> Agregar
                         </button>
-                        <button type="button" class="btn btn-danger" data-dismiss="modal" style="width: 150px" onclick="ResetarFormulario()">
-                            <span class="fa fa-times"></span> Cancelar
-                        </button>
-                    </div>
-                </form>
-            </div>
-
-        </div>
-    </div>
-</div>
-
-<!-- Modal Editar Productos -->
-<div class="modal fade" id="editarProducto" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Producto</h5>
-            </div>
-
-            <div class="modal-body">
-                <form id="editProducto">
-                    <div class="form-group">
-                        <label for="producto" class="col-form-label">Producto</label>
-                        @Html.TextBox("producto", "", new { @class = "form-control", autocomplete = "off", @readonly = "readonly" })
-                    </div>
-
-                    <div class="form-group">
-                        <label for="presentacion" class="col-form-label">Presentación</label>
-                        @Html.TextBox("presentacion", "", new { @class = "form-control", autocomplete = "off", @readonly = "readonly" })
-                    </div>
-
-                    <div class="form-group">
-                        <label for="precioCompra" class="col-form-label">Precio de compra</label>
-                        @Html.TextBox("editPrecioCompra", "", new { @class = "form-control", autocomplete = "off" })
-                    </div>
-
-
-                    <div class="form-group text-center">
-                        <button type="button" class="btn btn-primary" onclick="confirmarEdicion()" style="width: 150px">
-                            <span class="fa fa-save"></span> Guardar
-                        </button>
-                        <button type="button" class="btn btn-danger" data-dismiss="modal" style="width: 150px" onclick="ResetarFormulario()">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal" style="width: 150px" onclick="ResetearFormulario()">
                             <span class="fa fa-times"></span> Cancelar
                         </button>
                     </div>
@@ -130,27 +88,27 @@
             $('#codPresentacion').empty();
             if (codProducto > 0) {
                 $.ajax({
-                    url: '@Url.Action("CargarPresentaciones")',
+                    url: '@Url.Action("CargarPresentacionesEntrada")',
                     type: "POST",
                     data: { codProducto: codProducto, codProveedor: @ViewBag.codProveedor },
                     success: function (response) {
+                        var usados = 0;
                         response.forEach(function (item) {
                             var codProducto = $('#codProducto').val();
-                            var encontrado = false;
-                            var i = 0;
-                            while (!encontrado && i < productos.length) {
-                                if (productos[i].codPresentacion == item.codPresentacion && productos[i].codProducto == codProducto) {
-                                    encontrado = true;
-                                }
-                                i++;
-                            }
-                            if (!encontrado) {
+                            if (!Contiene(codProducto, item.codPresentacion)) {
+                                usados++;
                                 var option = $(document.createElement('option'));
                                 option.val(item.codPresentacion);
                                 option.text(item.presentacion);
                                 $("#codPresentacion").append(option);
                             }
                         });
+                        if (usados == 0) {
+                            var option = $(document.createElement('option'));
+                            option.val("");
+                            option.text("No hay mas presentaciones");
+                            $("#codPresentacion").append(option);
+                        }
                     },
                     error: function (msg) {
                         console.log(msg);
@@ -230,7 +188,7 @@
 
         function ListarProductos() {
             $.ajax({
-                url: '@Url.Action("ListarProductos")',
+                url: '@Url.Action("ListarProductosEntrada")',
                 type: 'POST',
                 data: { codProveedor: codProveedor, lista: productos },
                 success: function (response) {
@@ -246,8 +204,24 @@
             var charCode = (evt.which) ? evt.which : event.keyCode
             if (charCode > 31 && (charCode < 48 || charCode > 57))
                 return false;
-
             return true;
+        }
+
+        function Contiene(codProd, codPres) {
+            var encontrado = false;
+            var i = 0;
+            while (!encontrado && productos.length > i) {
+                if (productos[i].codProducto == codProd && productos[i].codPresentacion == codPres) {
+                    encontrado = true;
+                }
+                i++;
+            }
+            return encontrado;
+        }
+
+        function ResetearFormulario(accion) {
+            $('#agrProducto').trigger("reset");
+            $('#codPresentacion').empty();
         }
     </script>
 }

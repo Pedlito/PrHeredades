@@ -5,9 +5,11 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using PrHeredades.Models;
+using PrHeredades.Tags;
 
 namespace PrHeredades.Controllers
 {
+    [TagAutenticacion]
     public class PresentacionController : Controller
     {
         private readonly int registrosPagina = 10;

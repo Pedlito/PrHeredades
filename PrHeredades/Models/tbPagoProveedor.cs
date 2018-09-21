@@ -12,24 +12,16 @@ namespace PrHeredades.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class tbTransaccion
+    public partial class tbPagoProveedor
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public tbTransaccion()
-        {
-            this.tbProductoTransaccion = new HashSet<tbProductoTransaccion>();
-        }
-    
-        public int codTransaccion { get; set; }
+        public int codPagoProveedor { get; set; }
         public Nullable<int> codProveedor { get; set; }
-        public Nullable<short> codTipoTransaccion { get; set; }
-        public string descripcion { get; set; }
-        public System.DateTime fecha { get; set; }
-        public Nullable<bool> estado { get; set; }
         public Nullable<int> codUsuario { get; set; }
+        public Nullable<System.DateTime> fecha { get; set; }
+        public Nullable<decimal> pago { get; set; }
+        public string descripcion { get; set; }
+        public Nullable<bool> estado { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tbProductoTransaccion> tbProductoTransaccion { get; set; }
         public virtual tbProveedor tbProveedor { get; set; }
         public virtual tbUsuario tbUsuario { get; set; }
     }

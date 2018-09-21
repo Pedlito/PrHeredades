@@ -23,6 +23,12 @@ namespace PrHeredades.Controllers
             return View();
         }
 
+        [TagPermiso(permiso = EnumPermisos.Catalogos)]
+        public ActionResult Catalogos()
+        {
+            return View();
+        }
+
         public ActionResult Contact()
         {
             ViewBag.Message = "Your contact page.";

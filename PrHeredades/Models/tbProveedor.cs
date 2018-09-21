@@ -19,6 +19,7 @@ namespace PrHeredades.Models
         {
             this.tbProductoProveedor = new HashSet<tbProductoProveedor>();
             this.tbTransaccion = new HashSet<tbTransaccion>();
+            this.tbPagoProveedor = new HashSet<tbPagoProveedor>();
         }
     
         public int codProveedor { get; set; }
@@ -31,5 +32,7 @@ namespace PrHeredades.Models
         public virtual ICollection<tbProductoProveedor> tbProductoProveedor { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tbTransaccion> tbTransaccion { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tbPagoProveedor> tbPagoProveedor { get; set; }
     }
 }

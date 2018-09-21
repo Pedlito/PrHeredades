@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="b967befc1fd04a649064adbdb51b3f15" Name="Diagram1" ZoomLevel="86">
+      <Diagram DiagramId="b967befc1fd04a649064adbdb51b3f15" Name="Diagram1" ZoomLevel="70">
         <EntityTypeShape EntityType="dbHeredadesModel.d" Width="1.5" PointX="0.75" PointY="0.75" />
         <EntityTypeShape EntityType="dbHeredadesModel.tbRol" Width="1.5" PointX="5.75" PointY="1" />
         <EntityTypeShape EntityType="dbHeredadesModel.tbRolPermiso" Width="1.5" PointX="3.125" PointY="0.875" />
@@ -28,6 +28,16 @@
         <AssociationConnector Association="dbHeredadesModel.FK_tbProductoTransaccion_tbProductoPresentacion" />
         <AssociationConnector Association="dbHeredadesModel.FK_tbProductoTransaccion_tbTransaccion" />
         <AssociationConnector Association="dbHeredadesModel.FK_tbTransaccion_tbProveedor" />
+        <EntityTypeShape EntityType="dbHeredadesModel.vExistencias" Width="1.5" PointX="12.625" PointY="0.875" />
+        <AssociationConnector Association="dbHeredadesModel.FK_tbTransaccion_tbUsuario" ManuallyRouted="true" >
+          <ConnectorPoint PointX="9.21875" PointY="3.6244921874999987" />
+          <ConnectorPoint PointX="9.21875" PointY="8.319812529493845" />
+          <ConnectorPoint PointX="10" PointY="8.319812529493845" />
+        </AssociationConnector>
+        <EntityTypeShape EntityType="dbHeredadesModel.vDeudaProveedor" Width="1.5" PointX="10.75" PointY="0.875" />
+        <EntityTypeShape EntityType="dbHeredadesModel.tbPagoProveedor" Width="1.5" PointX="11.125" PointY="4.125" />
+        <AssociationConnector Association="dbHeredadesModel.FK_tbPagoProveedor_tbProveedor" />
+        <AssociationConnector Association="dbHeredadesModel.FK_tbPagoProveedor_tbUsuario" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

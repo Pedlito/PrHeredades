@@ -46,6 +46,20 @@ namespace PrHeredades.Models
             return user.nombre;
         }
 
+        public static int ObtenerRol()
+        {
+            Usuario user = new Usuario();
+            if (HttpContext.Current.User != null && HttpContext.Current.User.Identity is FormsIdentity)
+            {
+                FormsAuthenticationTicket ticket = ((FormsIdentity)HttpContext.Current.User.Identity).Ticket;
+                if (ticket != null)
+                {
+                    user = JsonConvert.DeserializeObject<Usuario>(ticket.UserData);
+                }
+            }
+            return user.codRol;
+        }
+
         public static void Iniciar(Usuario usuario)
         {
             bool persist = true;
@@ -75,6 +89,9 @@ namespace PrHeredades.Models
         Catalogos = 1,
         Usuarios = 2,
         Inventario = 3,
-        Roles = 4
+        Roles = 4,
+        Proveedores = 5,
+        Compras = 6,
+        Salidas = 7
     }
 }

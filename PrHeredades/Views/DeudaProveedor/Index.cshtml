@@ -1,0 +1,74 @@
+﻿@model IEnumerable<PrHeredades.Models.vDeudaProveedor>
+@using PrHeredades.Models
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Deudas a proveedores</h2>
+
+<hr />
+<!-- Filtros -->
+<form action="@Url.Action("Index")" method="get" class="form-group">
+    <div class="row">
+        <div class="col-md-4">
+            <input type="text" placeholder="Nombre de proveedor" class="form-control form-control-sm" id="filtro" name="filtro" value="@ViewBag.filtro" autocomplete="off" />
+        </div>
+        <button type="submit" class="btn btn-info btn-sm">
+            <span class="fa fa-search"></span> Filtrar
+        </button>
+    </div>
+</form>
+<hr />
+
+<table class="table table-sm table-hover">
+    <thead>
+        <tr class="table-primary">
+            <th scope="col">
+                Proveedor
+            </th>
+            <th scope="col">
+                Teléfono
+            </th>
+            <th scope="col">
+                Deuda
+            </th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td class="align-middle">
+                    @item.proveedor
+                </td>
+                <td class="align-middle">
+                    @item.telefono
+                </td>
+                <td class="align-middle">
+                    @if (item.deuda == 0 || item.deuda == null)
+                    {
+                        <text>No tiene deuda</text>
+                    }
+                    else
+                    {
+                        <text>Q @item.deuda</text>
+                    }
+                </td>
+                <td class="align-middle">
+                    <a href="@Url.Action("Pagar", new { id = item.codProveedor })" class="btn btn-primary btn-sm">
+                        <span class="fa fa-money"></span> Pagar
+                    </a>
+                    <a href="@Url.Action("VerPagos", new { id = item.codProveedor })" class="btn btn-warning btn-sm">
+                        <span class="fa fa-list"></span> Pagos
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>
+
+@Html.Partial("_Paginacion", (Paginacion)ViewBag.paginacion)

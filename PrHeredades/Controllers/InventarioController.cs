@@ -1,0 +1,22 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using PrHeredades.Tags;
+using PrHeredades.Models;
+
+namespace PrHeredades.Controllers
+{
+    [TagAutenticacion]
+    public class InventarioController : Controller
+    {
+        // GET: Inventario
+        public ActionResult Index()
+        {
+            dbHeredadesEntities db = new dbHeredadesEntities();
+            List<vExistencias> lista = db.vExistencias.OrderBy(t => t.producto).ToList();
+            return View(lista);
+        }
+    }
+}

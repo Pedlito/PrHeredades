@@ -1,25 +1,19 @@
-﻿@model IEnumerable<PrHeredades.Models.tbUsuario>
+﻿@model IEnumerable<PrHeredades.Models.tbPagoProveedor>
 @using PrHeredades.Models
 
 @{
     ViewBag.Title = "Index";
 }
 
-<h2>Usuarios</h2>
-
-<p>
-    <a class="btn btn-success" href="@Url.Action("Crear")">
-        <span class="fa fa-user-plus"></span> Nuevo usuario
-    </a>
-</p>
+<h2>Pagos realizados a <strong>@ViewBag.proveedor</strong></h2>
 
 <hr />
 <!-- Filtros -->
-<form action="@Url.Action("Index")" method="get" class="form-group">
+<form action="@Url.Action("VerPagos")" method="get" class="form-group">
     @Html.Partial("_Estado", (bool)ViewBag.estado)
     <div class="row">
         <div class="col-md-4">
-            <input type="text" placeholder="Nombre del usuario" class="form-control form-control-sm" id="filtro" name="filtro" value="@ViewBag.filtro" autocomplete="off" />
+            <input type="date" class="form-control form-control-sm" id="filtro" name="filtro" value="@ViewBag.filtro" autocomplete="off" />
         </div>
         <button type="submit" class="btn btn-info btn-sm">
             <span class="fa fa-search"></span> Filtrar
@@ -32,13 +26,13 @@
     <thead>
         <tr class="table-primary">
             <th scope="col">
-                Nombre
+                Fecha
+            </th>
+            <th scope="col">
+                Pago
             </th>
             <th scope="col">
                 Usuario
-            </th>
-            <th scope="col">
-                Rol
             </th>
             <th scope="col" class="text-center">
                 Estado
@@ -52,13 +46,13 @@
         {
             <tr>
                 <td class="align-middle">
-                    @item.nombre
+                    @item.fecha.Value.ToLongDateString()
                 </td>
                 <td class="align-middle">
-                    @item.usuario
+                    Q @item.pago
                 </td>
                 <td class="align-middle">
-                    @item.tbRol.rol
+                    @item.tbUsuario.nombre
                 </td>
                 <td class="align-middle text-center">
                     @if (item.estado.Value)
@@ -71,10 +65,10 @@
                     }
                 </td>
                 <td class="align-middle">
-                    <a href="@Url.Action("Editar", new { id = item.codUsuario })" class="btn btn-warning btn-sm">
-                        <span class="fa fa-edit"></span> Editar
+                    <a href="@Url.Action("DetallePago", new { id = item.codPagoProveedor })" class="btn btn-sm btn-warning">
+                        <span class="fa fa-list"></span> Detalles
                     </a>
-                    <a href="@Url.Action("CambiarEstado", new { id = item.codUsuario })" class="align-middle">
+                    <a href="@Url.Action("CambiarEstado", new { id = item.codPagoProveedor })" class="align-middle">
                         @if (item.estado.Value)
                         {
                             <text>Deshabilitar</text>
@@ -92,3 +86,7 @@
 </table>
 
 @Html.Partial("_Paginacion", (Paginacion)ViewBag.paginacion)
+
+<a class="btn btn-dark" href="@Url.Action("Index", "DeudaProveedor")">
+    <span class="fa fa-arrow-left"></span> Regresar
+</a>

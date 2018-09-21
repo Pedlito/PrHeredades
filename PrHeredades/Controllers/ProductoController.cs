@@ -5,9 +5,11 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using PrHeredades.Tags;
 
 namespace PrHeredades.Controllers
 {
+    [TagAutenticacion]
     public class ProductoController : Controller
     {
         private readonly int registrosPagina = 10;
@@ -129,6 +131,8 @@ namespace PrHeredades.Controllers
                     if (!editadas.Contains(i))
                     {
                         guardadas[i].correlativo = 0;
+                        // hay que deshabilitarla en todos los productoProveedores
+                        db.DeshabilitarProductos(guardadas[i].codProducto, guardadas[i].codPresentacion);
                     }
                 }
                 db.SaveChanges();
