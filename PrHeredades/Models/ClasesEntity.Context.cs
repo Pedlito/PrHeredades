@@ -27,21 +27,24 @@ namespace PrHeredades.Models
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<d> tbPermiso { get; set; }
-        public virtual DbSet<tbRol> tbRol { get; set; }
-        public virtual DbSet<tbRolPermiso> tbRolPermiso { get; set; }
-        public virtual DbSet<tbUsuario> tbUsuario { get; set; }
         public virtual DbSet<tbCategoria> tbCategoria { get; set; }
+        public virtual DbSet<tbDeudor> tbDeudor { get; set; }
+        public virtual DbSet<tbPagoProveedor> tbPagoProveedor { get; set; }
+        public virtual DbSet<tbPermiso> tbPermiso { get; set; }
         public virtual DbSet<tbPresentacion> tbPresentacion { get; set; }
         public virtual DbSet<tbProducto> tbProducto { get; set; }
         public virtual DbSet<tbProductoPresentacion> tbProductoPresentacion { get; set; }
         public virtual DbSet<tbProductoProveedor> tbProductoProveedor { get; set; }
-        public virtual DbSet<tbProveedor> tbProveedor { get; set; }
         public virtual DbSet<tbProductoTransaccion> tbProductoTransaccion { get; set; }
+        public virtual DbSet<tbProveedor> tbProveedor { get; set; }
+        public virtual DbSet<tbRol> tbRol { get; set; }
+        public virtual DbSet<tbRolPermiso> tbRolPermiso { get; set; }
         public virtual DbSet<tbTransaccion> tbTransaccion { get; set; }
-        public virtual DbSet<vExistencias> vExistencias { get; set; }
+        public virtual DbSet<tbUsuario> tbUsuario { get; set; }
+        public virtual DbSet<tbVenta> tbVenta { get; set; }
+        public virtual DbSet<tbVentaProducto> tbVentaProducto { get; set; }
         public virtual DbSet<vDeudaProveedor> vDeudaProveedor { get; set; }
-        public virtual DbSet<tbPagoProveedor> tbPagoProveedor { get; set; }
+        public virtual DbSet<vExistencias> vExistencias { get; set; }
     
         public virtual int DeshabilitarProductos(Nullable<int> codProd, Nullable<int> codPres)
         {

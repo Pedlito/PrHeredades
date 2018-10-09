@@ -1,4 +1,4 @@
-﻿@model IEnumerable<PrHeredades.Models.vExistencias>
+﻿@model IEnumerable<PrHeredades.Models.tbProductoPresentacion>
 
 @{
     ViewBag.Title = "Crear";
@@ -28,10 +28,10 @@
         {
             <tr>
                 <td class="align-middle">
-                    @item.producto
+                    @item.tbProducto.producto
                 </td>
                 <td class="align-middle">
-                    @item.presentacion
+                    @item.tbPresentacion.presentacion
                 </td>
                 <td class="align-middle text-center">
                     @item.existencia

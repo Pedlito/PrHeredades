@@ -19,6 +19,7 @@ namespace PrHeredades.Models
         {
             this.tbProductoProveedor = new HashSet<tbProductoProveedor>();
             this.tbProductoTransaccion = new HashSet<tbProductoTransaccion>();
+            this.tbVentaProducto = new HashSet<tbVentaProducto>();
         }
     
         public int codProducto { get; set; }
@@ -26,6 +27,7 @@ namespace PrHeredades.Models
         public Nullable<decimal> precioVenta { get; set; }
         public Nullable<short> unidades { get; set; }
         public Nullable<short> correlativo { get; set; }
+        public Nullable<decimal> existencia { get; set; }
     
         public virtual tbPresentacion tbPresentacion { get; set; }
         public virtual tbProducto tbProducto { get; set; }
@@ -33,5 +35,7 @@ namespace PrHeredades.Models
         public virtual ICollection<tbProductoProveedor> tbProductoProveedor { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tbProductoTransaccion> tbProductoTransaccion { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tbVentaProducto> tbVentaProducto { get; set; }
     }
 }

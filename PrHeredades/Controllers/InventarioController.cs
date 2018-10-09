@@ -15,7 +15,7 @@ namespace PrHeredades.Controllers
         public ActionResult Index()
         {
             dbHeredadesEntities db = new dbHeredadesEntities();
-            List<vExistencias> lista = db.vExistencias.OrderBy(t => t.producto).ToList();
+            List<tbProductoPresentacion> lista = db.tbProductoPresentacion.OrderBy(t => t.tbProducto.producto).ToList();
             return View(lista);
         }
     }

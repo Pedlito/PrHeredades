@@ -12,26 +12,22 @@ namespace PrHeredades.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class tbUsuario
+    public partial class tbDeudor
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public tbUsuario()
+        public tbDeudor()
         {
-            this.tbPagoProveedor = new HashSet<tbPagoProveedor>();
-            this.tbTransaccion = new HashSet<tbTransaccion>();
+            this.tbVenta = new HashSet<tbVenta>();
         }
     
-        public int codUsuario { get; set; }
-        public int codRol { get; set; }
-        public string usuario { get; set; }
+        public int codDeudor { get; set; }
         public string nombre { get; set; }
-        public string password { get; set; }
-        public Nullable<bool> estado { get; set; }
+        public string telefono { get; set; }
+        public string residencia { get; set; }
+        public string refUno { get; set; }
+        public string refDos { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tbPagoProveedor> tbPagoProveedor { get; set; }
-        public virtual tbRol tbRol { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tbTransaccion> tbTransaccion { get; set; }
+        public virtual ICollection<tbVenta> tbVenta { get; set; }
     }
 }

@@ -1,0 +1,48 @@
+﻿@model IEnumerable<PrHeredades.Models.tbDeudor>
+
+@if (Model.Count() > 0)
+{
+    <table class="table table-sm table-hover">
+        <thead>
+            <tr class="table-primary">
+                <th scope="col">
+                    Nombre
+                </th>
+                <th>
+                    Residencia
+                </th>
+                <th scope="col">
+                    Teléfono
+                </th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td class="align-middle">
+                        @item.nombre
+                    </td>
+                    <td class="align-middle">
+                        @item.residencia
+                    </td>
+                    <td class="align-middle">
+                        @item.telefono
+                    </td>
+                    <td class="align-middle">
+                        <button type="button" class="btn btn-primary btn-sm" onclick="VentaCredito(@item.codDeudor)">
+                            <span class="fa fa-check"></span> Seleccionar
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
+}
+else
+{
+    <h3>No existe un cliente con esa caracteristica</h3>
+}

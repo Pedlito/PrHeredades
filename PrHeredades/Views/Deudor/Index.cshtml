@@ -1,0 +1,75 @@
+﻿@model IEnumerable<PrHeredades.Models.tbDeudor>
+@using PrHeredades.Models;
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Deudor</h2>
+
+<p>
+    <a class="btn btn-success" href="@Url.Action("Crear")">
+        <span class="fa fa-plus"></span> Nuevo deudor
+    </a>
+</p>
+
+<hr />
+<!-- Filtros -->
+<form action="@Url.Action("Index")" method="get" class="form-group">
+    <div class="row">
+        <div class="col-md-4">
+            <input type="text" placeholder="Nombre del deudor" class="form-control form-control-sm" id="filtro" name="filtro" value="@ViewBag.filtro" autocomplete="off" />
+        </div>
+        <button type="submit" class="btn btn-info btn-sm">
+            <span class="fa fa-search"></span> Filtrar
+        </button>
+    </div>
+</form>
+<hr />
+
+<table class="table table-sm table-hover">
+    <thead>
+        <tr class="table-primary">
+            <th scope="col">
+                Nombre
+            </th>
+            <th scope="col" class="text-center">
+                Teléfono
+            </th>
+            <th scope="col" class="text-center">
+                Residencia
+            </th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td class="align-middle">
+                    @item.nombre
+                </td>
+                <td class="align-middle">
+                    @item.telefono
+                </td>
+                <td class="align-middle">
+                    @item.residencia
+                </td>
+                <td class="align-middle">
+                    <a href="@Url.Action("Editar", new { id = item.codDeudor })" class="btn btn-warning btn-sm">
+                        <span class="fa fa-edit"></span> Editar
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>
+
+@Html.Partial("_Paginacion", (Paginacion)ViewBag.paginacion)
+
+<a class="btn btn-dark" href="@Url.Action("Catalogos", "Home")">
+    <span class="fa fa-arrow-left"></span> Regresar
+</a>
+

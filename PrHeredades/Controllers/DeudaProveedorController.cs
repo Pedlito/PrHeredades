@@ -19,7 +19,7 @@ namespace PrHeredades.Controllers
             dbHeredadesEntities db = new dbHeredadesEntities();
             List<vDeudaProveedor> lista = db.vDeudaProveedor.Where(t => t.proveedor.Contains(filtro)).ToList();
             int paginas = (int)Math.Ceiling((double)lista.Count() / registrosPagina);
-            Paginacion paginacion = new Paginacion(pagina, paginas, "Index", "Presentacion");
+            Paginacion paginacion = new Paginacion(pagina, paginas, "Index", "DeudaProveedor");
             ViewBag.paginacion = paginacion;
             ViewBag.filtro = filtro;
             ViewBag.estado = estado;

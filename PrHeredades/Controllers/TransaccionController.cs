@@ -37,7 +37,7 @@ namespace PrHeredades.Controllers
                          select t).ToList();
             }
             int paginas = (int)Math.Ceiling((double)lista.Count() / registrosPagina);
-            Paginacion paginacion = new Paginacion(pagina, paginas, "Index", "Categoria");
+            Paginacion paginacion = new Paginacion(pagina, paginas, "Index", "Transaccion");
             ViewBag.paginacion = paginacion;
             ViewBag.filtro = filtro;
             ViewBag.estado = estado;
@@ -73,12 +73,12 @@ namespace PrHeredades.Controllers
                     fecha = DateTime.Now,
                     estado = true
                 };
-                decimal total = 0;
                 foreach (tbProductoTransaccion item in lista)
                 {
                     item.precioCompra = db.tbProductoProveedor.Find(codProveedor, item.codProducto, item.codPresentacion).precioCompra;
                     nuevaEntrada.tbProductoTransaccion.Add(item);
-                    total += item.precioCompra.Value;
+                    tbProductoPresentacion prod = db.tbProductoPresentacion.Find(item.codProducto, item.codPresentacion);
+                    prod.existencia += item.cantidad;
                 }
                 db.tbTransaccion.Add(nuevaEntrada);
                 db.SaveChanges();
@@ -125,7 +125,7 @@ namespace PrHeredades.Controllers
                          select t).ToList();
             }
             int paginas = (int)Math.Ceiling((double)lista.Count() / registrosPagina);
-            Paginacion paginacion = new Paginacion(pagina, paginas, "Index", "Categoria");
+            Paginacion paginacion = new Paginacion(pagina, paginas, "Index", "Transaccion");
             ViewBag.paginacion = paginacion;
             ViewBag.filtro = filtro;
             ViewBag.estado = estado;
@@ -162,8 +162,9 @@ namespace PrHeredades.Controllers
                 };
                 foreach (tbProductoTransaccion item in lista)
                 {
-                    item.cantidad *= -1;
                     nuevaEntrada.tbProductoTransaccion.Add(item);
+                    tbProductoPresentacion prod = db.tbProductoPresentacion.Find(item.codProducto, item.codPresentacion);
+                    prod.existencia -= item.cantidad;
                 }
                 db.tbTransaccion.Add(nuevaEntrada);
                 db.SaveChanges();
@@ -204,13 +205,38 @@ namespace PrHeredades.Controllers
             dbHeredadesEntities db = new dbHeredadesEntities();
             tbTransaccion transaccion = db.tbTransaccion.Find(id);
             transaccion.estado = !(transaccion.estado.Value);
-            db.SaveChanges();
             if (transaccion.codTipoTransaccion == 1)
             {
+                foreach (tbProductoTransaccion item in transaccion.tbProductoTransaccion)
+                {
+                    tbProductoPresentacion prod = db.tbProductoPresentacion.Find(item.codProducto, item.codPresentacion);
+                    if (transaccion.estado.Value)
+                    {
+                        prod.existencia += item.cantidad;
+                    }
+                    else
+                    {
+                        prod.existencia -= item.cantidad;
+                    }
+                }
+                db.SaveChanges();
                 return RedirectToAction("Entradas");
             }
             else
             {
+                foreach (tbProductoTransaccion item in transaccion.tbProductoTransaccion)
+                {
+                    tbProductoPresentacion prod = db.tbProductoPresentacion.Find(item.codProducto, item.codPresentacion);
+                    if (transaccion.estado.Value)
+                    {
+                        prod.existencia -= item.cantidad;
+                    }
+                    else
+                    {
+                        prod.existencia += item.cantidad;
+                    }
+                }
+                db.SaveChanges();
                 return RedirectToAction("Salidas");
             }
         }

@@ -159,6 +159,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\CategoriaController.cs" />
     <Compile Include="Controllers\DeudaProveedorController.cs" />
+    <Compile Include="Controllers\DeudorController.cs" />
     <Compile Include="Controllers\InventarioController.cs" />
     <Compile Include="Controllers\PresentacionController.cs" />
     <Compile Include="Controllers\ProductoController.cs" />
@@ -169,6 +170,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\TransaccionController.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
+    <Compile Include="Controllers\VentaController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -187,17 +189,21 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ClasesEntity.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Models\d.cs">
-      <DependentUpon>ClasesEntity.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\Paginacion.cs" />
     <Compile Include="Models\ProductoPresentaciones.cs" />
     <Compile Include="Models\ProductoSalida.cs" />
+    <Compile Include="Models\ProductoVenta.cs" />
     <Compile Include="Models\Sesion.cs" />
     <Compile Include="Models\tbCategoria.cs">
       <DependentUpon>ClasesEntity.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\tbDeudor.cs">
+      <DependentUpon>ClasesEntity.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\tbPagoProveedor.cs">
+      <DependentUpon>ClasesEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tbPermiso.cs">
       <DependentUpon>ClasesEntity.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\tbPresentacion.cs">
@@ -228,6 +234,12 @@
       <DependentUpon>ClasesEntity.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\tbUsuario.cs">
+      <DependentUpon>ClasesEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tbVenta.cs">
+      <DependentUpon>ClasesEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tbVentaProducto.cs">
       <DependentUpon>ClasesEntity.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Usuario.cs" />
@@ -410,6 +422,11 @@
     <Content Include="Views\DeudaProveedor\VerPagos.cshtml" />
     <Content Include="Views\DeudaProveedor\DetallePago.cshtml" />
     <Content Include="Views\DeudaProveedor\CambiarEstado.cshtml" />
+    <Content Include="Views\Deudor\Index.cshtml" />
+    <Content Include="Views\Venta\Index.cshtml" />
+    <Content Include="Views\Venta\Vender.cshtml" />
+    <Content Include="Views\Venta\_ProductosVenta.cshtml" />
+    <Content Include="Views\Venta\_Clientes.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -18,6 +18,6 @@ namespace PrHeredades.Models
         public string producto { get; set; }
         public int codPresentacion { get; set; }
         public string presentacion { get; set; }
-        public Nullable<int> existencia { get; set; }
+        public Nullable<decimal> existencia { get; set; }
     }
 }
