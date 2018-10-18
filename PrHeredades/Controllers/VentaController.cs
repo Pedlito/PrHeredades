@@ -13,31 +13,55 @@ namespace PrHeredades.Controllers
     public class VentaController : Controller
     {
         private readonly int registrosPagina = 10;
+        // true = al contado, false = al credito
         // GET: Venta
-        public ActionResult Index(int pagina = 1, string filtro = "", bool estado = true)
+
+        public ActionResult Index(int pagina = 1, string filtro = "", bool tipoVenta = true, bool estado = true)
         {
             dbHeredadesEntities db = new dbHeredadesEntities();
             List<tbVenta> lista;
             if (filtro != "")
             {
                 DateTime fecha = DateTime.Parse(filtro);
-                lista = (from t in db.tbVenta
-                         where DbFunctions.TruncateTime(t.fecha) == fecha && t.estado == estado
-                         orderby t.fecha descending
-                         select t).ToList();
+                if (tipoVenta)
+                {
+                    lista = (from t in db.tbVenta
+                             where DbFunctions.TruncateTime(t.fecha) == fecha && t.codDeudor == null && t.estado == estado
+                             orderby t.fecha descending
+                             select t).ToList();
+                }
+                else
+                {
+                    lista = (from t in db.tbVenta
+                             where DbFunctions.TruncateTime(t.fecha) == fecha && t.codDeudor != null && t.estado == estado
+                             orderby t.fecha descending
+                             select t).ToList();
+                }
+
             }
             else
             {
-                lista = (from t in db.tbVenta
-                         where t.estado == estado
-                         orderby t.fecha descending
-                         select t).ToList();
+                if (tipoVenta)
+                {
+                    lista = (from t in db.tbVenta
+                             where t.codDeudor == null && t.estado == estado
+                             orderby t.fecha descending
+                             select t).ToList();
+                }
+                else
+                {
+                    lista = (from t in db.tbVenta
+                             where t.codDeudor != null && t.estado == estado
+                             orderby t.fecha descending
+                             select t).ToList();
+                }
             }
             int paginas = (int)Math.Ceiling((double)lista.Count() / registrosPagina);
             Paginacion paginacion = new Paginacion(pagina, paginas, "Index", "Categoria");
             ViewBag.paginacion = paginacion;
             ViewBag.filtro = filtro;
             ViewBag.estado = estado;
+            ViewBag.tipoVenta = tipoVenta;
             return View(lista.Skip((pagina - 1) * registrosPagina).Take(registrosPagina));
         }
 
@@ -45,26 +69,57 @@ namespace PrHeredades.Controllers
         {
             dbHeredadesEntities db = new dbHeredadesEntities();
             List<tbProducto> productos = db.tbProducto.OrderBy(t => t.producto).ToList();
-            ViewBag.codPresentacion = new SelectList(new List<tbPresentacion>(), "codPresentacion", "presentacion");
             ViewBag.codProducto = new SelectList(productos, "codProducto", "producto");
+            ViewBag.codPresentacion = new SelectList(new List<tbPresentacion>(), "codPresentacion", "presentacion");
             return View();
         }
 
         [HttpPost]
-        public int VenderContado(List<tbVentaProducto> lista)
+        public int Vender(List<tbVentaProducto> lista, int? codDeudor)
         {
             try
             {
                 dbHeredadesEntities db = new dbHeredadesEntities();
+                //con la lista, comprobar que hay existencia de cada producto y si no transaformar en cascada, si no existe ningun producto, enviar notificación
                 tbVenta venta = new tbVenta
                 {
                     fecha = DateTime.Now,
                     estado = true
                 };
+                if (codDeudor != null)
+                {
+                    venta.codDeudor = codDeudor;
+                }
                 foreach (tbVentaProducto item in lista)
                 {
-                    item.precioVenta = db.tbProductoPresentacion.Find(item.codProducto, item.codPresentacion).precioVenta;
-                    venta.tbVentaProducto.Add(item);
+                    //si el producto tiene existencia con esa presentacion
+                    if (TieneExistencia(item.codProducto, item.codPresentacion, item.cantidad.Value))
+                    {
+                        tbProductoPresentacion prodPres = db.tbProductoPresentacion.Find(item.codProducto, item.codPresentacion);
+                        //se agregar el precio de venta actual y se agrega a la venta
+                        item.precioVenta = prodPres.precioVenta;
+                        venta.tbVentaProducto.Add(item);
+                        //se reduce la venta a la existencia
+                        prodPres.existencia -= item.cantidad;
+                    }
+                    else
+                    {
+                        //si no, se intenta realizar una conversión del producto con la presentacion
+                        tbProductoPresentacion prod = db.tbProductoPresentacion.Find(item.codProducto, item.codPresentacion);
+                        if (Convertir(prod))
+                        {
+                            //si se logra realizar la conversion
+                            //se agregar el precio de venta actual y se agrega a la venta
+                            item.precioVenta = prod.precioVenta;
+                            venta.tbVentaProducto.Add(item);
+                            //se reduce la venta a la existencia
+                            prod.existencia -= item.cantidad;
+                        }
+                        else
+                        {
+                            //se informa de la falta de producto
+                        }
+                    }
                 }
                 db.tbVenta.Add(venta);
                 db.SaveChanges();
@@ -128,6 +183,56 @@ namespace PrHeredades.Controllers
                              t.tbPresentacion.presentacion
                          }).ToList();
             return Json(lista);
+        }
+
+        //Se encarga de toda la logica previa a realizar una conversión
+        public bool Convertir(tbProductoPresentacion prod)
+        {
+            dbHeredadesEntities db = new dbHeredadesEntities();
+            tbProductoPresentacion correlativoMayor = db.tbProductoPresentacion.Where(t => t.codProducto == prod.codProducto && t.correlativo == (prod.correlativo + 1)).SingleOrDefault();
+            if (correlativoMayor != null)
+            {
+                //si existe un correlativo mayor se verifica si tiene existencia 
+                if (correlativoMayor.existencia > 0)
+                {
+                    //si tiene al menos una unidad de existencia, se realiza la conversión
+                    tbProductoPresentacion mayor = db.tbProductoPresentacion.Where(t => t.codProducto == prod.codProducto && t.correlativo == (prod.correlativo + 1)).SingleOrDefault();
+                    mayor.existencia -= 1;
+                    prod.existencia += mayor.unidades;
+                    db.SaveChanges();
+
+                    return true;
+                }
+                else
+                {
+                    //si no tiene nada en existencia se intenta con un correlativo mayor
+                    if (Convertir(db.tbProductoPresentacion.Where(t => t.codProducto == prod.codProducto && t.correlativo == (prod.correlativo + 1)).SingleOrDefault()))
+                    {
+                        //se realiza conversion
+                        tbProductoPresentacion mayor = db.tbProductoPresentacion.Where(t => t.codProducto == prod.codProducto && t.correlativo == (prod.correlativo + 1)).SingleOrDefault();
+                        mayor.existencia -= 1;
+                        prod.existencia += mayor.unidades;
+                        db.SaveChanges();
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        //verifica si el producto tiene mas existencia que la compra
+        public bool TieneExistencia(int codProd, int codPres, decimal compra)
+        {
+            dbHeredadesEntities db = new dbHeredadesEntities();
+            decimal existencia = db.tbProductoPresentacion.Find(codProd, codPres).existencia.Value;
+            return (existencia >= compra);
         }
     }
 }

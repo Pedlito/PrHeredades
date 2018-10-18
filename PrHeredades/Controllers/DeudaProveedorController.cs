@@ -17,7 +17,7 @@ namespace PrHeredades.Controllers
         public ActionResult Index(int pagina = 1, string filtro = "", bool estado = true)
         {
             dbHeredadesEntities db = new dbHeredadesEntities();
-            List<vDeudaProveedor> lista = db.vDeudaProveedor.Where(t => t.proveedor.Contains(filtro)).ToList();
+            List<tbProveedor> lista = db.tbProveedor.Where(t => t.proveedor.Contains(filtro)).ToList();
             int paginas = (int)Math.Ceiling((double)lista.Count() / registrosPagina);
             Paginacion paginacion = new Paginacion(pagina, paginas, "Index", "DeudaProveedor");
             ViewBag.paginacion = paginacion;
@@ -36,9 +36,11 @@ namespace PrHeredades.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Pagar(FormCollection collection)
         {
             dbHeredadesEntities db = new dbHeredadesEntities();
+            // creo objeto representante del pago
             tbPagoProveedor pago = new tbPagoProveedor
             {
                 codProveedor = int.Parse(collection["codProveedor"]),
@@ -48,6 +50,10 @@ namespace PrHeredades.Controllers
                 descripcion = collection["descripcion"],
                 estado = true
             };
+            // llamo al proveedor para restarle la deuda
+            tbProveedor proveedor = db.tbProveedor.Find(pago.codProveedor);
+            proveedor.deuda -= pago.pago;
+            //agrego el pago a la tabla y guardo cambios
             db.tbPagoProveedor.Add(pago);
             db.SaveChanges();
             return RedirectToAction("Index");
@@ -95,8 +101,19 @@ namespace PrHeredades.Controllers
         public ActionResult CambiarEstado(int id, FormCollection collection)
         {
             dbHeredadesEntities db = new dbHeredadesEntities();
+            // obtengo el pago y le cambio el estado
             tbPagoProveedor pago = db.tbPagoProveedor.Find(id);
             pago.estado = !(pago.estado.Value);
+            // en este punto, el estado es el final, si es verdadero (se habilita) se resta de la deuda, si es falso (se deshabilito) sumar a la deuda
+            tbProveedor proveedor = db.tbProveedor.Find(pago.codProveedor);
+            if (pago.estado.Value)
+            {
+                proveedor.deuda -= pago.pago;
+            }
+            else
+            {
+                proveedor.deuda += pago.pago; 
+            }
             db.SaveChanges();
             return RedirectToAction("VerPagos", new { id = pago.codProveedor });
         }

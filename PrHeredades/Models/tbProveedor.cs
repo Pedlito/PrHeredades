@@ -27,6 +27,7 @@ namespace PrHeredades.Models
         public string telefono { get; set; }
         public string direccion { get; set; }
         public Nullable<bool> estado { get; set; }
+        public Nullable<decimal> deuda { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tbPagoProveedor> tbPagoProveedor { get; set; }

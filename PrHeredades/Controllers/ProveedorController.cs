@@ -42,6 +42,7 @@ namespace PrHeredades.Controllers
             if (!(db.tbProveedor.Any(t => t.proveedor == nuevo.proveedor)))
             {
                 nuevo.estado = true;
+                nuevo.deuda = 0;
                 db.tbProveedor.Add(nuevo);
                 db.SaveChanges();
                 return RedirectToAction("Productos", new { id = nuevo.codProveedor  });

@@ -7,6 +7,7 @@
 <h2>Vender</h2>
 <hr />
 <div class="form-group">
+    
     <h4>
         <div class="validation-summary-errors text-danger">
             <ul id="error">
@@ -24,7 +25,7 @@
 <hr />
 
 <div class="form-group col-md-6 text-center" style="padding-left:0; padding-right:0">
-    <button type="button" class="btn btn-primary" style="width: 150px" onclick="VentaContado()">
+    <button type="button" class="btn btn-primary" style="width: 150px" onclick="Vender(null)">
         <span class="fa fa-check"></span> Venta Contado
     </button>
     <button type="button" class="btn btn-warning" style="width: 150px" data-toggle="modal" data-target="#clientes">
@@ -161,6 +162,7 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     <script src="~/Scripts/jqueryValidator/productoProveedor.js"></script>
+    <script src="~/Scripts/jqueryValidator/deudor.js"></script>
     <script>
         var productos = [];
         var editar;
@@ -198,13 +200,13 @@
             }
         }
 
-        //Este es el método encargado de finalizar todo el proceso
-        function VentaContado() {
+        //Este es el método encargado de finalizar todo el proceso para una venta al contado
+        function Vender(codDeudor) {
             if (productos.length > 0) {
                 $.ajax({
-                    url: '@Url.Action("VenderContado")',
+                    url: '@Url.Action("Vender")',
                     type: "POST",
-                    data: { lista: productos },
+                    data: { lista: productos, codDeudor: codDeudor },
                     success: function (response) {
                         switch (parseInt(response)) {
                             case 1:
@@ -223,6 +225,7 @@
                 // no hay productos
                 // console.log("hola");
                 $('#error').html("<li>¡Debe agregar al menos un producto!</li>");
+                $('#clientes').modal('hide');
             }
         }
 
@@ -278,6 +281,37 @@
                     console.log(response);
                 }
             });
+        }
+
+        function CrearDeudor() {
+            if ($("#formDeudor").valid()) {
+                $('#nuevoCliente').modal('hide');
+                //enviar para crear deudor
+
+                var deudor = {
+                    nombre: $('#nombre').val(),
+                    telefono: $('#telefono').val(),
+                    residencia: $('#residencia').val(),
+                    refUno: $('#refUno').val(),
+                    refDos: $('#refDos').val()
+                };
+                console.log(deudor);
+
+                $.ajax({
+                    url: '@Url.Action("CrearDeudor", "Deudor")',
+                    type: "POST",
+                    data: { deudor: deudor },
+                    success: function (codDeudor) {
+                        Vender(codDeudor);
+                    },
+                    error: function (msg) {
+                        console.log(msg);
+                    }
+                });
+
+                $('#formDeudor').trigger("reset");
+                $('#error').empty();
+            }
         }
 
         function FiltrarClientes() {

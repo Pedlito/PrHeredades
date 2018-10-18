@@ -14,23 +14,28 @@ $.validator.addMethod(
     "Solo se permiten números"
 );
 
-$("#formProveedor").validate({
+$("#formDeudor").validate({
     errorClass: 'text-danger',
     errorElement: 'li',
     wrapper: 'ul',
     rules: {
-        proveedor: {
+        nombre: {
             required: true,
+            soloLetras: true,
             minlength: 3
         },
         telefono: {
+            required: true,
             soloNumeros: true
         }
     },
     messages: {
-        proveedor: {
-            required: "Ingrese el nombre del proveedor",
+        nombre: {
+            required: "Ingrese el nombre del cliente",
             minlength: jQuery.validator.format("Al menos {0} caracteres requeridos!")
+        },
+        telefono: {
+            required: "Ingrese el número telefónico del cliente",
         }
     }
 });

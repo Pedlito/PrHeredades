@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="b967befc1fd04a649064adbdb51b3f15" Name="Diagram1" ZoomLevel="101">
+      <Diagram DiagramId="b967befc1fd04a649064adbdb51b3f15" Name="Diagram1" ZoomLevel="85">
         <EntityTypeShape EntityType="dbHeredadesModel.tbCategoria" Width="1.5" PointX="0.75" PointY="5.125" />
         <EntityTypeShape EntityType="dbHeredadesModel.tbDeudor" Width="1.5" PointX="3" PointY="9.125" />
         <EntityTypeShape EntityType="dbHeredadesModel.tbPagoProveedor" Width="1.5" PointX="8.25" PointY="8.75" />
@@ -17,12 +17,10 @@
         <EntityTypeShape EntityType="dbHeredadesModel.tbProveedor" Width="1.5" PointX="5.25" PointY="0.75" />
         <EntityTypeShape EntityType="dbHeredadesModel.tbRol" Width="1.5" PointX="3.75" PointY="13.125" />
         <EntityTypeShape EntityType="dbHeredadesModel.tbRolPermiso" Width="1.5" PointX="6" PointY="17" />
-        <EntityTypeShape EntityType="dbHeredadesModel.tbTransaccion" Width="1.5" PointX="8.25" PointY="12.5" />
         <EntityTypeShape EntityType="dbHeredadesModel.tbUsuario" Width="1.5" PointX="6" PointY="12.625" />
         <EntityTypeShape EntityType="dbHeredadesModel.tbVenta" Width="1.5" PointX="5.25" PointY="9.125" />
         <EntityTypeShape EntityType="dbHeredadesModel.tbVentaProducto" Width="1.5" PointX="7.5" PointY="0.875" />
         <EntityTypeShape EntityType="dbHeredadesModel.vDeudaProveedor" Width="1.5" PointX="9.75" PointY="1.125" />
-        <EntityTypeShape EntityType="dbHeredadesModel.vExistencias" Width="1.5" PointX="10.75" PointY="8.125" />
         <AssociationConnector Association="dbHeredadesModel.FK_tbProducto_tbCategoria" />
         <AssociationConnector Association="dbHeredadesModel.FK_tbVenta_tbDeudor" />
         <AssociationConnector Association="dbHeredadesModel.FK_tbPagoProveedor_tbProveedor" />
@@ -34,12 +32,13 @@
         <AssociationConnector Association="dbHeredadesModel.FK_tbProductoTransaccion_tbProductoPresentacion1" />
         <AssociationConnector Association="dbHeredadesModel.FK_tbVentaProducto_tbProductoPresentacion" />
         <AssociationConnector Association="dbHeredadesModel.FK_tbProductoProveedor_tbProveedor" />
-        <AssociationConnector Association="dbHeredadesModel.FK_tbProductoTransaccion_tbTransaccion1" />
-        <AssociationConnector Association="dbHeredadesModel.FK_tbTransaccion_tbProveedor" />
         <AssociationConnector Association="dbHeredadesModel.FK_tbPermisoDenegado_tbRol" />
         <AssociationConnector Association="dbHeredadesModel.FK_tbUsuario_tbRol" />
-        <AssociationConnector Association="dbHeredadesModel.FK_tbTransaccion_tbUsuario" />
         <AssociationConnector Association="dbHeredadesModel.FK_tbVentaProducto_tbVenta" />
+        <EntityTypeShape EntityType="dbHeredadesModel.tbTransaccion" Width="1.5" PointX="11" PointY="10.75" />
+        <AssociationConnector Association="dbHeredadesModel.FK_tbProductoTransaccion_tbTransaccion1" />
+        <AssociationConnector Association="dbHeredadesModel.FK_tbTransaccion_tbProveedor" />
+        <AssociationConnector Association="dbHeredadesModel.FK_tbTransaccion_tbUsuario" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

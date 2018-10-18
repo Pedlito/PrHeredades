@@ -1,0 +1,227 @@
+﻿@model PrHeredades.Models.tbTransaccion
+
+@{
+    ViewBag.Title = "CrearPedido";
+}
+
+<form id="formTransaccion">
+    <h2>Pedir productos a <strong>@ViewBag.proveedor</strong></h2>
+    <hr />
+    <h4>
+        <div class="validation-summary-errors text-danger">
+            <ul id="error">
+                <!-- escribe el error de existencia -->
+            </ul>
+        </div>
+    </h4>
+    <div class="form-group">
+        <label for="descripcion" class="col-form-label">Descripción</label>
+        @Html.TextAreaFor(t => t.descripcion, new { @class = "form-control col-md-4", maxlength = "500" })
+    </div>
+</form>
+
+<div class="form-group">
+    <label class="col-form-label">Productos</label>
+    <div id="productos">
+
+    </div>
+    <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#agregarProducto">
+        <span class="fa fa-plus"></span> Agregar producto
+    </button>
+</div>
+
+<div class="form-group col-md-4 text-center" style="padding-left:0; padding-right:0">
+    <button type="submit" class="btn btn-primary" style="width: 150px" onclick="GuardarProductos()">
+        <span class="fa fa-check"></span> Guardar
+    </button>
+    <a href="@Url.Action("Pedidos")" class="btn btn-danger" style="width: 150px">
+        <span class="fa fa-times"></span> Cancelar
+    </a>
+</div>
+
+<!-- Modal Agregar Productos -->
+<div class="modal fade" id="agregarProducto" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Producto</h5>
+            </div>
+
+            <div class="modal-body">
+                <form id="agrProducto">
+                    <div class="form-group">
+                        <label for="codProducto" class="col-form-label">Producto</label>
+                        @Html.DropDownList("codProducto", null, "Elija un producto", htmlAttributes: new { @class = "form-control", onchange = "CargarPresentaciones(this.value)" })
+                    </div>
+
+                    <div class="form-group">
+                        <label for="codPresentacion" class="col-form-label">Presentación</label>
+                        @Html.DropDownList("codPresentacion", null, null, htmlAttributes: new { @class = "form-control" })
+                    </div>
+
+                    <div class="form-group text-center">
+                        <button type="button" class="btn btn-primary" onclick="AgregarProducto()" style="width: 150px">
+                            <span class="fa fa-plus"></span> Agregar
+                        </button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal" style="width: 150px" onclick="ResetearFormulario()">
+                            <span class="fa fa-times"></span> Cancelar
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/jqueryValidator/productoProveedor.js"></script>
+    <script src="~/Scripts/jqueryValidator/transaccion.js"></script>
+    <script>
+        var productos = [];
+        var editar;
+        var codProveedor = @ViewBag.codProveedor;
+
+        function CargarPresentaciones(codProducto) {
+            $('#codPresentacion').empty();
+            if (codProducto > 0) {
+                $.ajax({
+                    url: '@Url.Action("CargarPresentacionesEntrada")',
+                    type: "POST",
+                    data: { codProducto: codProducto, codProveedor: @ViewBag.codProveedor },
+                    success: function (response) {
+                        var usados = 0;
+                        response.forEach(function (item) {
+                            var codProducto = $('#codProducto').val();
+                            if (!Contiene(codProducto, item.codPresentacion)) {
+                                usados++;
+                                var option = $(document.createElement('option'));
+                                option.val(item.codPresentacion);
+                                option.text(item.presentacion);
+                                $("#codPresentacion").append(option);
+                            }
+                        });
+                        if (usados == 0) {
+                            var option = $(document.createElement('option'));
+                            option.val("");
+                            option.text("No hay mas presentaciones");
+                            $("#codPresentacion").append(option);
+                        }
+                    },
+                    error: function (msg) {
+                        console.log(msg);
+                    }
+                });
+            }
+        }
+
+        //Este es el método encargado de finalizar todo el proceso
+        function GuardarProductos() {
+            if ($('#formTransaccion').valid()) {
+                if (productos.length > 0) {
+                    $.ajax({
+                        url: '@Url.Action("CrearPedido")',
+                        type: "POST",
+                        data: { codProveedor: codProveedor, lista: productos, descripcion: $('#descripcion').val() },
+                        success: function (response) {
+                            switch (parseInt(response)) {
+                                case 1:
+                                    window.location.href = "@Url.Action("Pedidos")";
+                                    break;
+                                default:
+                                    $('#error').html("<li>¡Error al ingresar datos!</li>");
+                            };
+                        },
+                        error: function (response) {
+                            console.log(response);
+                        }
+                    });
+                }
+                else {
+                    // no hay productos
+                    $('#error').html("<li>¡Debe agregar al menos un producto!</li>");
+                }
+            }
+        }
+
+        function AgregarProducto() {
+            if ($("#agrProducto").valid()) {
+                $('#agregarProducto').modal('hide');
+                Agregar();
+                $('#agrProducto').trigger("reset");
+                $('#codPresentacion').empty();
+                $('#error').empty();
+            }
+        }
+
+        function CambiarCantidad(codProducto, codPresentacion, cantidad) {
+            var index = productos.findIndex(t => t.codProducto == codProducto && t.codPresentacion == codPresentacion);
+            if (cantidad.value != "" && cantidad.value > 0) {
+                productos[index].cantidad = cantidad.value;
+                ListarProductos();
+            }
+            else {
+                productos[index].cantidad = "1";
+                $(cantidad).val(1);
+                ListarProductos();
+            }
+        }
+
+        function Quitar(codProducto, codPresentacion) {
+            var index = productos.findIndex(t => t.codProducto == codProducto && t.codPresentacion == codPresentacion);
+            if (index > -1) {
+                productos.splice(index, 1);
+                ListarProductos();
+            }
+        }
+
+        function Agregar() {
+            productos.push({
+                codProducto: $('#codProducto').val(),
+                codPresentacion: $('#codPresentacion').val(),
+                cantidad: "1"
+            });
+            ListarProductos();
+        }
+
+        function ListarProductos() {
+            $.ajax({
+                url: '@Url.Action("ListarProductosEntrada")',
+                type: 'POST',
+                data: { codProveedor: codProveedor, lista: productos },
+                success: function (response) {
+                    $('#productos').html(response);
+                },
+                error: function (response) {
+                    console.log(response);
+                }
+            });
+        }
+
+        function ValidarNumero(evt) {
+            var charCode = (evt.which) ? evt.which : event.keyCode
+            if (charCode > 31 && (charCode < 48 || charCode > 57))
+                return false;
+            return true;
+        }
+
+        function Contiene(codProd, codPres) {
+            var encontrado = false;
+            var i = 0;
+            while (!encontrado && productos.length > i) {
+                if (productos[i].codProducto == codProd && productos[i].codPresentacion == codPres) {
+                    encontrado = true;
+                }
+                i++;
+            }
+            return encontrado;
+        }
+
+        function ResetearFormulario(accion) {
+            $('#agrProducto').trigger("reset");
+            $('#codPresentacion').empty();
+        }
+    </script>
+}

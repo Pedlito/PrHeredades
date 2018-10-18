@@ -104,6 +104,7 @@
           <Property Name="telefono" Type="varchar" MaxLength="10" />
           <Property Name="direccion" Type="varchar" MaxLength="50" />
           <Property Name="estado" Type="bit" />
+          <Property Name="deuda" Type="decimal" Precision="8" Scale="2" />
         </EntityType>
         <EntityType Name="tbRol">
           <Key>
@@ -176,19 +177,6 @@ advertencia 6002: La tabla o vista 'dbHeredades.dbo.vDeudaProveedor' no tiene de
           <Property Name="proveedor" Type="varchar" MaxLength="50" />
           <Property Name="telefono" Type="varchar" MaxLength="10" />
           <Property Name="deuda" Type="decimal" Precision="13" Scale="2" />
-        </EntityType>
-        <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'dbHeredades.dbo.vExistencias' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
-        <EntityType Name="vExistencias">
-          <Key>
-            <PropertyRef Name="codProducto" />
-            <PropertyRef Name="codPresentacion" />
-          </Key>
-          <Property Name="codProducto" Type="int" Nullable="false" />
-          <Property Name="producto" Type="varchar" MaxLength="50" />
-          <Property Name="codPresentacion" Type="int" Nullable="false" />
-          <Property Name="presentacion" Type="varchar" MaxLength="50" />
-          <Property Name="existencia" Type="decimal" Precision="14" Scale="2" />
         </EntityType>
         <Association Name="FK_tbPagoProveedor_tbProveedor">
           <End Role="tbProveedor" Type="Self.tbProveedor" Multiplicity="0..1" />
@@ -429,15 +417,6 @@ advertencia 6002: La tabla o vista 'dbHeredades.dbo.vExistencias' no tiene defin
     [vDeudaProveedor].[deuda] AS [deuda]
     FROM [dbo].[vDeudaProveedor] AS [vDeudaProveedor]</DefiningQuery>
           </EntitySet>
-          <EntitySet Name="vExistencias" EntityType="Self.vExistencias" store:Type="Views" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [vExistencias].[codProducto] AS [codProducto], 
-    [vExistencias].[producto] AS [producto], 
-    [vExistencias].[codPresentacion] AS [codPresentacion], 
-    [vExistencias].[presentacion] AS [presentacion], 
-    [vExistencias].[existencia] AS [existencia]
-    FROM [dbo].[vExistencias] AS [vExistencias]</DefiningQuery>
-          </EntitySet>
           <AssociationSet Name="FK_tbPagoProveedor_tbProveedor" Association="Self.FK_tbPagoProveedor_tbProveedor">
             <End Role="tbProveedor" EntitySet="tbProveedor" />
             <End Role="tbPagoProveedor" EntitySet="tbPagoProveedor" />
@@ -528,12 +507,10 @@ advertencia 6002: La tabla o vista 'dbHeredades.dbo.vExistencias' no tiene defin
           <EntitySet Name="tbProveedor" EntityType="dbHeredadesModel.tbProveedor" />
           <EntitySet Name="tbRol" EntityType="dbHeredadesModel.tbRol" />
           <EntitySet Name="tbRolPermiso" EntityType="dbHeredadesModel.tbRolPermiso" />
-          <EntitySet Name="tbTransaccion" EntityType="dbHeredadesModel.tbTransaccion" />
           <EntitySet Name="tbUsuario" EntityType="dbHeredadesModel.tbUsuario" />
           <EntitySet Name="tbVenta" EntityType="dbHeredadesModel.tbVenta" />
           <EntitySet Name="tbVentaProducto" EntityType="dbHeredadesModel.tbVentaProducto" />
           <EntitySet Name="vDeudaProveedor" EntityType="dbHeredadesModel.vDeudaProveedor" />
-          <EntitySet Name="vExistencias" EntityType="dbHeredadesModel.vExistencias" />
           <AssociationSet Name="FK_tbProducto_tbCategoria" Association="dbHeredadesModel.FK_tbProducto_tbCategoria">
             <End Role="tbCategoria" EntitySet="tbCategoria" />
             <End Role="tbProducto" EntitySet="tbProducto" />
@@ -578,14 +555,6 @@ advertencia 6002: La tabla o vista 'dbHeredades.dbo.vExistencias' no tiene defin
             <End Role="tbProveedor" EntitySet="tbProveedor" />
             <End Role="tbProductoProveedor" EntitySet="tbProductoProveedor" />
           </AssociationSet>
-          <AssociationSet Name="FK_tbProductoTransaccion_tbTransaccion1" Association="dbHeredadesModel.FK_tbProductoTransaccion_tbTransaccion1">
-            <End Role="tbTransaccion" EntitySet="tbTransaccion" />
-            <End Role="tbProductoTransaccion" EntitySet="tbProductoTransaccion" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tbTransaccion_tbProveedor" Association="dbHeredadesModel.FK_tbTransaccion_tbProveedor">
-            <End Role="tbProveedor" EntitySet="tbProveedor" />
-            <End Role="tbTransaccion" EntitySet="tbTransaccion" />
-          </AssociationSet>
           <AssociationSet Name="FK_tbPermisoDenegado_tbRol" Association="dbHeredadesModel.FK_tbPermisoDenegado_tbRol">
             <End Role="tbRol" EntitySet="tbRol" />
             <End Role="tbRolPermiso" EntitySet="tbRolPermiso" />
@@ -594,13 +563,22 @@ advertencia 6002: La tabla o vista 'dbHeredades.dbo.vExistencias' no tiene defin
             <End Role="tbRol" EntitySet="tbRol" />
             <End Role="tbUsuario" EntitySet="tbUsuario" />
           </AssociationSet>
-          <AssociationSet Name="FK_tbTransaccion_tbUsuario" Association="dbHeredadesModel.FK_tbTransaccion_tbUsuario">
-            <End Role="tbUsuario" EntitySet="tbUsuario" />
-            <End Role="tbTransaccion" EntitySet="tbTransaccion" />
-          </AssociationSet>
           <AssociationSet Name="FK_tbVentaProducto_tbVenta" Association="dbHeredadesModel.FK_tbVentaProducto_tbVenta">
             <End Role="tbVenta" EntitySet="tbVenta" />
             <End Role="tbVentaProducto" EntitySet="tbVentaProducto" />
+          </AssociationSet>
+          <EntitySet Name="tbTransaccion" EntityType="dbHeredadesModel.tbTransaccion" />
+          <AssociationSet Name="FK_tbProductoTransaccion_tbTransaccion1" Association="dbHeredadesModel.FK_tbProductoTransaccion_tbTransaccion1">
+            <End Role="tbTransaccion" EntitySet="tbTransaccion" />
+            <End Role="tbProductoTransaccion" EntitySet="tbProductoTransaccion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbTransaccion_tbProveedor" Association="dbHeredadesModel.FK_tbTransaccion_tbProveedor">
+            <End Role="tbProveedor" EntitySet="tbProveedor" />
+            <End Role="tbTransaccion" EntitySet="tbTransaccion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbTransaccion_tbUsuario" Association="dbHeredadesModel.FK_tbTransaccion_tbUsuario">
+            <End Role="tbUsuario" EntitySet="tbUsuario" />
+            <End Role="tbTransaccion" EntitySet="tbTransaccion" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="tbCategoria">
@@ -721,6 +699,7 @@ advertencia 6002: La tabla o vista 'dbHeredades.dbo.vExistencias' no tiene defin
           <Property Name="estado" Type="Boolean" />
           <NavigationProperty Name="tbPagoProveedor" Relationship="dbHeredadesModel.FK_tbPagoProveedor_tbProveedor" FromRole="tbProveedor" ToRole="tbPagoProveedor" />
           <NavigationProperty Name="tbProductoProveedor" Relationship="dbHeredadesModel.FK_tbProductoProveedor_tbProveedor" FromRole="tbProveedor" ToRole="tbProductoProveedor" />
+          <Property Name="deuda" Type="Decimal" Precision="8" Scale="2" />
           <NavigationProperty Name="tbTransaccion" Relationship="dbHeredadesModel.FK_tbTransaccion_tbProveedor" FromRole="tbProveedor" ToRole="tbTransaccion" />
         </EntityType>
         <EntityType Name="tbRol">
@@ -742,21 +721,6 @@ advertencia 6002: La tabla o vista 'dbHeredades.dbo.vExistencias' no tiene defin
           <Property Name="estado" Type="Boolean" />
           <NavigationProperty Name="tbPermiso" Relationship="dbHeredadesModel.FK_tbPermisoDenegado_tbPermiso" FromRole="tbRolPermiso" ToRole="tbPermiso" />
           <NavigationProperty Name="tbRol" Relationship="dbHeredadesModel.FK_tbPermisoDenegado_tbRol" FromRole="tbRolPermiso" ToRole="tbRol" />
-        </EntityType>
-        <EntityType Name="tbTransaccion">
-          <Key>
-            <PropertyRef Name="codTransaccion" />
-          </Key>
-          <Property Name="codTransaccion" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="codProveedor" Type="Int32" />
-          <Property Name="codTipoTransaccion" Type="Int16" />
-          <Property Name="descripcion" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="fecha" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="estado" Type="Boolean" />
-          <Property Name="codUsuario" Type="Int32" />
-          <NavigationProperty Name="tbProductoTransaccion" Relationship="dbHeredadesModel.FK_tbProductoTransaccion_tbTransaccion1" FromRole="tbTransaccion" ToRole="tbProductoTransaccion" />
-          <NavigationProperty Name="tbProveedor" Relationship="dbHeredadesModel.FK_tbTransaccion_tbProveedor" FromRole="tbTransaccion" ToRole="tbProveedor" />
-          <NavigationProperty Name="tbUsuario" Relationship="dbHeredadesModel.FK_tbTransaccion_tbUsuario" FromRole="tbTransaccion" ToRole="tbUsuario" />
         </EntityType>
         <EntityType Name="tbUsuario">
           <Key>
@@ -806,17 +770,6 @@ advertencia 6002: La tabla o vista 'dbHeredades.dbo.vExistencias' no tiene defin
           <Property Name="proveedor" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="telefono" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="deuda" Type="Decimal" Precision="13" Scale="2" />
-        </EntityType>
-        <EntityType Name="vExistencias">
-          <Key>
-            <PropertyRef Name="codProducto" />
-            <PropertyRef Name="codPresentacion" />
-          </Key>
-          <Property Name="codProducto" Type="Int32" Nullable="false" />
-          <Property Name="producto" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="codPresentacion" Type="Int32" Nullable="false" />
-          <Property Name="presentacion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="existencia" Type="Decimal" Precision="14" Scale="2" />
         </EntityType>
         <Association Name="FK_tbProducto_tbCategoria">
           <End Type="dbHeredadesModel.tbCategoria" Role="tbCategoria" Multiplicity="0..1" />
@@ -956,30 +909,6 @@ advertencia 6002: La tabla o vista 'dbHeredades.dbo.vExistencias' no tiene defin
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_tbProductoTransaccion_tbTransaccion1">
-          <End Type="dbHeredadesModel.tbTransaccion" Role="tbTransaccion" Multiplicity="1" />
-          <End Type="dbHeredadesModel.tbProductoTransaccion" Role="tbProductoTransaccion" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tbTransaccion">
-              <PropertyRef Name="codTransaccion" />
-            </Principal>
-            <Dependent Role="tbProductoTransaccion">
-              <PropertyRef Name="codTransaccion" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tbTransaccion_tbProveedor">
-          <End Type="dbHeredadesModel.tbProveedor" Role="tbProveedor" Multiplicity="0..1" />
-          <End Type="dbHeredadesModel.tbTransaccion" Role="tbTransaccion" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tbProveedor">
-              <PropertyRef Name="codProveedor" />
-            </Principal>
-            <Dependent Role="tbTransaccion">
-              <PropertyRef Name="codProveedor" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_tbPermisoDenegado_tbRol">
           <End Type="dbHeredadesModel.tbRol" Role="tbRol" Multiplicity="1" />
           <End Type="dbHeredadesModel.tbRolPermiso" Role="tbRolPermiso" Multiplicity="*" />
@@ -1004,18 +933,6 @@ advertencia 6002: La tabla o vista 'dbHeredades.dbo.vExistencias' no tiene defin
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_tbTransaccion_tbUsuario">
-          <End Type="dbHeredadesModel.tbUsuario" Role="tbUsuario" Multiplicity="0..1" />
-          <End Type="dbHeredadesModel.tbTransaccion" Role="tbTransaccion" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tbUsuario">
-              <PropertyRef Name="codUsuario" />
-            </Principal>
-            <Dependent Role="tbTransaccion">
-              <PropertyRef Name="codUsuario" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_tbVentaProducto_tbVenta">
           <End Type="dbHeredadesModel.tbVenta" Role="tbVenta" Multiplicity="1" />
           <End Type="dbHeredadesModel.tbVentaProducto" Role="tbVentaProducto" Multiplicity="*" />
@@ -1025,6 +942,57 @@ advertencia 6002: La tabla o vista 'dbHeredades.dbo.vExistencias' no tiene defin
             </Principal>
             <Dependent Role="tbVentaProducto">
               <PropertyRef Name="codVenta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="tbTransaccion">
+          <Key>
+            <PropertyRef Name="codTransaccion" />
+          </Key>
+          <Property Name="codTransaccion" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="codProveedor" Type="Int32" />
+          <Property Name="codTipoTransaccion" Type="Int16" />
+          <Property Name="descripcion" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="fecha" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="estado" Type="Boolean" />
+          <Property Name="codUsuario" Type="Int32" />
+          <NavigationProperty Name="tbProductoTransaccion" Relationship="dbHeredadesModel.FK_tbProductoTransaccion_tbTransaccion1" FromRole="tbTransaccion" ToRole="tbProductoTransaccion" />
+          <NavigationProperty Name="tbProveedor" Relationship="dbHeredadesModel.FK_tbTransaccion_tbProveedor" FromRole="tbTransaccion" ToRole="tbProveedor" />
+          <NavigationProperty Name="tbUsuario" Relationship="dbHeredadesModel.FK_tbTransaccion_tbUsuario" FromRole="tbTransaccion" ToRole="tbUsuario" />
+        </EntityType>
+        <Association Name="FK_tbProductoTransaccion_tbTransaccion1">
+          <End Type="dbHeredadesModel.tbTransaccion" Role="tbTransaccion" Multiplicity="1" />
+          <End Type="dbHeredadesModel.tbProductoTransaccion" Role="tbProductoTransaccion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbTransaccion">
+              <PropertyRef Name="codTransaccion" />
+            </Principal>
+            <Dependent Role="tbProductoTransaccion">
+              <PropertyRef Name="codTransaccion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbTransaccion_tbProveedor">
+          <End Type="dbHeredadesModel.tbProveedor" Role="tbProveedor" Multiplicity="0..1" />
+          <End Type="dbHeredadesModel.tbTransaccion" Role="tbTransaccion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbProveedor">
+              <PropertyRef Name="codProveedor" />
+            </Principal>
+            <Dependent Role="tbTransaccion">
+              <PropertyRef Name="codProveedor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbTransaccion_tbUsuario">
+          <End Type="dbHeredadesModel.tbUsuario" Role="tbUsuario" Multiplicity="0..1" />
+          <End Type="dbHeredadesModel.tbTransaccion" Role="tbTransaccion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbUsuario">
+              <PropertyRef Name="codUsuario" />
+            </Principal>
+            <Dependent Role="tbTransaccion">
+              <PropertyRef Name="codUsuario" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1134,6 +1102,7 @@ advertencia 6002: La tabla o vista 'dbHeredades.dbo.vExistencias' no tiene defin
           <EntitySetMapping Name="tbProveedor">
             <EntityTypeMapping TypeName="dbHeredadesModel.tbProveedor">
               <MappingFragment StoreEntitySet="tbProveedor">
+                <ScalarProperty Name="deuda" ColumnName="deuda" />
                 <ScalarProperty Name="estado" ColumnName="estado" />
                 <ScalarProperty Name="direccion" ColumnName="direccion" />
                 <ScalarProperty Name="telefono" ColumnName="telefono" />
@@ -1156,19 +1125,6 @@ advertencia 6002: La tabla o vista 'dbHeredades.dbo.vExistencias' no tiene defin
                 <ScalarProperty Name="estado" ColumnName="estado" />
                 <ScalarProperty Name="codPermiso" ColumnName="codPermiso" />
                 <ScalarProperty Name="codRol" ColumnName="codRol" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="tbTransaccion">
-            <EntityTypeMapping TypeName="dbHeredadesModel.tbTransaccion">
-              <MappingFragment StoreEntitySet="tbTransaccion">
-                <ScalarProperty Name="codUsuario" ColumnName="codUsuario" />
-                <ScalarProperty Name="estado" ColumnName="estado" />
-                <ScalarProperty Name="fecha" ColumnName="fecha" />
-                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
-                <ScalarProperty Name="codTipoTransaccion" ColumnName="codTipoTransaccion" />
-                <ScalarProperty Name="codProveedor" ColumnName="codProveedor" />
-                <ScalarProperty Name="codTransaccion" ColumnName="codTransaccion" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1216,14 +1172,16 @@ advertencia 6002: La tabla o vista 'dbHeredades.dbo.vExistencias' no tiene defin
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="vExistencias">
-            <EntityTypeMapping TypeName="dbHeredadesModel.vExistencias">
-              <MappingFragment StoreEntitySet="vExistencias">
-                <ScalarProperty Name="existencia" ColumnName="existencia" />
-                <ScalarProperty Name="presentacion" ColumnName="presentacion" />
-                <ScalarProperty Name="codPresentacion" ColumnName="codPresentacion" />
-                <ScalarProperty Name="producto" ColumnName="producto" />
-                <ScalarProperty Name="codProducto" ColumnName="codProducto" />
+          <EntitySetMapping Name="tbTransaccion">
+            <EntityTypeMapping TypeName="dbHeredadesModel.tbTransaccion">
+              <MappingFragment StoreEntitySet="tbTransaccion">
+                <ScalarProperty Name="codUsuario" ColumnName="codUsuario" />
+                <ScalarProperty Name="estado" ColumnName="estado" />
+                <ScalarProperty Name="fecha" ColumnName="fecha" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+                <ScalarProperty Name="codTipoTransaccion" ColumnName="codTipoTransaccion" />
+                <ScalarProperty Name="codProveedor" ColumnName="codProveedor" />
+                <ScalarProperty Name="codTransaccion" ColumnName="codTransaccion" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

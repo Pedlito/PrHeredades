@@ -16,7 +16,32 @@
 <hr />
 <!-- Filtros -->
 <form action="@Url.Action("Index")" method="get" class="form-group">
+
+    <div class="form-group">
+        <div class="btn-group btn-group-toggle" data-toggle="buttons">
+            @if (ViewBag.tipoVenta)
+            {
+                <label class="btn btn-warning active" style="width: 150px">
+                    <input type="radio" name="tipoVenta" id="tipoVenta" value=True checked onchange="this.form.submit()"> Al contado
+                </label>
+                <label class="btn btn-warning" style="width: 150px">
+                    <input type="radio" name="tipoVenta" id="tipoVenta" value=False onchange="this.form.submit()"> Al crédito
+                </label>
+            }
+            else
+            {
+                <label class="btn btn-warning" style="width: 150px">
+                    <input type="radio" name="tipoVenta" id="tipoVenta" value=True onchange="this.form.submit()"> Al contado
+                </label>
+                <label class="btn btn-warning active" style="width: 150px">
+                    <input type="radio" name="tipoVenta" id="tipoVenta" value=False checked onchange="this.form.submit()"> Al crédito
+                </label>
+            }
+        </div>
+    </div>
+
     @Html.Partial("_Estado", (bool)ViewBag.estado)
+
     <div class="row">
         <div class="col-md-2">
             <input type="date" class="form-control form-control-sm" id="filtro" name="filtro" value="@ViewBag.filtro" autocomplete="off" />

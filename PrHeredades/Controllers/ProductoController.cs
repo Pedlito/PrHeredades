@@ -55,6 +55,7 @@ namespace PrHeredades.Controllers
                 foreach (tbProductoPresentacion presentacion in modelo.presentaciones)
                 {
                     presentacion.correlativo = correlativo;
+                    presentacion.existencia = 0;
                     modelo.producto.tbProductoPresentacion.Add(presentacion);
                     correlativo++;
                 }

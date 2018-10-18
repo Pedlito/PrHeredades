@@ -26,5 +26,14 @@ namespace PrHeredades.Controllers
             ViewBag.filtro = filtro;
             return View(lista.Skip((pagina - 1) * registrosPagina).Take(registrosPagina));
         }
+
+        [HttpPost]
+        public int CrearDeudor(tbDeudor deudor)
+        {
+            dbHeredadesEntities db = new dbHeredadesEntities();
+            db.tbDeudor.Add(deudor);
+            db.SaveChanges();
+            return deudor.codDeudor;
+        }
     }
 }

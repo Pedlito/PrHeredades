@@ -246,9 +246,6 @@
     <Compile Include="Models\vDeudaProveedor.cs">
       <DependentUpon>ClasesEntity.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\vExistencias.cs">
-      <DependentUpon>ClasesEntity.tt</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tags\TagAutenticacion.cs" />
     <Compile Include="Tags\TagPermiso.cs" />
@@ -326,6 +323,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\jqueryValidator\categoria.js" />
+    <Content Include="Scripts\jqueryValidator\deudor.js" />
     <Content Include="Scripts\jqueryValidator\pagoProveedor.js" />
     <Content Include="Scripts\jqueryValidator\presentacion.js" />
     <Content Include="Scripts\jqueryValidator\producto.js" />
@@ -427,6 +425,9 @@
     <Content Include="Views\Venta\Vender.cshtml" />
     <Content Include="Views\Venta\_ProductosVenta.cshtml" />
     <Content Include="Views\Venta\_Clientes.cshtml" />
+    <Content Include="Views\Transaccion\Pedidos.cshtml" />
+    <Content Include="Views\Transaccion\CrearPedido.cshtml" />
+    <Content Include="Views\Transaccion\DetallePedido.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

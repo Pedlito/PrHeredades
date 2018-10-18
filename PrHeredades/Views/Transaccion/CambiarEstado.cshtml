@@ -23,8 +23,8 @@
 <div>
     <hr />
     <div class="form-group">
-        <label for="producto" class="col-form-label">Producto</label>
-        @Html.TextBoxFor(m => m.descripcion, new { @class = "form-control col-md-4", @readonly = "readonly" })
+        <label for="descripcion" class="col-form-label">Descripcion</label>
+        @Html.TextAreaFor(m => m.descripcion, new { @class = "form-control col-md-4", @readonly = "readonly" })
     </div>
 
     <div class="form-group">
