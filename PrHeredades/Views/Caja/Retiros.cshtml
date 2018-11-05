@@ -1,0 +1,74 @@
+﻿@model IEnumerable<PrHeredades.Models.tbTransaccionCaja>
+@using PrHeredades.Models;
+
+@{
+    ViewBag.Title = "Retiros";
+}
+
+<h2>Retiros de caja</h2>
+
+<p>
+    <a class="btn btn-success" href="@Url.Action("CrearTransaccion", new { tipoTrasaccion = 2 })">
+        <span class="fa fa-plus"></span> Retirar dinero
+    </a>
+</p>
+
+<hr />
+<!-- Filtros -->
+<form action="@Url.Action("Gastos")" method="get" class="form-group">
+    <div class="row">
+        <div class="col-md-4">
+            <input type="date" class="form-control form-control-sm" id="filtro" name="filtro" value="@ViewBag.filtro" autocomplete="off" />
+        </div>
+        <button type="submit" class="btn btn-info btn-sm">
+            <span class="fa fa-search"></span> Filtrar
+        </button>
+    </div>
+</form>
+<hr />
+
+<table class="table table-sm table-hover">
+    <thead>
+        <tr class="table-primary">
+            <th scope="col">
+                Fecha
+            </th>
+            <th scope="col">
+                Hora
+            </th>
+            <th scope="col">
+                Cantidad
+            </th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td class="align-left">
+                    @item.fecha.Value.ToLongDateString()
+                </td>
+                <td class="align-left">
+                    @item.fecha.Value.ToShortTimeString()
+                </td>
+                <td class="align-left">
+                    Q @item.cantidad
+                </td>
+                <td class="align-middle">
+                    <a href="@Url.Action("DetalleTransaccion", new { id = item.codTransaccionCaja })" class="btn btn-primary btn-sm">
+                        <span class="fa fa-list"></span> Detalles
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>
+
+@Html.Partial("_Paginacion", (Paginacion)ViewBag.paginacion)
+
+<a class="btn btn-dark" href="@Url.Action("Index", "Caja")">
+    <span class="fa fa-arrow-left"></span> Regresar
+</a>

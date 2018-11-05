@@ -40,8 +40,6 @@
         </div>
     </div>
 
-    @Html.Partial("_Estado", (bool)ViewBag.estado)
-
     <div class="row">
         <div class="col-md-2">
             <input type="date" class="form-control form-control-sm" id="filtro" name="filtro" value="@ViewBag.filtro" autocomplete="off" />
@@ -64,9 +62,6 @@
             </th>
             <th scope="col">
                 Tipo
-            </th>
-            <th scope="col" class="text-center">
-                Estado
             </th>
             <th scope="col"></th>
         </tr>
@@ -92,33 +87,10 @@
                         <text>Contado</text>
                     }
                 </td>
-                <td class="align-middle text-center">
-                    @if (item.estado.Value)
-                    {
-                        <span class="fa fa-check-square"></span>
-                    }
-                    else
-                    {
-                        <span class="fa fa-square"></span>
-                    }
-                </td>
                 <td class="align-middle">
                     <a href="@Url.Action("DetalleVenta", new { id = item.codVenta })" class="btn btn-primary btn-sm">
                         <span class="fa fa-list"></span> Detalles
                     </a>
-                    @if (Sesion.ObtenerRol() <= 2)
-                    {
-                        <a href="@Url.Action("CambiarEstado", new { id = item.codVenta })" class="align-middle">
-                            @if (item.estado.Value)
-                            {
-                                <text>Deshabilitar</text>
-                            }
-                            else
-                            {
-                                <text>Habilitar</text>
-                            }
-                        </a>
-                    }
                 </td>
             </tr>
         }

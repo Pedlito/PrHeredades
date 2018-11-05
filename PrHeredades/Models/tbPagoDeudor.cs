@@ -12,24 +12,15 @@ namespace PrHeredades.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class tbVenta
+    public partial class tbPagoDeudor
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public tbVenta()
-        {
-            this.tbVentaProducto = new HashSet<tbVentaProducto>();
-        }
-    
-        public int codVenta { get; set; }
+        public int codPagoDeudor { get; set; }
         public Nullable<int> codDeudor { get; set; }
         public Nullable<int> codUsuario { get; set; }
+        public Nullable<decimal> pago { get; set; }
         public Nullable<System.DateTime> fecha { get; set; }
-        public string numFactura { get; set; }
-        public Nullable<bool> estado { get; set; }
     
         public virtual tbDeudor tbDeudor { get; set; }
         public virtual tbUsuario tbUsuario { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tbVentaProducto> tbVentaProducto { get; set; }
     }
 }

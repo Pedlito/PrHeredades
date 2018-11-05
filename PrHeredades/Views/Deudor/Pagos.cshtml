@@ -1,0 +1,56 @@
+﻿@model IEnumerable<PrHeredades.Models.tbPagoDeudor>
+@using PrHeredades.Models
+
+@{
+    ViewBag.Title = "Pagos";
+}
+
+<h2>Pagos de <strong>@ViewBag.deudor</strong></h2>
+
+<p>
+    <a class="btn btn-success" href="@Url.Action("Pagar", new { id = ViewBag.codDeudor })">
+        <span class="fa fa-plus"></span> Nuevo pago
+    </a>
+</p>
+
+<hr />
+
+<table class="table table-sm table-hover">
+    <thead>
+        <tr class="table-primary">
+            <th scope="col">
+                Fecha
+            </th>
+            <th scope="col">
+                Pago
+            </th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td class="align-middle">
+                    @item.fecha.Value.ToLongDateString()
+                </td>
+                <td class="align-middle">
+                    Q @item.pago
+                </td>
+                <td class="align-middle">
+                    <a href="@Url.Action("DetallePago", new { id = item.codPagoDeudor })" class="btn btn-sm btn-primary">
+                        <span class="fa fa-list"></span> Detalles
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>
+
+@Html.Partial("_PaginacionId", (Paginacion)ViewBag.paginacion)
+
+<a class="btn btn-dark" href="@Url.Action("Index", "Deudor")">
+    <span class="fa fa-arrow-left"></span> Regresar
+</a>

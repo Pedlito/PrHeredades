@@ -1,0 +1,75 @@
+﻿@model PrHeredades.Models.tbVenta
+
+@{
+    ViewBag.Title = "DetalleVenta";
+}
+
+<h2>Detalle de venta</h2>
+<hr />
+
+<dl class="dl-horizontal">
+    @if (Model.codDeudor != null)
+    {
+        <dt class="col-12">Deudor</dt>
+        <dd class="col-12">@Model.tbDeudor.nombre</dd>
+    }
+
+    <dt class="col-12">Fecha</dt>
+    <dd class="col-12">@Model.fecha.Value.ToLongDateString()</dd>
+
+    <dt class="col-12">Hora</dt>
+    <dd class="col-12">@Model.fecha.Value.ToShortDateString()</dd>
+</dl>
+
+<div class="form-group">
+    <table class="table table-sm table-hover">
+        <thead>
+            <tr class="table-primary">
+                <th scope="col">
+                    Producto
+                </th>
+                <th scope="col">
+                    Presentación
+                </th>
+                <th scope="col" class="text-center">
+                    Precio compra
+                </th>
+                <th class="text-center">
+                    Cantidad
+                </th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var item in Model.tbVentaProducto)
+            {
+                <tr>
+                    <td class="align-middle">
+                        @item.tbProductoPresentacion.tbProducto.producto
+                    </td>
+                    <td class="align-middle">
+                        @item.tbProductoPresentacion.tbPresentacion.presentacion
+                    </td>
+                    <td class="align-middle text-center">
+                        Q @item.precioVenta
+                    </td>
+                    <td class="align-middle text-center">
+                        @item.cantidad
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <p>
+        <h3>
+            Total: Q @ViewBag.total
+        </h3>
+    </p>
+</div>
+
+<div class="form-group">
+    <a href="@Url.Action("Index")" class="btn btn-dark" style="width: 150px">
+        <span class="fa fa-arrow-left"></span> Regresar
+    </a>
+</div>

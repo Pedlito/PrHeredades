@@ -81,15 +81,20 @@ namespace PrHeredades.Controllers
             {
                 dbHeredadesEntities db = new dbHeredadesEntities();
                 //con la lista, comprobar que hay existencia de cada producto y si no transaformar en cascada, si no existe ningun producto, enviar notificación
+                tbDeudor deudor = null;
                 tbVenta venta = new tbVenta
                 {
                     fecha = DateTime.Now,
+                    codUsuario = Sesion.ObtenerCodigo(),
                     estado = true
                 };
                 if (codDeudor != null)
                 {
                     venta.codDeudor = codDeudor;
+                    deudor = db.tbDeudor.Find(codDeudor);
                 }
+                //variable para calcular la deuda total al deudor o que entra a caja
+                decimal total = 0;
                 foreach (tbVentaProducto item in lista)
                 {
                     //si el producto tiene existencia con esa presentacion
@@ -101,6 +106,8 @@ namespace PrHeredades.Controllers
                         venta.tbVentaProducto.Add(item);
                         //se reduce la venta a la existencia
                         prodPres.existencia -= item.cantidad;
+                        //se agrega al total
+                        total += item.precioVenta.Value * item.cantidad.Value;
                     }
                     else
                     {
@@ -114,12 +121,31 @@ namespace PrHeredades.Controllers
                             venta.tbVentaProducto.Add(item);
                             //se reduce la venta a la existencia
                             prod.existencia -= item.cantidad;
+                            //se agrega al total
+                            total += item.precioVenta.Value * item.cantidad.Value;
                         }
                         else
                         {
                             //se informa de la falta de producto
                         }
                     }
+                }
+                if (deudor != null)
+                {
+                    //si hay un deudor, se le agrega a la deuda
+                    deudor.deuda += total;
+                }
+                else
+                {
+                    //si no hay deudor, se agrega a la caja
+                    tbTransaccionCaja transaccionCaja = new tbTransaccionCaja
+                    {
+                        tipoTransaccion = 1,
+                        cantidad = total,
+                        fecha = DateTime.Now
+                    };
+                    CajaController.Sumar(total);
+                    db.tbTransaccionCaja.Add(transaccionCaja);
                 }
                 db.tbVenta.Add(venta);
                 db.SaveChanges();
@@ -130,6 +156,19 @@ namespace PrHeredades.Controllers
                 return 2;
             }
 
+        }
+
+        public ActionResult DetalleVenta(int id)
+        {
+            dbHeredadesEntities db = new dbHeredadesEntities();
+            tbVenta venta = db.tbVenta.Find(id);
+            decimal total = 0;
+            foreach (tbVentaProducto item in venta.tbVentaProducto)
+            {
+                total += item.precioVenta.Value * item.cantidad.Value;
+            }
+            ViewBag.total = Math.Truncate(total * 100) / 100;
+            return View(venta);
         }
 
         [HttpPost]

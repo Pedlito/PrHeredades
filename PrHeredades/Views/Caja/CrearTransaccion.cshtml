@@ -1,0 +1,35 @@
+﻿@model PrHeredades.Models.tbTransaccionCaja
+
+@{
+    ViewBag.Title = "Ingreso";
+    
+}
+
+<form action="@Url.Action("CrearTransaccion")" method="post" id="formTransaccion">
+    @Html.AntiForgeryToken()
+    <input type="hidden" id="tipoTransaccion" name="tipoTransaccion" value="@ViewBag.tipoTransaccion" />
+    <h2>@ViewBag.titulo</h2>
+    <hr />
+    <h4>@Html.ValidationSummary(true, "", new { @class = "text-danger" })</h4>
+    <div class="form-group">
+        <label for="descripcion" class="col-form-label">Descripción</label>
+        @Html.TextAreaFor(t => t.descripcion, new { @class = "form-control col-md-4", autocomplete = "off", maxlength = "150" })
+    </div>
+    <div class="form-group">
+        <label for="cantidad" class="col-form-label">Cantidad</label>
+        @Html.TextBoxFor(t => t.cantidad, new { @class = "form-control col-md-4", autocomplete = "off", maxlength = "50" })
+    </div>
+    <div class="form-group col-md-4 text-center" style="padding-left:0; padding-right:0">
+        <button type="submit" class="btn btn-primary" style="width: 150px">
+            <span class="fa fa-check"></span> Crear
+        </button>
+        <a href="@Url.Action(ViewBag.cancelar)" class="btn btn-danger" style="width: 150px">
+            <span class="fa fa-times"></span> Cancelar
+        </a>
+    </div>
+</form>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script src="~/Scripts/jqueryValidator/TransaccionCaja.js"></script>
+}

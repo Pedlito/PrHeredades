@@ -11,9 +11,19 @@ namespace PrHeredades.Models
         public int paginas { get; set; }
         public string accion { get; set; }
         public string controlador { get; set; }
+        public int id { get; set; }
 
         public Paginacion(int actual, int paginas, string accion, string controlador)
         {
+            this.actual = actual;
+            this.paginas = paginas;
+            this.accion = accion;
+            this.controlador = controlador;
+        }
+
+        public Paginacion(int id, int actual, int paginas, string accion, string controlador)
+        {
+            this.id = id;
             this.actual = actual;
             this.paginas = paginas;
             this.accion = accion;

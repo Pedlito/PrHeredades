@@ -5,6 +5,13 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="dbHeredadesModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="tbCaja">
+          <Key>
+            <PropertyRef Name="codCaja" />
+          </Key>
+          <Property Name="codCaja" Type="smallint" Nullable="false" />
+          <Property Name="cantidad" Type="decimal" Precision="8" Scale="2" />
+        </EntityType>
         <EntityType Name="tbCategoria">
           <Key>
             <PropertyRef Name="codCategoria" />
@@ -23,6 +30,17 @@
           <Property Name="residencia" Type="varchar" MaxLength="50" />
           <Property Name="refUno" Type="varchar" MaxLength="50" />
           <Property Name="refDos" Type="varchar" MaxLength="50" />
+          <Property Name="deuda" Type="decimal" Precision="8" Scale="2" />
+        </EntityType>
+        <EntityType Name="tbPagoDeudor">
+          <Key>
+            <PropertyRef Name="codPagoDeudor" />
+          </Key>
+          <Property Name="codPagoDeudor" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="codDeudor" Type="int" />
+          <Property Name="codUsuario" Type="int" />
+          <Property Name="pago" Type="decimal" Precision="8" Scale="2" />
+          <Property Name="fecha" Type="datetime" />
         </EntityType>
         <EntityType Name="tbPagoProveedor">
           <Key>
@@ -134,6 +152,17 @@
           <Property Name="estado" Type="bit" />
           <Property Name="codUsuario" Type="int" />
         </EntityType>
+        <EntityType Name="tbTransaccionCaja">
+          <Key>
+            <PropertyRef Name="codTransaccionCaja" />
+          </Key>
+          <Property Name="codTransaccionCaja" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="codUsuario" Type="int" />
+          <Property Name="tipoTransaccion" Type="smallint" />
+          <Property Name="cantidad" Type="decimal" Precision="8" Scale="2" />
+          <Property Name="descripcion" Type="varchar" MaxLength="150" />
+          <Property Name="fecha" Type="datetime" />
+        </EntityType>
         <EntityType Name="tbUsuario">
           <Key>
             <PropertyRef Name="codUsuario" />
@@ -151,6 +180,7 @@
           </Key>
           <Property Name="codVenta" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="codDeudor" Type="int" />
+          <Property Name="codUsuario" Type="int" />
           <Property Name="fecha" Type="datetime" />
           <Property Name="numFactura" Type="varchar" MaxLength="15" />
           <Property Name="estado" Type="bit" />
@@ -167,17 +197,30 @@
           <Property Name="cantidad" Type="decimal" Precision="6" Scale="2" />
           <Property Name="precioVenta" Type="decimal" Precision="8" Scale="2" />
         </EntityType>
-        <!--Errores durante la generación:
-advertencia 6002: La tabla o vista 'dbHeredades.dbo.vDeudaProveedor' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
-        <EntityType Name="vDeudaProveedor">
-          <Key>
-            <PropertyRef Name="codProveedor" />
-          </Key>
-          <Property Name="codProveedor" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="proveedor" Type="varchar" MaxLength="50" />
-          <Property Name="telefono" Type="varchar" MaxLength="10" />
-          <Property Name="deuda" Type="decimal" Precision="13" Scale="2" />
-        </EntityType>
+        <Association Name="FK_tbPagoDeudor_tbDeudor">
+          <End Role="tbDeudor" Type="Self.tbDeudor" Multiplicity="0..1" />
+          <End Role="tbPagoDeudor" Type="Self.tbPagoDeudor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbDeudor">
+              <PropertyRef Name="codDeudor" />
+            </Principal>
+            <Dependent Role="tbPagoDeudor">
+              <PropertyRef Name="codDeudor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbPagoDeudor_tbUsuario">
+          <End Role="tbUsuario" Type="Self.tbUsuario" Multiplicity="0..1" />
+          <End Role="tbPagoDeudor" Type="Self.tbPagoDeudor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbUsuario">
+              <PropertyRef Name="codUsuario" />
+            </Principal>
+            <Dependent Role="tbPagoDeudor">
+              <PropertyRef Name="codUsuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_tbPagoProveedor_tbProveedor">
           <End Role="tbProveedor" Type="Self.tbProveedor" Multiplicity="0..1" />
           <End Role="tbPagoProveedor" Type="Self.tbPagoProveedor" Multiplicity="*" />
@@ -338,6 +381,18 @@ advertencia 6002: La tabla o vista 'dbHeredades.dbo.vDeudaProveedor' no tiene de
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_tbTransaccionCaja_tbUsuario">
+          <End Role="tbUsuario" Type="Self.tbUsuario" Multiplicity="0..1" />
+          <End Role="tbTransaccionCaja" Type="Self.tbTransaccionCaja" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbUsuario">
+              <PropertyRef Name="codUsuario" />
+            </Principal>
+            <Dependent Role="tbTransaccionCaja">
+              <PropertyRef Name="codUsuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_tbUsuario_tbRol">
           <End Role="tbRol" Type="Self.tbRol" Multiplicity="1" />
           <End Role="tbUsuario" Type="Self.tbUsuario" Multiplicity="*" />
@@ -359,6 +414,18 @@ advertencia 6002: La tabla o vista 'dbHeredades.dbo.vDeudaProveedor' no tiene de
             </Principal>
             <Dependent Role="tbVenta">
               <PropertyRef Name="codDeudor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbVenta_tbUsuario">
+          <End Role="tbUsuario" Type="Self.tbUsuario" Multiplicity="0..1" />
+          <End Role="tbVenta" Type="Self.tbVenta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbUsuario">
+              <PropertyRef Name="codUsuario" />
+            </Principal>
+            <Dependent Role="tbVenta">
+              <PropertyRef Name="codUsuario" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -393,8 +460,10 @@ advertencia 6002: La tabla o vista 'dbHeredades.dbo.vDeudaProveedor' no tiene de
           <Parameter Name="codPres" Type="int" Mode="In" />
         </Function>
         <EntityContainer Name="dbHeredadesModelStoreContainer">
+          <EntitySet Name="tbCaja" EntityType="Self.tbCaja" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbCategoria" EntityType="Self.tbCategoria" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbDeudor" EntityType="Self.tbDeudor" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbPagoDeudor" EntityType="Self.tbPagoDeudor" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbPagoProveedor" EntityType="Self.tbPagoProveedor" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbPermiso" EntityType="Self.tbPermiso" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbPresentacion" EntityType="Self.tbPresentacion" Schema="dbo" store:Type="Tables" />
@@ -406,17 +475,18 @@ advertencia 6002: La tabla o vista 'dbHeredades.dbo.vDeudaProveedor' no tiene de
           <EntitySet Name="tbRol" EntityType="Self.tbRol" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbRolPermiso" EntityType="Self.tbRolPermiso" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbTransaccion" EntityType="Self.tbTransaccion" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbTransaccionCaja" EntityType="Self.tbTransaccionCaja" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbUsuario" EntityType="Self.tbUsuario" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbVenta" EntityType="Self.tbVenta" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbVentaProducto" EntityType="Self.tbVentaProducto" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="vDeudaProveedor" EntityType="Self.vDeudaProveedor" store:Type="Views" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [vDeudaProveedor].[codProveedor] AS [codProveedor], 
-    [vDeudaProveedor].[proveedor] AS [proveedor], 
-    [vDeudaProveedor].[telefono] AS [telefono], 
-    [vDeudaProveedor].[deuda] AS [deuda]
-    FROM [dbo].[vDeudaProveedor] AS [vDeudaProveedor]</DefiningQuery>
-          </EntitySet>
+          <AssociationSet Name="FK_tbPagoDeudor_tbDeudor" Association="Self.FK_tbPagoDeudor_tbDeudor">
+            <End Role="tbDeudor" EntitySet="tbDeudor" />
+            <End Role="tbPagoDeudor" EntitySet="tbPagoDeudor" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbPagoDeudor_tbUsuario" Association="Self.FK_tbPagoDeudor_tbUsuario">
+            <End Role="tbUsuario" EntitySet="tbUsuario" />
+            <End Role="tbPagoDeudor" EntitySet="tbPagoDeudor" />
+          </AssociationSet>
           <AssociationSet Name="FK_tbPagoProveedor_tbProveedor" Association="Self.FK_tbPagoProveedor_tbProveedor">
             <End Role="tbProveedor" EntitySet="tbProveedor" />
             <End Role="tbPagoProveedor" EntitySet="tbPagoProveedor" />
@@ -469,12 +539,20 @@ advertencia 6002: La tabla o vista 'dbHeredades.dbo.vDeudaProveedor' no tiene de
             <End Role="tbUsuario" EntitySet="tbUsuario" />
             <End Role="tbTransaccion" EntitySet="tbTransaccion" />
           </AssociationSet>
+          <AssociationSet Name="FK_tbTransaccionCaja_tbUsuario" Association="Self.FK_tbTransaccionCaja_tbUsuario">
+            <End Role="tbUsuario" EntitySet="tbUsuario" />
+            <End Role="tbTransaccionCaja" EntitySet="tbTransaccionCaja" />
+          </AssociationSet>
           <AssociationSet Name="FK_tbUsuario_tbRol" Association="Self.FK_tbUsuario_tbRol">
             <End Role="tbRol" EntitySet="tbRol" />
             <End Role="tbUsuario" EntitySet="tbUsuario" />
           </AssociationSet>
           <AssociationSet Name="FK_tbVenta_tbDeudor" Association="Self.FK_tbVenta_tbDeudor">
             <End Role="tbDeudor" EntitySet="tbDeudor" />
+            <End Role="tbVenta" EntitySet="tbVenta" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbVenta_tbUsuario" Association="Self.FK_tbVenta_tbUsuario">
+            <End Role="tbUsuario" EntitySet="tbUsuario" />
             <End Role="tbVenta" EntitySet="tbVenta" />
           </AssociationSet>
           <AssociationSet Name="FK_tbVentaProducto_tbProductoPresentacion" Association="Self.FK_tbVentaProducto_tbProductoPresentacion">
@@ -508,16 +586,10 @@ advertencia 6002: La tabla o vista 'dbHeredades.dbo.vDeudaProveedor' no tiene de
           <EntitySet Name="tbRol" EntityType="dbHeredadesModel.tbRol" />
           <EntitySet Name="tbRolPermiso" EntityType="dbHeredadesModel.tbRolPermiso" />
           <EntitySet Name="tbUsuario" EntityType="dbHeredadesModel.tbUsuario" />
-          <EntitySet Name="tbVenta" EntityType="dbHeredadesModel.tbVenta" />
           <EntitySet Name="tbVentaProducto" EntityType="dbHeredadesModel.tbVentaProducto" />
-          <EntitySet Name="vDeudaProveedor" EntityType="dbHeredadesModel.vDeudaProveedor" />
           <AssociationSet Name="FK_tbProducto_tbCategoria" Association="dbHeredadesModel.FK_tbProducto_tbCategoria">
             <End Role="tbCategoria" EntitySet="tbCategoria" />
             <End Role="tbProducto" EntitySet="tbProducto" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tbVenta_tbDeudor" Association="dbHeredadesModel.FK_tbVenta_tbDeudor">
-            <End Role="tbDeudor" EntitySet="tbDeudor" />
-            <End Role="tbVenta" EntitySet="tbVenta" />
           </AssociationSet>
           <AssociationSet Name="FK_tbPagoProveedor_tbProveedor" Association="dbHeredadesModel.FK_tbPagoProveedor_tbProveedor">
             <End Role="tbProveedor" EntitySet="tbProveedor" />
@@ -563,10 +635,6 @@ advertencia 6002: La tabla o vista 'dbHeredades.dbo.vDeudaProveedor' no tiene de
             <End Role="tbRol" EntitySet="tbRol" />
             <End Role="tbUsuario" EntitySet="tbUsuario" />
           </AssociationSet>
-          <AssociationSet Name="FK_tbVentaProducto_tbVenta" Association="dbHeredadesModel.FK_tbVentaProducto_tbVenta">
-            <End Role="tbVenta" EntitySet="tbVenta" />
-            <End Role="tbVentaProducto" EntitySet="tbVentaProducto" />
-          </AssociationSet>
           <EntitySet Name="tbTransaccion" EntityType="dbHeredadesModel.tbTransaccion" />
           <AssociationSet Name="FK_tbProductoTransaccion_tbTransaccion1" Association="dbHeredadesModel.FK_tbProductoTransaccion_tbTransaccion1">
             <End Role="tbTransaccion" EntitySet="tbTransaccion" />
@@ -579,6 +647,34 @@ advertencia 6002: La tabla o vista 'dbHeredades.dbo.vDeudaProveedor' no tiene de
           <AssociationSet Name="FK_tbTransaccion_tbUsuario" Association="dbHeredadesModel.FK_tbTransaccion_tbUsuario">
             <End Role="tbUsuario" EntitySet="tbUsuario" />
             <End Role="tbTransaccion" EntitySet="tbTransaccion" />
+          </AssociationSet>
+          <EntitySet Name="tbCaja" EntityType="dbHeredadesModel.tbCaja" />
+          <EntitySet Name="tbPagoDeudor" EntityType="dbHeredadesModel.tbPagoDeudor" />
+          <AssociationSet Name="FK_tbPagoDeudor_tbDeudor" Association="dbHeredadesModel.FK_tbPagoDeudor_tbDeudor">
+            <End Role="tbDeudor" EntitySet="tbDeudor" />
+            <End Role="tbPagoDeudor" EntitySet="tbPagoDeudor" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbPagoDeudor_tbUsuario" Association="dbHeredadesModel.FK_tbPagoDeudor_tbUsuario">
+            <End Role="tbUsuario" EntitySet="tbUsuario" />
+            <End Role="tbPagoDeudor" EntitySet="tbPagoDeudor" />
+          </AssociationSet>
+          <EntitySet Name="tbVenta" EntityType="dbHeredadesModel.tbVenta" />
+          <AssociationSet Name="FK_tbVenta_tbDeudor" Association="dbHeredadesModel.FK_tbVenta_tbDeudor">
+            <End Role="tbDeudor" EntitySet="tbDeudor" />
+            <End Role="tbVenta" EntitySet="tbVenta" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbVenta_tbUsuario" Association="dbHeredadesModel.FK_tbVenta_tbUsuario">
+            <End Role="tbUsuario" EntitySet="tbUsuario" />
+            <End Role="tbVenta" EntitySet="tbVenta" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbVentaProducto_tbVenta" Association="dbHeredadesModel.FK_tbVentaProducto_tbVenta">
+            <End Role="tbVenta" EntitySet="tbVenta" />
+            <End Role="tbVentaProducto" EntitySet="tbVentaProducto" />
+          </AssociationSet>
+          <EntitySet Name="tbTransaccionCaja" EntityType="dbHeredadesModel.tbTransaccionCaja" />
+          <AssociationSet Name="FK_tbTransaccionCaja_tbUsuario" Association="dbHeredadesModel.FK_tbTransaccionCaja_tbUsuario">
+            <End Role="tbUsuario" EntitySet="tbUsuario" />
+            <End Role="tbTransaccionCaja" EntitySet="tbTransaccionCaja" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="tbCategoria">
@@ -600,6 +696,8 @@ advertencia 6002: La tabla o vista 'dbHeredades.dbo.vDeudaProveedor' no tiene de
           <Property Name="residencia" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="refUno" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="refDos" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="deuda" Type="Decimal" Precision="8" Scale="2" />
+          <NavigationProperty Name="tbPagoDeudor" Relationship="dbHeredadesModel.FK_tbPagoDeudor_tbDeudor" FromRole="tbDeudor" ToRole="tbPagoDeudor" />
           <NavigationProperty Name="tbVenta" Relationship="dbHeredadesModel.FK_tbVenta_tbDeudor" FromRole="tbDeudor" ToRole="tbVenta" />
         </EntityType>
         <EntityType Name="tbPagoProveedor">
@@ -735,18 +833,9 @@ advertencia 6002: La tabla o vista 'dbHeredades.dbo.vDeudaProveedor' no tiene de
           <NavigationProperty Name="tbPagoProveedor" Relationship="dbHeredadesModel.FK_tbPagoProveedor_tbUsuario" FromRole="tbUsuario" ToRole="tbPagoProveedor" />
           <NavigationProperty Name="tbRol" Relationship="dbHeredadesModel.FK_tbUsuario_tbRol" FromRole="tbUsuario" ToRole="tbRol" />
           <NavigationProperty Name="tbTransaccion" Relationship="dbHeredadesModel.FK_tbTransaccion_tbUsuario" FromRole="tbUsuario" ToRole="tbTransaccion" />
-        </EntityType>
-        <EntityType Name="tbVenta">
-          <Key>
-            <PropertyRef Name="codVenta" />
-          </Key>
-          <Property Name="codVenta" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="codDeudor" Type="Int32" />
-          <Property Name="fecha" Type="DateTime" Precision="3" />
-          <Property Name="numFactura" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
-          <Property Name="estado" Type="Boolean" />
-          <NavigationProperty Name="tbDeudor" Relationship="dbHeredadesModel.FK_tbVenta_tbDeudor" FromRole="tbVenta" ToRole="tbDeudor" />
-          <NavigationProperty Name="tbVentaProducto" Relationship="dbHeredadesModel.FK_tbVentaProducto_tbVenta" FromRole="tbVenta" ToRole="tbVentaProducto" />
+          <NavigationProperty Name="tbPagoDeudor" Relationship="dbHeredadesModel.FK_tbPagoDeudor_tbUsuario" FromRole="tbUsuario" ToRole="tbPagoDeudor" />
+          <NavigationProperty Name="tbVenta" Relationship="dbHeredadesModel.FK_tbVenta_tbUsuario" FromRole="tbUsuario" ToRole="tbVenta" />
+          <NavigationProperty Name="tbTransaccionCaja" Relationship="dbHeredadesModel.FK_tbTransaccionCaja_tbUsuario" FromRole="tbUsuario" ToRole="tbTransaccionCaja" />
         </EntityType>
         <EntityType Name="tbVentaProducto">
           <Key>
@@ -762,15 +851,6 @@ advertencia 6002: La tabla o vista 'dbHeredades.dbo.vDeudaProveedor' no tiene de
           <NavigationProperty Name="tbProductoPresentacion" Relationship="dbHeredadesModel.FK_tbVentaProducto_tbProductoPresentacion" FromRole="tbVentaProducto" ToRole="tbProductoPresentacion" />
           <NavigationProperty Name="tbVenta" Relationship="dbHeredadesModel.FK_tbVentaProducto_tbVenta" FromRole="tbVentaProducto" ToRole="tbVenta" />
         </EntityType>
-        <EntityType Name="vDeudaProveedor">
-          <Key>
-            <PropertyRef Name="codProveedor" />
-          </Key>
-          <Property Name="codProveedor" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="proveedor" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="telefono" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="deuda" Type="Decimal" Precision="13" Scale="2" />
-        </EntityType>
         <Association Name="FK_tbProducto_tbCategoria">
           <End Type="dbHeredadesModel.tbCategoria" Role="tbCategoria" Multiplicity="0..1" />
           <End Type="dbHeredadesModel.tbProducto" Role="tbProducto" Multiplicity="*" />
@@ -780,18 +860,6 @@ advertencia 6002: La tabla o vista 'dbHeredades.dbo.vDeudaProveedor' no tiene de
             </Principal>
             <Dependent Role="tbProducto">
               <PropertyRef Name="codCategoria" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_tbVenta_tbDeudor">
-          <End Type="dbHeredadesModel.tbDeudor" Role="tbDeudor" Multiplicity="0..1" />
-          <End Type="dbHeredadesModel.tbVenta" Role="tbVenta" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tbDeudor">
-              <PropertyRef Name="codDeudor" />
-            </Principal>
-            <Dependent Role="tbVenta">
-              <PropertyRef Name="codDeudor" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -933,18 +1001,6 @@ advertencia 6002: La tabla o vista 'dbHeredades.dbo.vDeudaProveedor' no tiene de
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_tbVentaProducto_tbVenta">
-          <End Type="dbHeredadesModel.tbVenta" Role="tbVenta" Multiplicity="1" />
-          <End Type="dbHeredadesModel.tbVentaProducto" Role="tbVentaProducto" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tbVenta">
-              <PropertyRef Name="codVenta" />
-            </Principal>
-            <Dependent Role="tbVentaProducto">
-              <PropertyRef Name="codVenta" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="tbTransaccion">
           <Key>
             <PropertyRef Name="codTransaccion" />
@@ -996,6 +1052,123 @@ advertencia 6002: La tabla o vista 'dbHeredades.dbo.vDeudaProveedor' no tiene de
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="tbCaja">
+          <Key>
+            <PropertyRef Name="codCaja" />
+          </Key>
+          <Property Name="codCaja" Type="Int16" Nullable="false" />
+          <Property Name="cantidad" Type="Decimal" Precision="8" Scale="2" />
+        </EntityType>
+        <EntityType Name="tbPagoDeudor">
+          <Key>
+            <PropertyRef Name="codPagoDeudor" />
+          </Key>
+          <Property Name="codPagoDeudor" Type="Int32" Nullable="false" />
+          <Property Name="codDeudor" Type="Int32" />
+          <Property Name="codUsuario" Type="Int32" />
+          <Property Name="pago" Type="Decimal" Precision="8" Scale="2" />
+          <Property Name="fecha" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="tbDeudor" Relationship="dbHeredadesModel.FK_tbPagoDeudor_tbDeudor" FromRole="tbPagoDeudor" ToRole="tbDeudor" />
+          <NavigationProperty Name="tbUsuario" Relationship="dbHeredadesModel.FK_tbPagoDeudor_tbUsuario" FromRole="tbPagoDeudor" ToRole="tbUsuario" />
+        </EntityType>
+        <Association Name="FK_tbPagoDeudor_tbDeudor">
+          <End Type="dbHeredadesModel.tbDeudor" Role="tbDeudor" Multiplicity="0..1" />
+          <End Type="dbHeredadesModel.tbPagoDeudor" Role="tbPagoDeudor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbDeudor">
+              <PropertyRef Name="codDeudor" />
+            </Principal>
+            <Dependent Role="tbPagoDeudor">
+              <PropertyRef Name="codDeudor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbPagoDeudor_tbUsuario">
+          <End Type="dbHeredadesModel.tbUsuario" Role="tbUsuario" Multiplicity="0..1" />
+          <End Type="dbHeredadesModel.tbPagoDeudor" Role="tbPagoDeudor" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbUsuario">
+              <PropertyRef Name="codUsuario" />
+            </Principal>
+            <Dependent Role="tbPagoDeudor">
+              <PropertyRef Name="codUsuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="tbVenta">
+          <Key>
+            <PropertyRef Name="codVenta" />
+          </Key>
+          <Property Name="codVenta" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="codDeudor" Type="Int32" />
+          <Property Name="codUsuario" Type="Int32" />
+          <Property Name="fecha" Type="DateTime" Precision="3" />
+          <Property Name="numFactura" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="estado" Type="Boolean" />
+          <NavigationProperty Name="tbDeudor" Relationship="dbHeredadesModel.FK_tbVenta_tbDeudor" FromRole="tbVenta" ToRole="tbDeudor" />
+          <NavigationProperty Name="tbUsuario" Relationship="dbHeredadesModel.FK_tbVenta_tbUsuario" FromRole="tbVenta" ToRole="tbUsuario" />
+          <NavigationProperty Name="tbVentaProducto" Relationship="dbHeredadesModel.FK_tbVentaProducto_tbVenta" FromRole="tbVenta" ToRole="tbVentaProducto" />
+        </EntityType>
+        <Association Name="FK_tbVenta_tbDeudor">
+          <End Type="dbHeredadesModel.tbDeudor" Role="tbDeudor" Multiplicity="0..1" />
+          <End Type="dbHeredadesModel.tbVenta" Role="tbVenta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbDeudor">
+              <PropertyRef Name="codDeudor" />
+            </Principal>
+            <Dependent Role="tbVenta">
+              <PropertyRef Name="codDeudor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbVenta_tbUsuario">
+          <End Type="dbHeredadesModel.tbUsuario" Role="tbUsuario" Multiplicity="0..1" />
+          <End Type="dbHeredadesModel.tbVenta" Role="tbVenta" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbUsuario">
+              <PropertyRef Name="codUsuario" />
+            </Principal>
+            <Dependent Role="tbVenta">
+              <PropertyRef Name="codUsuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbVentaProducto_tbVenta">
+          <End Type="dbHeredadesModel.tbVenta" Role="tbVenta" Multiplicity="1" />
+          <End Type="dbHeredadesModel.tbVentaProducto" Role="tbVentaProducto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbVenta">
+              <PropertyRef Name="codVenta" />
+            </Principal>
+            <Dependent Role="tbVentaProducto">
+              <PropertyRef Name="codVenta" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="tbTransaccionCaja">
+          <Key>
+            <PropertyRef Name="codTransaccionCaja" />
+          </Key>
+          <Property Name="codTransaccionCaja" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="codUsuario" Type="Int32" />
+          <Property Name="tipoTransaccion" Type="Int16" />
+          <Property Name="cantidad" Type="Decimal" Precision="8" Scale="2" />
+          <Property Name="descripcion" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="fecha" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="tbUsuario" Relationship="dbHeredadesModel.FK_tbTransaccionCaja_tbUsuario" FromRole="tbTransaccionCaja" ToRole="tbUsuario" />
+        </EntityType>
+        <Association Name="FK_tbTransaccionCaja_tbUsuario">
+          <End Type="dbHeredadesModel.tbUsuario" Role="tbUsuario" Multiplicity="0..1" />
+          <End Type="dbHeredadesModel.tbTransaccionCaja" Role="tbTransaccionCaja" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbUsuario">
+              <PropertyRef Name="codUsuario" />
+            </Principal>
+            <Dependent Role="tbTransaccionCaja">
+              <PropertyRef Name="codUsuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1015,6 +1188,7 @@ advertencia 6002: La tabla o vista 'dbHeredades.dbo.vDeudaProveedor' no tiene de
           <EntitySetMapping Name="tbDeudor">
             <EntityTypeMapping TypeName="dbHeredadesModel.tbDeudor">
               <MappingFragment StoreEntitySet="tbDeudor">
+                <ScalarProperty Name="deuda" ColumnName="deuda" />
                 <ScalarProperty Name="refDos" ColumnName="refDos" />
                 <ScalarProperty Name="refUno" ColumnName="refUno" />
                 <ScalarProperty Name="residencia" ColumnName="residencia" />
@@ -1140,17 +1314,6 @@ advertencia 6002: La tabla o vista 'dbHeredades.dbo.vDeudaProveedor' no tiene de
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="tbVenta">
-            <EntityTypeMapping TypeName="dbHeredadesModel.tbVenta">
-              <MappingFragment StoreEntitySet="tbVenta">
-                <ScalarProperty Name="estado" ColumnName="estado" />
-                <ScalarProperty Name="numFactura" ColumnName="numFactura" />
-                <ScalarProperty Name="fecha" ColumnName="fecha" />
-                <ScalarProperty Name="codDeudor" ColumnName="codDeudor" />
-                <ScalarProperty Name="codVenta" ColumnName="codVenta" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="tbVentaProducto">
             <EntityTypeMapping TypeName="dbHeredadesModel.tbVentaProducto">
               <MappingFragment StoreEntitySet="tbVentaProducto">
@@ -1159,16 +1322,6 @@ advertencia 6002: La tabla o vista 'dbHeredades.dbo.vDeudaProveedor' no tiene de
                 <ScalarProperty Name="codPresentacion" ColumnName="codPresentacion" />
                 <ScalarProperty Name="codProducto" ColumnName="codProducto" />
                 <ScalarProperty Name="codVenta" ColumnName="codVenta" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="vDeudaProveedor">
-            <EntityTypeMapping TypeName="dbHeredadesModel.vDeudaProveedor">
-              <MappingFragment StoreEntitySet="vDeudaProveedor">
-                <ScalarProperty Name="deuda" ColumnName="deuda" />
-                <ScalarProperty Name="telefono" ColumnName="telefono" />
-                <ScalarProperty Name="proveedor" ColumnName="proveedor" />
-                <ScalarProperty Name="codProveedor" ColumnName="codProveedor" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1182,6 +1335,49 @@ advertencia 6002: La tabla o vista 'dbHeredades.dbo.vDeudaProveedor' no tiene de
                 <ScalarProperty Name="codTipoTransaccion" ColumnName="codTipoTransaccion" />
                 <ScalarProperty Name="codProveedor" ColumnName="codProveedor" />
                 <ScalarProperty Name="codTransaccion" ColumnName="codTransaccion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbCaja">
+            <EntityTypeMapping TypeName="dbHeredadesModel.tbCaja">
+              <MappingFragment StoreEntitySet="tbCaja">
+                <ScalarProperty Name="cantidad" ColumnName="cantidad" />
+                <ScalarProperty Name="codCaja" ColumnName="codCaja" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbPagoDeudor">
+            <EntityTypeMapping TypeName="dbHeredadesModel.tbPagoDeudor">
+              <MappingFragment StoreEntitySet="tbPagoDeudor">
+                <ScalarProperty Name="fecha" ColumnName="fecha" />
+                <ScalarProperty Name="pago" ColumnName="pago" />
+                <ScalarProperty Name="codUsuario" ColumnName="codUsuario" />
+                <ScalarProperty Name="codDeudor" ColumnName="codDeudor" />
+                <ScalarProperty Name="codPagoDeudor" ColumnName="codPagoDeudor" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbVenta">
+            <EntityTypeMapping TypeName="dbHeredadesModel.tbVenta">
+              <MappingFragment StoreEntitySet="tbVenta">
+                <ScalarProperty Name="estado" ColumnName="estado" />
+                <ScalarProperty Name="numFactura" ColumnName="numFactura" />
+                <ScalarProperty Name="fecha" ColumnName="fecha" />
+                <ScalarProperty Name="codUsuario" ColumnName="codUsuario" />
+                <ScalarProperty Name="codDeudor" ColumnName="codDeudor" />
+                <ScalarProperty Name="codVenta" ColumnName="codVenta" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbTransaccionCaja">
+            <EntityTypeMapping TypeName="dbHeredadesModel.tbTransaccionCaja">
+              <MappingFragment StoreEntitySet="tbTransaccionCaja">
+                <ScalarProperty Name="fecha" ColumnName="fecha" />
+                <ScalarProperty Name="descripcion" ColumnName="descripcion" />
+                <ScalarProperty Name="cantidad" ColumnName="cantidad" />
+                <ScalarProperty Name="tipoTransaccion" ColumnName="tipoTransaccion" />
+                <ScalarProperty Name="codUsuario" ColumnName="codUsuario" />
+                <ScalarProperty Name="codTransaccionCaja" ColumnName="codTransaccionCaja" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

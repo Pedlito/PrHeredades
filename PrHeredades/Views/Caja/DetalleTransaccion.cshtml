@@ -1,0 +1,31 @@
+﻿@model PrHeredades.Models.tbTransaccionCaja
+
+@{
+    ViewBag.Title = "DetalleTransaccion";
+}
+
+<h2>@ViewBag.titulo</h2>
+<hr />
+
+<dl class="dl-horizontal">
+    <dt class="col-12">Cantidad</dt>
+    <dd class="col-12">@Model.cantidad</dd>
+
+    <dt class="col-12">Descripción</dt>
+    <dd class="col-12">@Model.descripcion</dd>
+
+    <dt class="col-12">Usuario</dt>
+    <dd class="col-12">@Model.tbUsuario.nombre</dd>
+
+    <dt class="col-12">Fecha</dt>
+    <dd class="col-12">@Model.fecha.Value.ToLongDateString()</dd>
+
+    <dt class="col-12">Hora</dt>
+    <dd class="col-12">@Model.fecha.Value.ToShortTimeString()</dd>
+</dl>
+
+<div class="form-group">
+    <a href="@Url.Action(ViewBag.regresar)" class="btn btn-dark" style="width: 150px">
+        <span class="fa fa-arrow-left"></span> Regresar
+    </a>
+</div>

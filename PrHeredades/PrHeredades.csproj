@@ -157,6 +157,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\CajaController.cs" />
     <Compile Include="Controllers\CategoriaController.cs" />
     <Compile Include="Controllers\DeudaProveedorController.cs" />
     <Compile Include="Controllers\DeudorController.cs" />
@@ -194,10 +195,16 @@
     <Compile Include="Models\ProductoSalida.cs" />
     <Compile Include="Models\ProductoVenta.cs" />
     <Compile Include="Models\Sesion.cs" />
+    <Compile Include="Models\tbCaja.cs">
+      <DependentUpon>ClasesEntity.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\tbCategoria.cs">
       <DependentUpon>ClasesEntity.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\tbDeudor.cs">
+      <DependentUpon>ClasesEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\tbPagoDeudor.cs">
       <DependentUpon>ClasesEntity.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\tbPagoProveedor.cs">
@@ -233,6 +240,9 @@
     <Compile Include="Models\tbTransaccion.cs">
       <DependentUpon>ClasesEntity.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\tbTransaccionCaja.cs">
+      <DependentUpon>ClasesEntity.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\tbUsuario.cs">
       <DependentUpon>ClasesEntity.tt</DependentUpon>
     </Compile>
@@ -243,9 +253,6 @@
       <DependentUpon>ClasesEntity.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Usuario.cs" />
-    <Compile Include="Models\vDeudaProveedor.cs">
-      <DependentUpon>ClasesEntity.tt</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tags\TagAutenticacion.cs" />
     <Compile Include="Tags\TagPermiso.cs" />
@@ -324,6 +331,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\jqueryValidator\categoria.js" />
     <Content Include="Scripts\jqueryValidator\deudor.js" />
+    <Content Include="Scripts\jqueryValidator\pagoDeudor.js" />
     <Content Include="Scripts\jqueryValidator\pagoProveedor.js" />
     <Content Include="Scripts\jqueryValidator\presentacion.js" />
     <Content Include="Scripts\jqueryValidator\producto.js" />
@@ -332,6 +340,7 @@
     <Content Include="Scripts\jqueryValidator\proveedor.js" />
     <Content Include="Scripts\jqueryValidator\rol.js" />
     <Content Include="Scripts\jqueryValidator\transaccion.js" />
+    <Content Include="Scripts\jqueryValidator\TransaccionCaja.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\jqueryValidator\usuario.js" />
     <Content Include="Scripts\myScripts\decimales.js" />
@@ -428,6 +437,21 @@
     <Content Include="Views\Transaccion\Pedidos.cshtml" />
     <Content Include="Views\Transaccion\CrearPedido.cshtml" />
     <Content Include="Views\Transaccion\DetallePedido.cshtml" />
+    <Content Include="Views\Venta\DetalleVenta.cshtml" />
+    <Content Include="Views\Deudor\Pagos.cshtml" />
+    <Content Include="Views\Shared\_PaginacionId.cshtml" />
+    <Content Include="Views\Deudor\Pagar.cshtml" />
+    <Content Include="Views\Deudor\DetallePago.cshtml" />
+    <Content Include="Views\Deudor\Compras.cshtml" />
+    <Content Include="Views\Deudor\DetalleCompra.cshtml" />
+    <Content Include="Views\Deudor\Editar.cshtml" />
+    <Content Include="Views\Deudor\Crear.cshtml" />
+    <Content Include="Views\Caja\Index.cshtml" />
+    <Content Include="Views\Caja\Ingresos.cshtml" />
+    <Content Include="Views\Caja\CrearTransaccion.cshtml" />
+    <Content Include="Views\Caja\DetalleTransaccion.cshtml" />
+    <Content Include="Views\Caja\Gastos.cshtml" />
+    <Content Include="Views\Caja\Retiros.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

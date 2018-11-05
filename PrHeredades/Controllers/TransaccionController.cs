@@ -14,6 +14,7 @@ namespace PrHeredades.Controllers
     {
         // las transacciones son 1 para entradas, 2 para salidas, 0 para pedidos
         private readonly int registrosPagina = 10;
+
         // pedidos
         #region Pedidos
         public ActionResult Pedidos(int pagina = 1, string filtro = "", bool estado = true)

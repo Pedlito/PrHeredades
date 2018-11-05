@@ -17,6 +17,7 @@ namespace PrHeredades.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public tbDeudor()
         {
+            this.tbPagoDeudor = new HashSet<tbPagoDeudor>();
             this.tbVenta = new HashSet<tbVenta>();
         }
     
@@ -26,7 +27,10 @@ namespace PrHeredades.Models
         public string residencia { get; set; }
         public string refUno { get; set; }
         public string refDos { get; set; }
+        public Nullable<decimal> deuda { get; set; }
     
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tbPagoDeudor> tbPagoDeudor { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tbVenta> tbVenta { get; set; }
     }

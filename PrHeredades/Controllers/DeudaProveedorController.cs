@@ -73,7 +73,7 @@ namespace PrHeredades.Controllers
                 lista = db.tbPagoProveedor.Where(t => t.codProveedor == id && t.estado == estado).OrderByDescending(t => t.fecha).ToList();
             }
             int paginas = (int)Math.Ceiling((double)lista.Count() / registrosPagina);
-            Paginacion paginacion = new Paginacion(pagina, paginas, "Index", "Presentacion");
+            Paginacion paginacion = new Paginacion(pagina, paginas, "VerPagos", "DeudaProveedor");
             ViewBag.paginacion = paginacion;
             ViewBag.filtro = filtro;
             ViewBag.estado = estado;

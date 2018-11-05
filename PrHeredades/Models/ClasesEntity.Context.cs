@@ -40,10 +40,12 @@ namespace PrHeredades.Models
         public virtual DbSet<tbRol> tbRol { get; set; }
         public virtual DbSet<tbRolPermiso> tbRolPermiso { get; set; }
         public virtual DbSet<tbUsuario> tbUsuario { get; set; }
-        public virtual DbSet<tbVenta> tbVenta { get; set; }
         public virtual DbSet<tbVentaProducto> tbVentaProducto { get; set; }
-        public virtual DbSet<vDeudaProveedor> vDeudaProveedor { get; set; }
         public virtual DbSet<tbTransaccion> tbTransaccion { get; set; }
+        public virtual DbSet<tbCaja> tbCaja { get; set; }
+        public virtual DbSet<tbPagoDeudor> tbPagoDeudor { get; set; }
+        public virtual DbSet<tbVenta> tbVenta { get; set; }
+        public virtual DbSet<tbTransaccionCaja> tbTransaccionCaja { get; set; }
     
         public virtual int DeshabilitarProductos(Nullable<int> codProd, Nullable<int> codPres)
         {

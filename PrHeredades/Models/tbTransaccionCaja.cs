@@ -12,11 +12,15 @@ namespace PrHeredades.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class vDeudaProveedor
+    public partial class tbTransaccionCaja
     {
-        public int codProveedor { get; set; }
-        public string proveedor { get; set; }
-        public string telefono { get; set; }
-        public Nullable<decimal> deuda { get; set; }
+        public int codTransaccionCaja { get; set; }
+        public Nullable<int> codUsuario { get; set; }
+        public Nullable<short> tipoTransaccion { get; set; }
+        public Nullable<decimal> cantidad { get; set; }
+        public string descripcion { get; set; }
+        public Nullable<System.DateTime> fecha { get; set; }
+    
+        public virtual tbUsuario tbUsuario { get; set; }
     }
 }
