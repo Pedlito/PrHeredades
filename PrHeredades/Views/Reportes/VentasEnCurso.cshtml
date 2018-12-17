@@ -1,0 +1,78 @@
+﻿@model IEnumerable<PrHeredades.Models.ventaClasificada>
+
+@{
+    ViewBag.Title = "Reportes";
+}
+
+    @if (Model.Count() > 0)
+    {<div class="row">
+        <div class="col-md-4"> <h2>Ventas del dia</h2></div>
+        <div class="col-md-8 ">
+            <a href="@Url.Action("imprimirVentasEnCurso")" class="btn btn-primary" style="width: 160px">
+                <span class="fa fa-print"></span> Imprimir reporte
+            </a>
+        </div>
+    </div>
+     }
+     else
+     {
+        <div> <h2>Ventas del dia</h2></div>
+        <div class="alert-info">No se ha realizado ninguna venta</div>
+     }
+<br />
+        <table class="table table-sm table-hover">
+            @foreach (var itm in Model)
+            {
+                <tr class="table-primary"><th>@itm.nombreProducto</th><th></th><th></th></tr>
+
+                <tr>
+                    <th scope="col">
+                        Presentacion
+                    </th>
+                    <th scope="col">
+                        Cantidad
+                    </th>
+                    <th scope="col">
+                        Valor
+                    </th>
+                </tr>
+                foreach (var item in itm.presetacionesProd)
+                {
+                    <tr>
+                        <td>
+                            @item.presentacion
+                        </td>
+                        <td>
+                            @item.cantidad.ToString()
+                        </td>
+                        <td>
+                            @item.entrada.ToString()
+                        </td>
+                    </tr>
+                }
+                <tr>
+                    <td></td>
+                    <td class="font-weight-bold">
+                        Total:
+                    </td>
+                    <td class="font-weight-bold">
+                        Q @Decimal.Round(itm.total, 2)
+                    </td>
+                </tr>
+            }
+        </table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

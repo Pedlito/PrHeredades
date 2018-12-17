@@ -17,11 +17,11 @@ namespace PrHeredades.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public tbUsuario()
         {
+            this.tbPagoDeudor = new HashSet<tbPagoDeudor>();
             this.tbPagoProveedor = new HashSet<tbPagoProveedor>();
             this.tbTransaccion = new HashSet<tbTransaccion>();
-            this.tbPagoDeudor = new HashSet<tbPagoDeudor>();
-            this.tbVenta = new HashSet<tbVenta>();
             this.tbTransaccionCaja = new HashSet<tbTransaccionCaja>();
+            this.tbVenta = new HashSet<tbVenta>();
         }
     
         public int codUsuario { get; set; }
@@ -32,15 +32,15 @@ namespace PrHeredades.Models
         public Nullable<bool> estado { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tbPagoDeudor> tbPagoDeudor { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tbPagoProveedor> tbPagoProveedor { get; set; }
         public virtual tbRol tbRol { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tbTransaccion> tbTransaccion { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tbPagoDeudor> tbPagoDeudor { get; set; }
+        public virtual ICollection<tbTransaccionCaja> tbTransaccionCaja { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tbVenta> tbVenta { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<tbTransaccionCaja> tbTransaccionCaja { get; set; }
     }
 }

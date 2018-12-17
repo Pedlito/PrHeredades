@@ -7,7 +7,7 @@
 <h2>Vender</h2>
 <hr />
 <div class="form-group">
-    
+
     <h4>
         <div class="validation-summary-errors text-danger">
             <ul id="error">
@@ -229,6 +229,45 @@
             }
         }
 
+         //Este es el método encargado de convertir un producto
+        function Convertir(codProducto, codPresentacion) {
+            $.ajax({
+                url: '@Url.Action("Convertir")',
+                type: "POST",
+                data: { codProducto: codProducto, codPresentacion: codPresentacion },
+                success: function (response) {
+                    if (response == "True") {
+                        ListarProductos()
+                    }
+                    else {
+                        alert("No hay existencia")
+                    }
+                },
+                error: function (response) {
+                    console.log(response);
+                }
+            });
+        }
+
+        function CambiarCantidad(codProducto, codPresentacion, cantidad, existencia) {
+            var index = productos.findIndex(t => t.codProducto == codProducto && t.codPresentacion == codPresentacion);
+            if (cantidad.value != "" && cantidad.value > 0) {
+                if (cantidad.value > 0 && cantidad.value <= existencia) {
+                    productos[index].cantidad = cantidad.value;
+                    ListarProductos();
+                }
+                else {
+                    productos[index].cantidad = existencia;
+                    $(cantidad).val(existencia);
+                }
+            }
+            else {
+                productos[index].cantidad = "1";
+                $(cantidad).val(1);
+            }
+
+        }
+
         function AgregarProducto() {
             if ($("#agrProducto").valid()) {
                 $('#agregarProducto').modal('hide');
@@ -239,15 +278,23 @@
             }
         }
 
-        function CambiarCantidad(codProducto, codPresentacion, cantidad) {
+        function CambiarCantidad(codProducto, codPresentacion, cantidad, existencia) {
             var index = productos.findIndex(t => t.codProducto == codProducto && t.codPresentacion == codPresentacion);
             if (cantidad.value != "" && cantidad.value > 0) {
-                productos[index].cantidad = cantidad.value;
-                ListarProductos();
+                if (cantidad.value > 0 && cantidad.value <= existencia) {
+                    productos[index].cantidad = cantidad.value;
+                    ListarProductos();
+                }
+                else {
+                    productos[index].cantidad = existencia;
+                    $(cantidad).val(existencia);
+                    ListarProductos();
+                }
             }
             else {
                 productos[index].cantidad = "1";
                 $(cantidad).val(1);
+                ListarProductos();
             }
 
         }

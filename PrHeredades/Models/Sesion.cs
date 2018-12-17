@@ -86,12 +86,20 @@ namespace PrHeredades.Models
 
     public enum EnumPermisos
     {
-        Catalogos = 1,
-        Usuarios = 2,
-        Inventario = 3,
-        Roles = 4,
-        Proveedores = 5,
-        Compras = 6,
-        Salidas = 7
+        Caja = 1,
+        Categoria = 2,
+        DeudaProveedor = 3,
+        Deudor = 4,
+        Existencia = 5,
+        Presentacion = 6,
+        Producto = 7,
+        Proveedor = 8,
+        Reportes = 9,
+        Rol = 10,
+        Pedidos = 11,
+        Compras = 12,
+        Salida = 13,
+        Usuario = 14,
+        Venta = 15
     }
 }

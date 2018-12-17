@@ -10,6 +10,7 @@ using PrHeredades.Tags;
 namespace PrHeredades.Controllers
 {
     [TagAutenticacion]
+    [TagPermiso(permiso = EnumPermisos.Venta)]
     public class VentaController : Controller
     {
         private readonly int registrosPagina = 10;
@@ -97,38 +98,14 @@ namespace PrHeredades.Controllers
                 decimal total = 0;
                 foreach (tbVentaProducto item in lista)
                 {
-                    //si el producto tiene existencia con esa presentacion
-                    if (TieneExistencia(item.codProducto, item.codPresentacion, item.cantidad.Value))
-                    {
-                        tbProductoPresentacion prodPres = db.tbProductoPresentacion.Find(item.codProducto, item.codPresentacion);
-                        //se agregar el precio de venta actual y se agrega a la venta
-                        item.precioVenta = prodPres.precioVenta;
-                        venta.tbVentaProducto.Add(item);
-                        //se reduce la venta a la existencia
-                        prodPres.existencia -= item.cantidad;
-                        //se agrega al total
-                        total += item.precioVenta.Value * item.cantidad.Value;
-                    }
-                    else
-                    {
-                        //si no, se intenta realizar una conversión del producto con la presentacion
-                        tbProductoPresentacion prod = db.tbProductoPresentacion.Find(item.codProducto, item.codPresentacion);
-                        if (Convertir(prod))
-                        {
-                            //si se logra realizar la conversion
-                            //se agregar el precio de venta actual y se agrega a la venta
-                            item.precioVenta = prod.precioVenta;
-                            venta.tbVentaProducto.Add(item);
-                            //se reduce la venta a la existencia
-                            prod.existencia -= item.cantidad;
-                            //se agrega al total
-                            total += item.precioVenta.Value * item.cantidad.Value;
-                        }
-                        else
-                        {
-                            //se informa de la falta de producto
-                        }
-                    }
+                    tbProductoPresentacion prodPres = db.tbProductoPresentacion.Find(item.codProducto, item.codPresentacion);
+                    //se agregar el precio de venta actual y se agrega a la venta
+                    item.precioVenta = prodPres.precioVenta;
+                    venta.tbVentaProducto.Add(item);
+                    //se reduce la venta a la existencia
+                    prodPres.existencia -= item.cantidad;
+                    //se agrega al total
+                    total += item.precioVenta.Value * item.cantidad.Value;
                 }
                 if (deudor != null)
                 {
@@ -193,15 +170,35 @@ namespace PrHeredades.Controllers
                 foreach (tbVentaProducto item in lista)
                 {
                     tbProductoPresentacion producto = db.tbProductoPresentacion.Find(item.codProducto, item.codPresentacion);
-                    listaVenta.Add(new ProductoVenta
+                    tbProductoPresentacion correlativoMayor = db.tbProductoPresentacion.Where(t => t.codProducto == producto.codProducto && t.correlativo == (producto.correlativo + 1)).SingleOrDefault();
+                    if (correlativoMayor == null)
                     {
-                        codProducto = producto.codProducto,
-                        producto = producto.tbProducto.producto,
-                        codPresentacion = producto.codPresentacion,
-                        presentacion = producto.tbPresentacion.presentacion,
-                        cantidad = item.cantidad.Value,
-                        precioVenta = producto.precioVenta.Value
-                    });
+                        listaVenta.Add(new ProductoVenta
+                        {
+                            codProducto = producto.codProducto,
+                            producto = producto.tbProducto.producto,
+                            codPresentacion = producto.codPresentacion,
+                            presentacion = producto.tbPresentacion.presentacion,
+                            existencia = producto.existencia.Value,
+                            cantidad = item.cantidad.Value,
+                            precioVenta = producto.precioVenta.Value,
+                            tieneMayor = false
+                        });
+                    }
+                    else
+                    {
+                        listaVenta.Add(new ProductoVenta
+                        {
+                            codProducto = producto.codProducto,
+                            producto = producto.tbProducto.producto,
+                            codPresentacion = producto.codPresentacion,
+                            presentacion = producto.tbPresentacion.presentacion,
+                            existencia = producto.existencia.Value,
+                            cantidad = item.cantidad.Value,
+                            precioVenta = producto.precioVenta.Value,
+                            tieneMayor = true
+                        });
+                    }
                     total += listaVenta.Last().precioVenta * listaVenta.Last().cantidad;
                 }
             }
@@ -225,9 +222,10 @@ namespace PrHeredades.Controllers
         }
 
         //Se encarga de toda la logica previa a realizar una conversión
-        public bool Convertir(tbProductoPresentacion prod)
+        public bool Convertir(int codProducto, int codPresentacion)
         {
             dbHeredadesEntities db = new dbHeredadesEntities();
+            tbProductoPresentacion prod = db.tbProductoPresentacion.Find(codProducto, codPresentacion);
             tbProductoPresentacion correlativoMayor = db.tbProductoPresentacion.Where(t => t.codProducto == prod.codProducto && t.correlativo == (prod.correlativo + 1)).SingleOrDefault();
             if (correlativoMayor != null)
             {
@@ -245,7 +243,8 @@ namespace PrHeredades.Controllers
                 else
                 {
                     //si no tiene nada en existencia se intenta con un correlativo mayor
-                    if (Convertir(db.tbProductoPresentacion.Where(t => t.codProducto == prod.codProducto && t.correlativo == (prod.correlativo + 1)).SingleOrDefault()))
+                    tbProductoPresentacion convertir = db.tbProductoPresentacion.Where(t => t.codProducto == prod.codProducto && t.correlativo == (prod.correlativo + 1)).SingleOrDefault();
+                    if (Convertir(convertir.codProducto, convertir.codPresentacion))
                     {
                         //se realiza conversion
                         tbProductoPresentacion mayor = db.tbProductoPresentacion.Where(t => t.codProducto == prod.codProducto && t.correlativo == (prod.correlativo + 1)).SingleOrDefault();

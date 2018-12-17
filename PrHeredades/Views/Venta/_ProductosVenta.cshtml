@@ -14,6 +14,9 @@
                 <th scope="col" class="text-center">
                     Precio
                 </th>
+                <th scope="col" class="text-center">
+                    Existencia
+                </th>
                 <th class="text-center">
                     Cantidad
                 </th>
@@ -34,13 +37,22 @@
                     <td class="align-middle text-center">
                         @item.precioVenta
                     </td>
+                    <td class="align-middle text-center">
+                        @item.existencia
+                    </td>
                     <td class="justify-content-center">
-                        <input type="number" step="0.10" class="form-control form-control-sm col-md-4 offset-md-4" value="@item.cantidad" onchange="CambiarCantidad(@item.codProducto, @item.codPresentacion, this)" />
+                        <input type="number" step="0.10" class="form-control form-control-sm col-md-4 offset-md-4" value="@item.cantidad" onchange="CambiarCantidad(@item.codProducto, @item.codPresentacion, this, @item.existencia)" />
                     </td>
                     <td class="align-middle">
                         <button type="button" class="btn btn-danger btn-sm" onclick="Quitar(@item.codProducto, @item.codPresentacion)">
                             <span class="fa fa-times"></span> Quitar
                         </button>
+                        @if (item.tieneMayor)
+                        {
+                            <button type="button" class="btn btn-warning btn-sm" onclick="Convertir(@item.codProducto, @item.codPresentacion)">
+                                <span class="fa fa-caret-square-o-left"></span> Convertir
+                            </button>
+                        }
                     </td>
                 </tr>
             }

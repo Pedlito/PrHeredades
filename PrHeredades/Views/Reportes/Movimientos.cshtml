@@ -1,0 +1,252 @@
+﻿@using PrHeredades.Models;
+@{
+    ViewBag.Title = "Reportes por dia";
+}
+
+<h2>Resumen</h2>
+
+
+<hr />
+
+
+<form action="@Url.Action("Movimientos")" method="get" class="form-group">
+    <div class="row">
+        <div class="col-md-2">
+            <input type="date" class="form-control form-control-sm" id="dia" name="dia" value="@ViewBag.dia" autocomplete="off" />
+        </div>
+        <div class="col-md-2">
+            <button type="submit" class="btn btn-info btn-sm">
+                <span class="fa fa-search"></span> Filtrar
+            </button>
+        </div>
+        <div class="col-md-8">
+            @if ((@ViewBag.ventas as List<resumenVentasDia_Result>).Count > 0 | (@ViewBag.compras as List<resumenComprasDia_Result>).Count > 0 | (@ViewBag.gastos as List<resumenMovimientosCaja_Result>).Count > 0)
+            {
+                <a href="@Url.Action("imprimirMovimientos", new { fecha = ViewBag.dia })" class="btn btn-primary btn-sm">
+                    <span class="fa fa-print"></span> Imprimir reporte
+                </a>
+            }
+        </div>
+    </div>
+</form>
+
+<hr />
+
+<h2>Ventas</h2>
+<div class="form-group">
+    <table class="table table-sm table-hover">
+        <thead>
+            <tr class="table-primary">
+                <th scope="col">
+                    Producto
+                </th>
+                <th scope="col">
+                    Presentación
+                </th>
+                <th scope="col" class="text-center">
+                    Cantidad
+                </th>
+                <th scope="col" class="text-center">
+                    Entrada
+                </th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var item in @ViewBag.ventas as List<resumenVentasDia_Result>)
+            {
+                <tr>
+                    <td class="align-middle">
+                        @item.producto
+                    </td>
+                    <td class="align-middle">
+                        @item.presentacion
+                    </td>
+                    <td class="align-middle text-center">
+                        @item.cantidad
+                    </td>
+                    <td class="align-middle text-center">
+                        Q. @Decimal.Round(item.entrada.Value, 2)
+                    </td>
+                </tr>
+            }
+            <tr>
+                <td></td>
+                <td></td>
+                <td class="align-middle text-center font-weight-bold">
+                    Total:
+                </td>
+                <td class="align-middle text-center font-weight-bold">
+                    Q. @ViewBag.totalVentas
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<h2>Compras</h2>
+<div class="form-group">
+    <table class="table table-sm table-hover">
+        <thead>
+            <tr class="table-primary">
+                <th scope="col">
+                    Producto
+                </th>
+                <th scope="col">
+                    Presentación
+                </th>
+                <th scope="col" class="text-center">
+                    Cantidad
+                </th>
+                <th scope="col" class="text-center">
+                    Gasto
+                </th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var item in @ViewBag.compras as List<resumenComprasDia_Result>)
+            {
+                <tr>
+                    <td class="align-middle">
+                        @item.producto
+                    </td>
+                    <td class="align-middle">
+                        @item.presentacion
+                    </td>
+                    <td class="align-middle text-center">
+                        @item.cantidad
+                    </td>
+                    <td class="align-middle text-center">
+                        Q. @Decimal.Round(item.gasto.Value, 2)
+                    </td>
+                </tr>
+            }
+            <tr>
+                <td></td>
+                <td></td>
+                <td class="align-middle text-center font-weight-bold">
+                    Total:
+                </td>
+                <td class="align-middle text-center font-weight-bold">
+                    Q. @ViewBag.totalCompras
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<h2>Ingresos</h2>
+<div class="form-group">
+    <table class="table table-sm table-hover">
+        <thead>
+            <tr class="table-primary">
+                <th scope="col">
+                    Descripcion
+                </th>
+                <th scope="col">
+                    Valor
+                </th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var item in @ViewBag.Ingresos as List<resumenMovimientosCaja_Result>)
+            {
+                <tr>
+                    <td class="align-middle">
+                        @item.descripcion
+                    </td>
+                    <td class="align-middle">
+                        Q. @Decimal.Round(item.valor.Value, 2)
+                    </td>
+                </tr>
+            }
+            <tr>
+                <td class="font-weight-bold">
+                    Total:
+                </td>
+                <td class="font-weight-bold">
+                    Q. @ViewBag.totalIngresos
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<h2>Gastos</h2>
+<div class="form-group">
+    <table class="table table-sm table-hover">
+        <thead>
+            <tr class="table-primary">
+                <th scope="col">
+                    Descripcion
+                </th>
+                <th scope="col">
+                    Valor
+                </th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var item in @ViewBag.Gastos as List<resumenMovimientosCaja_Result>)
+            {
+                <tr>
+                    <td class="align-middle">
+                        @item.descripcion
+                    </td>
+                    <td class="align-middle">
+                        Q. @Decimal.Round(item.valor.Value, 2)
+                    </td>
+                </tr>
+            }
+            <tr>
+                <td class="font-weight-bold">
+                    Total:
+                </td>
+                <td class="font-weight-bold">
+                    Q. @ViewBag.totalGastos
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<h2>Retiros</h2>
+<div class="form-group">
+    <table class="table table-sm table-hover">
+        <thead>
+            <tr class="table-primary">
+                <th scope="col">
+                    Descripcion
+                </th>
+                <th scope="col">
+                    Valor
+                </th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var item in @ViewBag.Retiros as List<resumenMovimientosCaja_Result>)
+            {
+                <tr>
+                    <td class="align-middle">
+                        @item.descripcion
+                    </td>
+                    <td class="align-middle">
+                        Q. @Decimal.Round(item.valor.Value, 2)
+                    </td>
+                </tr>
+            }
+            <tr>
+                <td class="font-weight-bold">
+                    Total:
+                </td>
+                <td class="font-weight-bold">
+                    Q. @ViewBag.totalRetiros
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+

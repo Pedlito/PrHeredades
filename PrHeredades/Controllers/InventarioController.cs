@@ -9,6 +9,7 @@ using PrHeredades.Models;
 namespace PrHeredades.Controllers
 {
     [TagAutenticacion]
+    [TagPermiso(permiso = EnumPermisos.Existencia)]
     public class InventarioController : Controller
     {
         // GET: Inventario

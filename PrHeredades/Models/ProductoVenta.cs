@@ -12,7 +12,8 @@ namespace PrHeredades.Models
         public int codPresentacion { get; set; }
         public string presentacion { get; set; }
         public decimal cantidad { get; set; }
-        public int existencia { get; set; }
+        public decimal existencia { get; set; }
         public decimal precioVenta { get; set; }
+        public bool tieneMayor { get; set; }
     }
 }

@@ -10,6 +10,7 @@ using PrHeredades.Tags;
 namespace PrHeredades.Controllers
 {
     [TagAutenticacion]
+    [TagPermiso(permiso = EnumPermisos.Caja)]
     public class CajaController : Controller
     {
         // GET: Caja

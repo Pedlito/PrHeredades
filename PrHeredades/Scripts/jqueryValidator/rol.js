@@ -7,7 +7,6 @@
 );
 
 
-//$().ready(function () {
 $("#formRol").validate({
     errorClass: 'text-danger',
     errorElement: 'li',
@@ -20,8 +19,7 @@ $("#formRol").validate({
     },
     messages: {
         rol: {
-            required: "Ingrese un rol",
+            required: "Ingrese un rol"
         }
     }
 });
-//});

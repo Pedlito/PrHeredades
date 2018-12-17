@@ -3,67 +3,104 @@
 
 @if (Sesion.Existe())
 {
-<ul class="navbar-nav">
-    <li class="nav-item">
-        <a class="nav-link" href="@Url.Action("Index", "Venta")">Ventas</a>
-    </li>
+    <ul class="navbar-nav">
+        @if (Sesion.TienePermiso(EnumPermisos.Venta))
+        {
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.Action("Index", "Venta")">Ventas</a>
+            </li>
+        }
 
-    <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" id="navbarDropConta" role="button" aria-expanded="false" aria-haspopup="true">Contabilidad</a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropConta">
-            <a class="dropdown-item" href="@Url.Action("Index", "Deudor")">Deudores</a>
-            <a class="dropdown-item" href="@Url.Action("Index", "DeudaProveedor")">Deudas a proveedores</a>
-            <a class="dropdown-item" href="@Url.Action("Index", "Deudor")">Deudores</a>
-        </div>
-    </li>
-
-    <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" id="navbarDropInv" role="button" aria-expanded="false" aria-haspopup="true">Inventario</a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropInv">
-            @if (Sesion.TienePermiso(EnumPermisos.Inventario))
-            {
-                <a class="dropdown-item" href="@Url.Action("Index", "Inventario")">Existencias</a>
-            }
-            <a class="dropdown-item" href="@Url.Action("Pedidos", "Transaccion")">Pedidos</a>
-            @if (Sesion.TienePermiso(EnumPermisos.Compras))
-            {
-                <a class="dropdown-item" href="@Url.Action("Entradas", "Transaccion")">Compras</a>
-            }
-            @if (Sesion.TienePermiso(EnumPermisos.Salidas))
-            {
-                <a class="dropdown-item" href="@Url.Action("Salidas", "Transaccion")">Salidas</a>
-            }
-            <hr />
-            <a class="dropdown-item" href="@Url.Action("Index", "Producto")">Productos</a>
-            <a class="dropdown-item" href="@Url.Action("Index", "Presentacion")">Presentaciones</a>
-            <a class="dropdown-item" href="@Url.Action("Index", "Categoria")">Categorias</a>
-
-        </div>
-    </li>
-
-    @if (Sesion.TienePermiso(EnumPermisos.Usuarios) == true || Sesion.TienePermiso(EnumPermisos.Catalogos) == true || Sesion.TienePermiso(EnumPermisos.Inventario) == true)
-    {
         <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" id="navbarDropAdmin" role="button" aria-expanded="false" aria-haspopup="true">Administración</a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropAdmin">
-
-                @if (Sesion.TienePermiso(EnumPermisos.Proveedores))
+            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" id="navbarDropConta" role="button" aria-expanded="false" aria-haspopup="true">Contabilidad</a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropConta">
+                @if (Sesion.TienePermiso(EnumPermisos.Caja))
                 {
-                    <a class="dropdown-item" href="@Url.Action("Index", "Proveedor")">Proveedores</a>
+                    <a class="dropdown-item" href="@Url.Action("Index", "Caja")">Control de Caja</a>
                 }
-                @if (Sesion.TienePermiso(EnumPermisos.Usuarios))
+                @if (Sesion.TienePermiso(EnumPermisos.Deudor))
                 {
-                    <a class="dropdown-item" href="@Url.Action("Index", "Usuario")">Usuarios</a>
+                    <a class="dropdown-item" href="@Url.Action("Index", "Deudor")">Deudores</a>
                 }
-                @if (Sesion.TienePermiso(EnumPermisos.Roles))
+                @if (Sesion.TienePermiso(EnumPermisos.DeudaProveedor))
                 {
-                    <a class="dropdown-item" href="@Url.Action("Index", "Rol")">Roles</a>
+                    <a class="dropdown-item" href="@Url.Action("Index", "DeudaProveedor")">Deudas a proveedores</a>
                 }
 
             </div>
         </li>
-    }
-</ul>
+
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" id="navbarDropInv" role="button" aria-expanded="false" aria-haspopup="true">Inventario</a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropInv">
+                @*@if (Sesion.TienePermiso(EnumPermisos.))
+                    {
+
+                    }*@
+                @if (Sesion.TienePermiso(EnumPermisos.Existencia))
+                {
+                    <a class="dropdown-item" href="@Url.Action("Index", "Inventario")">Existencias</a>
+                }
+                @if (Sesion.TienePermiso(EnumPermisos.Pedidos))
+                {
+                    <a class="dropdown-item" href="@Url.Action("Pedidos", "Transaccion")">Pedidos</a>
+                }
+                @if (Sesion.TienePermiso(EnumPermisos.Compras))
+                {
+                    <a class="dropdown-item" href="@Url.Action("Entradas", "Transaccion")">Compras</a>
+                }
+                @if (Sesion.TienePermiso(EnumPermisos.Salida))
+                {
+                    <a class="dropdown-item" href="@Url.Action("Salidas", "Transaccion")">Salidas</a>
+                }
+                <hr />
+                @if (Sesion.TienePermiso(EnumPermisos.Producto))
+                {
+                    <a class="dropdown-item" href="@Url.Action("Index", "Producto")">Productos</a>
+                }
+                @if (Sesion.TienePermiso(EnumPermisos.Presentacion))
+                {
+                    <a class="dropdown-item" href="@Url.Action("Index", "Presentacion")">Presentaciones</a>
+                }
+                @if (Sesion.TienePermiso(EnumPermisos.Categoria))
+                {
+                    <a class="dropdown-item" href="@Url.Action("Index", "Categoria")">Categorias</a>
+                }
+            </div>
+        </li>
+
+        @*@if (Sesion.TienePermiso(EnumPermisos.Usuarios) == true || Sesion.TienePermiso(EnumPermisos.Catalogos) == true || Sesion.TienePermiso(EnumPermisos.Inventario) == true)*@
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" id="navbarDropAdmin" role="button" aria-expanded="false" aria-haspopup="true">Administración</a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropAdmin">
+                @if (Sesion.TienePermiso(EnumPermisos.Proveedor))
+                {
+                    <a class="dropdown-item" href="@Url.Action("Index", "Proveedor")">Proveedores</a>
+                }
+                @if (Sesion.TienePermiso(EnumPermisos.Usuario))
+                {
+
+                    <a class="dropdown-item" href="@Url.Action("Index", "Usuario")">Usuarios</a>
+                }
+                @if (Sesion.TienePermiso(EnumPermisos.Rol))
+                {
+                    <a class="dropdown-item" href="@Url.Action("Index", "Rol")">Roles</a>
+                }
+            </div>
+        </li>
+
+        @if (Sesion.TienePermiso(EnumPermisos.Reportes))
+        {
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" id="navbarDropAdmin" role="button" aria-expanded="false" aria-haspopup="true">Reportes</a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropAdmin">
+                    <a class="dropdown-item" href="@Url.Action("VentasEnCurso", "Reportes")">Ventas diarias</a>
+                    <a class="dropdown-item" href="@Url.Action("Movimientos", "Reportes")">Movimiento diario</a>
+                </div>
+            </li>
+        }
+
+    </ul>
     <form action="@Url.Action("CerrarSesion", "Sesion")" method="post" class="ml-auto" id="navForm">
         <ul class="navbar-nav">
             <li class="nav-item">

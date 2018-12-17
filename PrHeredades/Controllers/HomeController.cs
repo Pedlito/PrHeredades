@@ -16,14 +16,12 @@ namespace PrHeredades.Controllers
             return View();
         }
 
-        [TagPermiso(permiso = EnumPermisos.Inventario)]
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
             return View();
         }
 
-        [TagPermiso(permiso = EnumPermisos.Catalogos)]
         public ActionResult Catalogos()
         {
             return View();

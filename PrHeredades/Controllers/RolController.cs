@@ -10,7 +10,7 @@ using PrHeredades.Tags;
 namespace PrHeredades.Controllers
 {
     [TagAutenticacion]
-    [TagPermiso(permiso = EnumPermisos.Roles)]
+    [TagPermiso(permiso = EnumPermisos.Rol)]
     public class RolController : Controller
     {
         // GET: Rol

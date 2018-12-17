@@ -10,6 +10,7 @@ using PrHeredades.Tags;
 namespace PrHeredades.Controllers
 {
     [TagAutenticacion]
+    [TagPermiso(permiso = EnumPermisos.Deudor)]
     public class DeudorController : Controller
     {
         private readonly int registrosPagina = 10;

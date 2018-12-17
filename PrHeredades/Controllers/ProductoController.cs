@@ -10,6 +10,7 @@ using PrHeredades.Tags;
 namespace PrHeredades.Controllers
 {
     [TagAutenticacion]
+    [TagPermiso(permiso = EnumPermisos.Producto)]
     public class ProductoController : Controller
     {
         private readonly int registrosPagina = 10;
@@ -79,7 +80,7 @@ namespace PrHeredades.Controllers
             ViewBag.codPresentacion = new SelectList(presentaciones, "codPresentacion", "presentacion");
             List<tbCategoria> categorias = db.tbCategoria.Where(t => t.estado == true).OrderBy(t => t.categoria).ToList();
             ViewBag.codCategoria = new SelectList(categorias, "codCategoria", "categoria");
-            ViewBag.presentaciones = producto.tbProductoPresentacion.Where(t => t.correlativo > 0).Select(t => new { t.codProducto, t.codPresentacion, t.precioVenta, t.unidades });
+            ViewBag.presentaciones = producto.tbProductoPresentacion.Where(t => t.correlativo > 0).OrderBy(t => t.correlativo).Select(t => new { t.codProducto, t.codPresentacion, t.precioVenta, t.unidades });
             return View(producto);
         }
 
@@ -123,6 +124,7 @@ namespace PrHeredades.Controllers
                         // no existe esta presentacion en bd: hay que insertarla y ordenarla 
                         item.codProducto = producto.codProducto;
                         item.correlativo = correlativo;
+                        item.existencia = 0;
                         db.tbProductoPresentacion.Add(item);
                     }
                     correlativo++;

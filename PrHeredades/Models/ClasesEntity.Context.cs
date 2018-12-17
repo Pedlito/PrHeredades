@@ -27,8 +27,10 @@ namespace PrHeredades.Models
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<tbCaja> tbCaja { get; set; }
         public virtual DbSet<tbCategoria> tbCategoria { get; set; }
         public virtual DbSet<tbDeudor> tbDeudor { get; set; }
+        public virtual DbSet<tbPagoDeudor> tbPagoDeudor { get; set; }
         public virtual DbSet<tbPagoProveedor> tbPagoProveedor { get; set; }
         public virtual DbSet<tbPermiso> tbPermiso { get; set; }
         public virtual DbSet<tbPresentacion> tbPresentacion { get; set; }
@@ -39,13 +41,11 @@ namespace PrHeredades.Models
         public virtual DbSet<tbProveedor> tbProveedor { get; set; }
         public virtual DbSet<tbRol> tbRol { get; set; }
         public virtual DbSet<tbRolPermiso> tbRolPermiso { get; set; }
-        public virtual DbSet<tbUsuario> tbUsuario { get; set; }
-        public virtual DbSet<tbVentaProducto> tbVentaProducto { get; set; }
         public virtual DbSet<tbTransaccion> tbTransaccion { get; set; }
-        public virtual DbSet<tbCaja> tbCaja { get; set; }
-        public virtual DbSet<tbPagoDeudor> tbPagoDeudor { get; set; }
-        public virtual DbSet<tbVenta> tbVenta { get; set; }
         public virtual DbSet<tbTransaccionCaja> tbTransaccionCaja { get; set; }
+        public virtual DbSet<tbUsuario> tbUsuario { get; set; }
+        public virtual DbSet<tbVenta> tbVenta { get; set; }
+        public virtual DbSet<tbVentaProducto> tbVentaProducto { get; set; }
     
         public virtual int DeshabilitarProductos(Nullable<int> codProd, Nullable<int> codPres)
         {
@@ -58,6 +58,36 @@ namespace PrHeredades.Models
                 new ObjectParameter("codPres", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("DeshabilitarProductos", codProdParameter, codPresParameter);
+        }
+    
+        [DbFunction("dbHeredadesEntities", "resumenComprasDia")]
+        public virtual IQueryable<resumenComprasDia_Result> resumenComprasDia(Nullable<System.DateTime> dia)
+        {
+            var diaParameter = dia.HasValue ?
+                new ObjectParameter("dia", dia) :
+                new ObjectParameter("dia", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<resumenComprasDia_Result>("[dbHeredadesEntities].[resumenComprasDia](@dia)", diaParameter);
+        }
+    
+        [DbFunction("dbHeredadesEntities", "resumenMovimientosCaja")]
+        public virtual IQueryable<resumenMovimientosCaja_Result> resumenMovimientosCaja(Nullable<System.DateTime> dia)
+        {
+            var diaParameter = dia.HasValue ?
+                new ObjectParameter("dia", dia) :
+                new ObjectParameter("dia", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<resumenMovimientosCaja_Result>("[dbHeredadesEntities].[resumenMovimientosCaja](@dia)", diaParameter);
+        }
+    
+        [DbFunction("dbHeredadesEntities", "resumenVentasDia")]
+        public virtual IQueryable<resumenVentasDia_Result> resumenVentasDia(Nullable<System.DateTime> dia)
+        {
+            var diaParameter = dia.HasValue ?
+                new ObjectParameter("dia", dia) :
+                new ObjectParameter("dia", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<resumenVentasDia_Result>("[dbHeredadesEntities].[resumenVentasDia](@dia)", diaParameter);
         }
     }
 }

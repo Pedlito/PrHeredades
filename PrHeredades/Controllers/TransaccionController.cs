@@ -16,6 +16,7 @@ namespace PrHeredades.Controllers
         private readonly int registrosPagina = 10;
 
         // pedidos
+        [TagPermiso(permiso = EnumPermisos.Pedidos)]
         #region Pedidos
         public ActionResult Pedidos(int pagina = 1, string filtro = "", bool estado = true)
         {
@@ -45,6 +46,7 @@ namespace PrHeredades.Controllers
             return View(lista.Skip((pagina - 1) * registrosPagina).Take(registrosPagina));
         }
 
+        [TagPermiso(permiso = EnumPermisos.Pedidos)]
         public ActionResult CrearPedido(int id)
         {
             dbHeredadesEntities db = new dbHeredadesEntities();
@@ -90,6 +92,7 @@ namespace PrHeredades.Controllers
             }
         }
 
+        [TagPermiso(permiso = EnumPermisos.Pedidos)]
         public ActionResult RecivirPedido(int id)
         {
             dbHeredadesEntities db = new dbHeredadesEntities();
@@ -114,6 +117,7 @@ namespace PrHeredades.Controllers
             return RedirectToAction("Pedidos");
         }
 
+        [TagPermiso(permiso = EnumPermisos.Pedidos)]
         public ActionResult DetallePedido(int id)
         {
             dbHeredadesEntities db = new dbHeredadesEntities();
@@ -124,6 +128,7 @@ namespace PrHeredades.Controllers
 
         // Entradas
         #region Entrada
+        [TagPermiso(permiso = EnumPermisos.Compras)]
         public ActionResult Entradas(int pagina = 1, string filtro = "", bool estado = true)
         {
             dbHeredadesEntities db = new dbHeredadesEntities();
@@ -152,6 +157,7 @@ namespace PrHeredades.Controllers
             return View(lista.Skip((pagina - 1) * registrosPagina).Take(registrosPagina));
         }
 
+        [TagPermiso(permiso = EnumPermisos.Compras)]
         public ActionResult CrearEntrada(int id)
         {
             dbHeredadesEntities db = new dbHeredadesEntities();
@@ -207,6 +213,7 @@ namespace PrHeredades.Controllers
             }
         }
 
+        [TagPermiso(permiso = EnumPermisos.Compras)]
         public ActionResult DetalleEntrada(int id)
         {
             dbHeredadesEntities db = new dbHeredadesEntities();
@@ -223,7 +230,7 @@ namespace PrHeredades.Controllers
 
         //Salidas
         #region Salida
-
+        [TagPermiso(permiso = EnumPermisos.Salida)]
         public ActionResult Salidas(int pagina = 1, string filtro = "", bool estado = true)
         {
             dbHeredadesEntities db = new dbHeredadesEntities();
@@ -252,6 +259,7 @@ namespace PrHeredades.Controllers
             return View(lista.Skip((pagina - 1) * registrosPagina).Take(registrosPagina));
         }
 
+        [TagPermiso(permiso = EnumPermisos.Salida)]
         public ActionResult CrearSalida()
         {
             dbHeredadesEntities db = new dbHeredadesEntities();
@@ -297,6 +305,7 @@ namespace PrHeredades.Controllers
             }
         }
 
+        [TagPermiso(permiso = EnumPermisos.Salida)]
         public ActionResult DetalleSalida(int id)
         {
             dbHeredadesEntities db = new dbHeredadesEntities();
