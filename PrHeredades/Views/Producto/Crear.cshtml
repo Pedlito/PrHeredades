@@ -30,7 +30,7 @@
     <div id="presentaciones">
 
     </div>
-    <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#pedirPresentacion">
+    <button type="button" class="btn btn-success btn-sm" onclick="ModalPresentacion()">
         <span class="fa fa-plus"></span> Agregar presentación
     </button>
 </div>
@@ -60,15 +60,25 @@
                         <label for="codPresentacion" class="col-form-label">Presentación</label>
                         @Html.DropDownList("codPresentacion", null, "Elija una presentación", htmlAttributes: new { @class = "form-control" })
                     </div>
-
                     <div class="form-group">
-                        <label for="precioVenta" class="col-form-label">Precio de venta</label>
-                        @Html.TextBox("precioVenta", "", new { @class = "form-control", autocomplete = "off" })
+                        <label for="precioVentaMinimo" class="col-form-label">Precio de venta mínimo</label>
+                        @Html.TextBox("precioVentaMinimo", "", new { @class = "form-control", autocomplete = "off" })
                     </div>
-
+                    <div class="form-group">
+                        <label for="precioVentaMedio" class="col-form-label">Precio de venta medio</label>
+                        @Html.TextBox("precioVentaMedio", "", new { @class = "form-control", autocomplete = "off" })
+                    </div>
+                    <div class="form-group">
+                        <label for="precioVentaMaximo" class="col-form-label">Precio de venta máximo</label>
+                        @Html.TextBox("precioVentaMaximo", "", new { @class = "form-control", autocomplete = "off" })
+                    </div>
                     <div class="form-group">
                         <label for="unidades" class="col-form-label">Se divide en</label>
-                        @Html.TextBox("unidades", "", new { @class = "form-control", autocomplete = "off", maxlength = "50", placeholder = "Número de unidades" })
+                        @Html.TextBox("unidades", "", new { @class = "form-control", autocomplete = "off", placeholder = "Número de unidades en que se divide" })
+                    </div>
+                    <div class="form-group">
+                        <label for="existencia" class="col-form-label">Existencia inicial</label>
+                        @Html.TextBox("existencia", "", new { @class = "form-control", autocomplete = "off" })
                     </div>
                 </form>
 
@@ -100,15 +110,25 @@
                         <label for="presentacion" class="col-form-label">Presentación</label>
                         @Html.TextBox("presentacion", "", new { @class = "form-control", autocomplete = "off", @readonly = "readonly" })
                     </div>
-
                     <div class="form-group">
-                        <label for="editPrecioVenta" class="col-form-label">Precio de venta</label>
-                        @Html.TextBox("editPrecioVenta", "", new { @class = "form-control", autocomplete = "off" })
+                        <label for="editPrecioVentaMinimo" class="col-form-label">Precio de venta mínimo</label>
+                        @Html.TextBox("editPrecioVentaMinimo", "", new { @class = "form-control", autocomplete = "off" })
                     </div>
-
                     <div class="form-group">
-                        <label for="unidades" class="col-form-label">Se divide en</label>
-                        @Html.TextBox("editUnidades", "", new { @class = "form-control", autocomplete = "off", maxlength = "50", placeholder = "Número de unidades" })
+                        <label for="editPrecioVentaMedio" class="col-form-label">Precio de venta medio</label>
+                        @Html.TextBox("editPrecioVentaMedio", "", new { @class = "form-control", autocomplete = "off" })
+                    </div>
+                    <div class="form-group">
+                        <label for="editPrecioVentaMaximo" class="col-form-label">Precio de venta máximo</label>
+                        @Html.TextBox("editPrecioVentaMaximo", "", new { @class = "form-control", autocomplete = "off" })
+                    </div>
+                    <div class="form-group">
+                        <label for="editUnidades" class="col-form-label">Se divide en</label>
+                        @Html.TextBox("editUnidades", "", new { @class = "form-control", autocomplete = "off", placeholder = "Número de unidades" })
+                    </div>
+                    <div class="form-group">
+                        <label for="editExistencia" class="col-form-label">Existencia inicial</label>
+                        @Html.TextBox("editExistencia", "", new { @class = "form-control", autocomplete = "off" })
                     </div>
                 </form>
                 <div class="form-group text-center">
@@ -147,25 +167,46 @@
             presentaciones.push({
                 codProducto: 0,
                 codPresentacion: $('#codPresentacion').val(),
-                precioVenta: $('#precioVenta').val(),
-                unidades: $('#unidades').val()
+                precioVentaMinimo: $('#precioVentaMinimo').val(),
+                precioVentaMedio: $('#precioVentaMedio').val(),
+                precioVentaMaximo: $('#precioVentaMaximo').val(),
+                unidades: $('#unidades').val(),
+                existencia: $('#existencia').val()
             });
             ListarPresentaciones();
             $("#codPresentacion option:selected").remove();
         }
 
+        function ModalPresentacion() {
+            if (presentaciones.length < 1) {
+                $('#unidades').val("1");
+                $('#unidades').attr('readonly', true);
+            }
+            else {
+                $('#unidades').val("");
+                $('#unidades').removeAttr('readonly');
+            }
+            $('#pedirPresentacion').modal('show');
+        }
+
         function Editar(codPresentacion, presentacion) {
             editar = presentaciones.find(function (element) { return element.codPresentacion == codPresentacion });
             $('#presentacion').val(presentacion);
-            $('#editPrecioVenta').val(editar.precioVenta);
+            $('#editPrecioVentaMinimo').val(editar.precioVentaMinimo);
+            $('#editPrecioVentaMedio').val(editar.precioVentaMedio);
+            $('#editPrecioVentaMaximo').val(editar.precioVentaMaximo);
             $('#editUnidades').val(editar.unidades);
+            $('#editExistencia').val(editar.existencia);
             $('#editarPresentacion').modal('show');
         }
-
+        
         function confirmarEdicion() {
             if ($("#editPresentacion").valid()) {
-                editar.precioVenta = $('#editPrecioVenta').val();
+                editar.precioVentaMinimo = $('#editPrecioVentaMinimo').val();
+                editar.precioVentaMedio = $('#editPrecioVentaMedio').val();
+                editar.precioVentaMaximo = $('#editPrecioVentaMaximo').val();
                 editar.unidades = $('#editUnidades').val();
+                editar.existencia = $('#editExistencia').val();
                 $('#editarPresentacion').modal('hide');
                 $('#editPresentacion').trigger("reset");
                 ListarPresentaciones();

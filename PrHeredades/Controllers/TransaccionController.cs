@@ -53,7 +53,7 @@ namespace PrHeredades.Controllers
             tbProveedor proveedor = db.tbProveedor.Find(id);
             ViewBag.codProveedor = id;
             ViewBag.proveedor = proveedor.proveedor;
-            List<int> codigos = db.tbProductoProveedor.Where(t => t.codProveedor == id && t.estado.Value).GroupBy(t => t.codProducto).Select(t => t.Key).ToList();
+            List<int> codigos = db.tbProductoProveedor.Where(t => t.codProveedor == id && t.estado).GroupBy(t => t.codProducto).Select(t => t.Key).ToList();
             List<tbProducto> productos = db.tbProducto.Where(t => codigos.Contains(t.codProducto)).OrderBy(t => t.producto).ToList();
             ViewBag.codPresentacion = new SelectList(new List<tbPresentacion>(), "codPresentacion", "presentacion");
             ViewBag.codProducto = new SelectList(productos, "codProducto", "producto");
@@ -111,7 +111,7 @@ namespace PrHeredades.Controllers
                 producto.existencia += item.cantidad;
                 // agrego la deuda al proveedor
                 tbProveedor proveedor = db.tbProveedor.Find(transaccion.codProveedor);
-                proveedor.deuda += item.precioCompra * item.cantidad;
+                proveedor.deuda += item.precioCompra.Value * item.cantidad;
             }
             db.SaveChanges();
             return RedirectToAction("Pedidos");
@@ -164,7 +164,7 @@ namespace PrHeredades.Controllers
             tbProveedor proveedor = db.tbProveedor.Find(id);
             ViewBag.codProveedor = id;
             ViewBag.proveedor = proveedor.proveedor;
-            List<int> codigos = db.tbProductoProveedor.Where(t => t.codProveedor == id && t.estado.Value).GroupBy(t => t.codProducto).Select(t => t.Key).ToList();
+            List<int> codigos = db.tbProductoProveedor.Where(t => t.codProveedor == id && t.estado).GroupBy(t => t.codProducto).Select(t => t.Key).ToList();
             List<tbProducto> productos = db.tbProducto.Where(t => codigos.Contains(t.codProducto)).OrderBy(t => t.producto).ToList();
             ViewBag.codPresentacion = new SelectList(new List<tbPresentacion>(), "codPresentacion", "presentacion");
             ViewBag.codProducto = new SelectList(productos, "codProducto", "producto");
@@ -197,7 +197,7 @@ namespace PrHeredades.Controllers
                     tbProductoPresentacion prod = db.tbProductoPresentacion.Find(item.codProducto, item.codPresentacion);
                     prod.existencia += item.cantidad;
                     // sumo a la deuda precioCompra * cantidadEntrada.
-                    deuda += item.cantidad.Value * item.precioCompra.Value;
+                    deuda += item.cantidad * item.precioCompra.Value;
                 }
                 // calculo deuda total de entrada y la sumo a deuda total al proveedor.
                 tbProveedor proveedor = db.tbProveedor.Find(codProveedor);
@@ -221,7 +221,7 @@ namespace PrHeredades.Controllers
             decimal total = 0;
             foreach (tbProductoTransaccion item in entrada.tbProductoTransaccion)
             {
-                total += item.precioCompra.Value * item.cantidad.Value;
+                total += item.precioCompra.Value * item.cantidad;
             }
             ViewBag.total = total;
             return View(entrada);
@@ -335,7 +335,7 @@ namespace PrHeredades.Controllers
         {
             dbHeredadesEntities db = new dbHeredadesEntities();
             tbTransaccion transaccion = db.tbTransaccion.Find(id);
-            transaccion.estado = !(transaccion.estado.Value);
+            transaccion.estado = !(transaccion.estado);
             if (transaccion.codTipoTransaccion == 0)
             {
                 db.SaveChanges();
@@ -346,7 +346,7 @@ namespace PrHeredades.Controllers
                 foreach (tbProductoTransaccion item in transaccion.tbProductoTransaccion)
                 {
                     tbProductoPresentacion prod = db.tbProductoPresentacion.Find(item.codProducto, item.codPresentacion);
-                    if (transaccion.estado.Value)
+                    if (transaccion.estado)
                     {
                         prod.existencia -= item.cantidad;
                     }
@@ -402,7 +402,7 @@ namespace PrHeredades.Controllers
                 {
                     item.tbProductoPresentacion = db.tbProductoPresentacion.Find(item.codProducto, item.codPresentacion);
                     item.precioCompra = db.tbProductoProveedor.Find(codProveedor, item.codProducto, item.codPresentacion).precioCompra;
-                    total += item.precioCompra.Value * item.cantidad.Value;
+                    total += item.precioCompra.Value * item.cantidad;
                 }
             }
             ViewBag.total = total;
@@ -425,8 +425,8 @@ namespace PrHeredades.Controllers
                         producto = existencias.tbProducto.producto,
                         codPresentacion = item.codPresentacion,
                         presentacion = existencias.tbPresentacion.presentacion,
-                        cantidad = item.cantidad.Value,
-                        existencia = existencias.existencia.Value
+                        cantidad = item.cantidad,
+                        existencia = existencias.existencia
                     });
                 }
             }

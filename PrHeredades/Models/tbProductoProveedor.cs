@@ -17,8 +17,8 @@ namespace PrHeredades.Models
         public int codProveedor { get; set; }
         public int codProducto { get; set; }
         public int codPresentacion { get; set; }
-        public Nullable<decimal> precioCompra { get; set; }
-        public Nullable<bool> estado { get; set; }
+        public decimal precioCompra { get; set; }
+        public bool estado { get; set; }
     
         public virtual tbProductoPresentacion tbProductoPresentacion { get; set; }
         public virtual tbProveedor tbProveedor { get; set; }

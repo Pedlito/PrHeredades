@@ -8,7 +8,7 @@
 
 <h3>
     ¿Realmente quieres
-    @if (Model.estado.Value)
+    @if (Model.estado)
     {
         <strong>Deshabilitar</strong>
     }
@@ -39,7 +39,7 @@
         <div class="form-group col-md-4 text-center" style="padding-left:0; padding-right:0">
             <button type="submit" class="btn btn-primary" style="width: 150px">
                 <span class="fa fa-check"></span>
-                @if (Model.estado.Value)
+                @if (Model.estado)
                 {<text>Deshabilitar</text> }
                 else
                 { <text>Habilitar</text>}

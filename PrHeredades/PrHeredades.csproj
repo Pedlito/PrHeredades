@@ -179,20 +179,20 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\ClasesEntity.Context.cs">
+    <Compile Include="Models\Model.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>ClasesEntity.Context.tt</DependentUpon>
+      <DependentUpon>Model.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\ClasesEntity.cs">
+    <Compile Include="Models\Model.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>ClasesEntity.tt</DependentUpon>
+      <DependentUpon>Model.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\ClasesEntity.Designer.cs">
+    <Compile Include="Models\Model.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>ClasesEntity.edmx</DependentUpon>
+      <DependentUpon>Model.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\Paginacion.cs" />
     <Compile Include="Models\productoGenerico.cs" />
@@ -200,71 +200,71 @@
     <Compile Include="Models\ProductoSalida.cs" />
     <Compile Include="Models\ProductoVenta.cs" />
     <Compile Include="Models\resumenComprasDia_Result.cs">
-      <DependentUpon>ClasesEntity.tt</DependentUpon>
+      <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\resumenMovimientosCaja_Result.cs">
-      <DependentUpon>ClasesEntity.tt</DependentUpon>
+      <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\resumenVentasDia_Result.cs">
-      <DependentUpon>ClasesEntity.tt</DependentUpon>
+      <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Sesion.cs" />
     <Compile Include="Models\tbCaja.cs">
-      <DependentUpon>ClasesEntity.tt</DependentUpon>
+      <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\tbCategoria.cs">
-      <DependentUpon>ClasesEntity.tt</DependentUpon>
+      <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\tbDeudor.cs">
-      <DependentUpon>ClasesEntity.tt</DependentUpon>
+      <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\tbPagoDeudor.cs">
-      <DependentUpon>ClasesEntity.tt</DependentUpon>
+      <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\tbPagoProveedor.cs">
-      <DependentUpon>ClasesEntity.tt</DependentUpon>
+      <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\tbPermiso.cs">
-      <DependentUpon>ClasesEntity.tt</DependentUpon>
+      <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\tbPresentacion.cs">
-      <DependentUpon>ClasesEntity.tt</DependentUpon>
+      <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\tbProducto.cs">
-      <DependentUpon>ClasesEntity.tt</DependentUpon>
+      <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\tbProductoPresentacion.cs">
-      <DependentUpon>ClasesEntity.tt</DependentUpon>
+      <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\tbProductoProveedor.cs">
-      <DependentUpon>ClasesEntity.tt</DependentUpon>
+      <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\tbProductoTransaccion.cs">
-      <DependentUpon>ClasesEntity.tt</DependentUpon>
+      <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\tbProveedor.cs">
-      <DependentUpon>ClasesEntity.tt</DependentUpon>
+      <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\tbRol.cs">
-      <DependentUpon>ClasesEntity.tt</DependentUpon>
+      <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\tbRolPermiso.cs">
-      <DependentUpon>ClasesEntity.tt</DependentUpon>
+      <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\tbTransaccion.cs">
-      <DependentUpon>ClasesEntity.tt</DependentUpon>
+      <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\tbTransaccionCaja.cs">
-      <DependentUpon>ClasesEntity.tt</DependentUpon>
+      <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\tbUsuario.cs">
-      <DependentUpon>ClasesEntity.tt</DependentUpon>
+      <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\tbVenta.cs">
-      <DependentUpon>ClasesEntity.tt</DependentUpon>
+      <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\tbVentaProducto.cs">
-      <DependentUpon>ClasesEntity.tt</DependentUpon>
+      <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Usuario.cs" />
     <Compile Include="Models\ventaClasificada.cs" />
@@ -295,15 +295,15 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Imagenes\Logotipo.PNG" />
-    <Content Include="Models\ClasesEntity.Context.tt">
+    <Content Include="Models\Model.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>ClasesEntity.edmx</DependentUpon>
-      <LastGenOutput>ClasesEntity.Context.cs</LastGenOutput>
+      <DependentUpon>Model.edmx</DependentUpon>
+      <LastGenOutput>Model.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="Models\ClasesEntity.tt">
+    <Content Include="Models\Model.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>ClasesEntity.edmx</DependentUpon>
-      <LastGenOutput>ClasesEntity.cs</LastGenOutput>
+      <DependentUpon>Model.edmx</DependentUpon>
+      <LastGenOutput>Model.cs</LastGenOutput>
     </Content>
     <Content Include="Scripts\Bootstrap-confirmation.js" />
     <Content Include="Scripts\bootstrap.bundle.js" />
@@ -325,12 +325,12 @@
     <Content Include="fonts\fontawesome-webfont.woff" />
     <Content Include="fonts\fontawesome-webfont.ttf" />
     <Content Include="fonts\fontawesome-webfont.eot" />
-    <EntityDeploy Include="Models\ClasesEntity.edmx">
+    <EntityDeploy Include="Models\Model.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>ClasesEntity.Designer.cs</LastGenOutput>
+      <LastGenOutput>Model.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <Content Include="Models\ClasesEntity.edmx.diagram">
-      <DependentUpon>ClasesEntity.edmx</DependentUpon>
+    <Content Include="Models\Model.edmx.diagram">
+      <DependentUpon>Model.edmx</DependentUpon>
     </Content>
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Scripts\esm\popper-utils.js" />

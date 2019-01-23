@@ -51,12 +51,27 @@
                         <label for="codProducto" class="col-form-label">Producto</label>
                         @Html.DropDownList("codProducto", null, "Elija un producto", htmlAttributes: new { @class = "form-control", onchange = "CargarPresentaciones(this.value)" })
                     </div>
-
                     <div class="form-group">
                         <label for="codPresentacion" class="col-form-label">Presentación</label>
-                        @Html.DropDownList("codPresentacion", null, null, htmlAttributes: new { @class = "form-control" })
+                        @Html.DropDownList("codPresentacion", null, "Elija una presentación", htmlAttributes: new { @class = "form-control", onchange = "CargarPrecios()" })
                     </div>
-
+                    <div class="form-group">
+                        <label for="codPresentacion" class="col-form-label">Precio venta</label>
+                        <div class="col-md-10">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="precioVenta" id="precioMin" value="1">
+                                <label class="form-check-label" id="precioMinimo" for="precioMin">Mínimo</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="precioVenta" id="precioMed" value="2" checked>
+                                <label class="form-check-label" id="precioMedio" for="precioMed">Medio</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="precioVenta" id="precioMax" value="3">
+                                <label class="form-check-label" id="precioMaximo" for="precioMax">Máximo</label>
+                            </div>
+                        </div>
+                    </div>
                     <div class="form-group text-center">
                         <button type="button" class="btn btn-primary" onclick="AgregarProducto()" style="width: 150px">
                             <span class="fa fa-plus"></span> Agregar
@@ -192,12 +207,31 @@
                             option.text("No hay mas presentaciones");
                             $("#codPresentacion").append(option);
                         }
+                        CargarPrecios()
                     },
                     error: function (msg) {
                         console.log(msg);
                     }
                 });
             }
+        }
+
+        function CargarPrecios() {
+            var codProducto = $('#codProducto').val();
+            var codPresentacion = $('#codPresentacion').val()
+            $.ajax({
+                    url: '@Url.Action("GetPrecios")',
+                    type: "POST",
+                    data: { codProducto: codProducto, codPresentacion: codPresentacion },
+                    success: function (response) {
+                        $('#precioMinimo').text("Q" + response.minimo)
+                        $('#precioMedio').text("Q" + response.medio)
+                        $('#precioMaximo').text("Q" + response.maximo)
+                    },
+                    error: function (msg) {
+                        console.log(msg);
+                    }
+                });
         }
 
         //Este es el método encargado de finalizar todo el proceso para una venta al contado
@@ -222,8 +256,6 @@
                 });
             }
             else {
-                // no hay productos
-                // console.log("hola");
                 $('#error').html("<li>¡Debe agregar al menos un producto!</li>");
                 $('#clientes').modal('hide');
             }
@@ -274,29 +306,11 @@
                 Agregar();
                 $('#agrProducto').trigger("reset");
                 $('#codPresentacion').empty();
+                $('#precioMinimo').text("Mínimo")
+                $('#precioMedio').text("Medio")
+                $('#precioMaximo').text("Máximo")
                 $('#error').empty();
             }
-        }
-
-        function CambiarCantidad(codProducto, codPresentacion, cantidad, existencia) {
-            var index = productos.findIndex(t => t.codProducto == codProducto && t.codPresentacion == codPresentacion);
-            if (cantidad.value != "" && cantidad.value > 0) {
-                if (cantidad.value > 0 && cantidad.value <= existencia) {
-                    productos[index].cantidad = cantidad.value;
-                    ListarProductos();
-                }
-                else {
-                    productos[index].cantidad = existencia;
-                    $(cantidad).val(existencia);
-                    ListarProductos();
-                }
-            }
-            else {
-                productos[index].cantidad = "1";
-                $(cantidad).val(1);
-                ListarProductos();
-            }
-
         }
 
         function Quitar(codProducto, codPresentacion) {
@@ -311,7 +325,8 @@
             productos.push({
                 codProducto: $('#codProducto').val(),
                 codPresentacion: $('#codPresentacion').val(),
-                cantidad: "1"
+                cantidad: "1",
+                precioSeleccionado: $("input[name='precioVenta']:checked").val()
             });
             ListarProductos();
         }
@@ -397,6 +412,9 @@
         function ResetearFormulario(accion) {
             $('#agrProducto').trigger("reset");
             $('#codPresentacion').empty();
+            $('#precioMinimo').text("Mínimo")
+            $('#precioMedio').text("Medio")
+            $('#precioMaximo').text("Máximo")
         }
     </script>
 }

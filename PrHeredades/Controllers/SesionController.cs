@@ -24,7 +24,7 @@ namespace PrHeredades.Controllers
             tbUsuario prueba = db.tbUsuario.Where(t => t.usuario == inicio.usuario && t.password == inicio.password).SingleOrDefault();
             if (prueba != null)
             {
-                if (prueba.estado.Value)
+                if (prueba.estado)
                 {
                     Sesion.Iniciar(new Usuario {
                         codUsuario = prueba.codUsuario,

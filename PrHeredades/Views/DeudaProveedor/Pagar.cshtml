@@ -12,7 +12,20 @@
     <h4>@Html.ValidationSummary(true, "", new { @class = "text-danger" })</h4>
     <div class="form-group">
         <label for="pago" class="col-form-label">Pago</label>
-        @Html.TextBoxFor(t => t.pago, new { @class = "form-control col-md-4", autocomplete = "off", maxlength = "50" })
+        @Html.TextBoxFor(t => t.pago, new { @class = "form-control col-md-4", autocomplete = "off", maxlength = "50", onchange = "ComprobarCaja(this.value)" })
+    </div>
+    <div class="form-group">
+        <label for="rdFuente" class="col-form-label">Fuente de pago</label>
+        <div>
+            <div class="form-check form-check-inline" onclick="Validar()">
+                <input class="form-check-input" type="radio" name="rdFuente" id="rdFuente1" value="caja" checked>
+                <label class="form-check-label" for="rdFuente1">Caja</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="rdFuente" id="rdFuente2" value="externa">
+                <label class="form-check-label" for="rdFuente2">Externa</label>
+            </div>
+        </div>
     </div>
     <div class="form-group">
         <label for="descripcion" class="col-form-label">Descripcion</label>
@@ -31,4 +44,23 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     <script src="~/Scripts/jqueryValidator/pagoProveedor.js"></script>
+
+    <script type="text/javascript">
+        caja = @ViewBag.caja;
+
+        function ComprobarCaja(cantidad) {
+            if ($('input:radio[name=rdFuente]:checked').val() == "caja") {
+                if (cantidad > caja) {
+                    $('#pago').val(caja);
+                }
+            }
+        }
+
+        function Validar() {
+            cantidad = $('#pago').val();
+            if (cantidad > caja) {
+                $('#pago').val(caja);
+            }
+        }
+    </script>
 }

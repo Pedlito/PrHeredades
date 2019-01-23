@@ -22,7 +22,7 @@ namespace PrHeredades.Models
     
         public int codPresentacion { get; set; }
         public string presentacion { get; set; }
-        public Nullable<bool> estado { get; set; }
+        public bool estado { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tbProductoPresentacion> tbProductoPresentacion { get; set; }

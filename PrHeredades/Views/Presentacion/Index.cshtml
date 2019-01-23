@@ -49,7 +49,7 @@
                     @item.presentacion
                 </td>
                 <td class="align-middle text-center">
-                    @if (item.estado.Value)
+                    @if (item.estado)
                     {
                         <span class="fa fa-check-square"></span>
                     }
@@ -63,7 +63,7 @@
                         <span class="fa fa-edit"></span> Editar
                     </a>
                     <a href="@Url.Action("CambiarEstado", new { id = item.codPresentacion })" class="align-middle">
-                        @if (item.estado.Value)
+                        @if (item.estado)
                         {
                             <text>Deshabilitar</text>
                         }

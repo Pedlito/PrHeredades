@@ -61,7 +61,7 @@
                     @item.descripcion
                 </td>
                 <td class="align-middle text-center">
-                    @if (item.estado.Value)
+                    @if (item.estado)
                     {
                         <span class="fa fa-check-square"></span>
                     }
@@ -77,7 +77,7 @@
                     @if (Sesion.ObtenerRol() <= 2)
                     {
                         <a href="@Url.Action("CambiarEstado", new { id = item.codTransaccion, tipoTransaccion = 2 })" class="align-middle">
-                            @if (item.estado.Value)
+                            @if (item.estado)
                             {
                                 <text>Deshabilitar</text>
                             }

@@ -24,10 +24,12 @@ namespace PrHeredades.Models
     
         public int codProducto { get; set; }
         public int codPresentacion { get; set; }
-        public Nullable<decimal> precioVenta { get; set; }
-        public Nullable<short> unidades { get; set; }
-        public Nullable<short> correlativo { get; set; }
-        public Nullable<decimal> existencia { get; set; }
+        public decimal precioVentaMinimo { get; set; }
+        public decimal precioVentaMedio { get; set; }
+        public decimal precioVentaMaximo { get; set; }
+        public short unidades { get; set; }
+        public short correlativo { get; set; }
+        public decimal existencia { get; set; }
     
         public virtual tbPresentacion tbPresentacion { get; set; }
         public virtual tbProducto tbProducto { get; set; }

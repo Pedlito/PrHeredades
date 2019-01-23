@@ -42,10 +42,10 @@
         {
             <tr>
                 <td class="align-middle">
-                    @item.fecha.Value.ToLongDateString()
+                    @item.fecha.ToLongDateString()
                 </td>
                 <td class="align-middle">
-                    @item.fecha.Value.ToShortTimeString()
+                    @item.fecha.ToShortTimeString()
                 </td>
                 <td class="align-middle">
                     <a href="@Url.Action("DetalleCompra", new { id = item.codVenta })" class="btn btn-primary btn-sm">

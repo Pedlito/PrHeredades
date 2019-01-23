@@ -18,7 +18,7 @@
         {
             <tr>
                 <td class="align-middle text-center">
-                    @if (item.estado.Value)
+                    @if (item.estado)
                     {
                         <span class="fa fa-check-square"></span>
                     }
@@ -31,7 +31,7 @@
                     @item.tbPermiso.permiso
                 </td>
                 <td class="align-middle">
-                    @if (item.estado.Value)
+                    @if (item.estado)
                     {
                         <button type="button" class="btn btn-danger btn-sm" style="width: 150px" onclick="CambiarEstado(@item.codRol,@item.codPermiso)">
                             <span class="fa fa-times"></span> <text>Deshabilitar</text>

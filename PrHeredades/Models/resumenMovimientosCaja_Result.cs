@@ -14,8 +14,8 @@ namespace PrHeredades.Models
     public partial class resumenMovimientosCaja_Result
     {
         public int codTransaccionCaja { get; set; }
-        public Nullable<short> tipoTransaccion { get; set; }
+        public short tipoTransaccion { get; set; }
         public string descripcion { get; set; }
-        public Nullable<decimal> valor { get; set; }
+        public decimal valor { get; set; }
     }
 }

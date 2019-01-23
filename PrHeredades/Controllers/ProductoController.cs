@@ -23,7 +23,7 @@ namespace PrHeredades.Controllers
                                       orderby t.producto
                                       select t).ToList();
             int paginas = (int)Math.Ceiling((double)lista.Count() / registrosPagina);
-            Paginacion paginacion = new Paginacion(pagina, paginas, "Index", "Categoria");
+            Paginacion paginacion = new Paginacion(pagina, paginas, "Index", "Producto");
             ViewBag.paginacion = paginacion;
             ViewBag.filtro = filtro;
             ViewBag.estado = estado;
@@ -56,7 +56,6 @@ namespace PrHeredades.Controllers
                 foreach (tbProductoPresentacion presentacion in modelo.presentaciones)
                 {
                     presentacion.correlativo = correlativo;
-                    presentacion.existencia = 0;
                     modelo.producto.tbProductoPresentacion.Add(presentacion);
                     correlativo++;
                 }
@@ -75,12 +74,16 @@ namespace PrHeredades.Controllers
         {
             dbHeredadesEntities db = new dbHeredadesEntities();
             tbProducto producto = db.tbProducto.Find(id);
+            //obtengo los codigos de las presentaciones utilizadas por el producto
             List<int> usadas = producto.tbProductoPresentacion.Where(t => t.correlativo > 0).Select(t => t.codPresentacion).ToList();
+            //obtengo las presentaciones que no se encuentren dentro de las usadas
             List<tbPresentacion> presentaciones = db.tbPresentacion.Where(t => t.estado == true && !usadas.Contains(t.codPresentacion)).OrderBy(t => t.presentacion).ToList();
             ViewBag.codPresentacion = new SelectList(presentaciones, "codPresentacion", "presentacion");
             List<tbCategoria> categorias = db.tbCategoria.Where(t => t.estado == true).OrderBy(t => t.categoria).ToList();
             ViewBag.codCategoria = new SelectList(categorias, "codCategoria", "categoria");
-            ViewBag.presentaciones = producto.tbProductoPresentacion.Where(t => t.correlativo > 0).OrderBy(t => t.correlativo).Select(t => new { t.codProducto, t.codPresentacion, t.precioVenta, t.unidades });
+            ViewBag.presentaciones = producto.tbProductoPresentacion
+                .Where(t => t.correlativo > 0).OrderBy(t => t.correlativo)
+                .Select(t => new { t.codProducto, t.codPresentacion, t.precioVentaMinimo, t.precioVentaMedio, t.precioVentaMaximo, t.unidades, t.existencia });
             return View(producto);
         }
 
@@ -112,7 +115,9 @@ namespace PrHeredades.Controllers
                         int index = guardadas.FindIndex(t => t.codPresentacion == item.codPresentacion);
                         if (index > -1)
                         {
-                            guardadas[index].precioVenta = item.precioVenta;
+                            guardadas[index].precioVentaMinimo = item.precioVentaMinimo;
+                            guardadas[index].precioVentaMedio = item.precioVentaMedio;
+                            guardadas[index].precioVentaMaximo = item.precioVentaMaximo;
                             guardadas[index].unidades = item.unidades;
                             guardadas[index].correlativo = correlativo;
                         }
@@ -124,7 +129,6 @@ namespace PrHeredades.Controllers
                         // no existe esta presentacion en bd: hay que insertarla y ordenarla 
                         item.codProducto = producto.codProducto;
                         item.correlativo = correlativo;
-                        item.existencia = 0;
                         db.tbProductoPresentacion.Add(item);
                     }
                     correlativo++;
@@ -161,7 +165,7 @@ namespace PrHeredades.Controllers
         {
             dbHeredadesEntities db = new dbHeredadesEntities();
             tbProducto producto = db.tbProducto.Find(id);
-            producto.estado = !(producto.estado.Value);
+            producto.estado = !(producto.estado);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

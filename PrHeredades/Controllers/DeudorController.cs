@@ -148,7 +148,7 @@ namespace PrHeredades.Controllers
             decimal total = 0;
             foreach (tbVentaProducto item in venta.tbVentaProducto)
             {
-                total += item.precioVenta.Value * item.cantidad.Value;
+                total += item.precioVenta * item.cantidad;
             }
             ViewBag.total = Math.Truncate(total * 100) / 100;
             ViewBag.codDeudor = venta.codDeudor;

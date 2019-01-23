@@ -16,7 +16,7 @@ namespace PrHeredades.Models
     {
         public int codRol { get; set; }
         public int codPermiso { get; set; }
-        public Nullable<bool> estado { get; set; }
+        public bool estado { get; set; }
     
         public virtual tbPermiso tbPermiso { get; set; }
         public virtual tbRol tbRol { get; set; }

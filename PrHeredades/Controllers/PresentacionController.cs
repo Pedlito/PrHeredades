@@ -91,7 +91,7 @@ namespace PrHeredades.Controllers
         {
             dbHeredadesEntities db = new dbHeredadesEntities();
             tbPresentacion presentacion = db.tbPresentacion.Find(id);
-            presentacion.estado = !(presentacion.estado.Value);
+            presentacion.estado = !(presentacion.estado);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

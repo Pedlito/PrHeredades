@@ -53,7 +53,7 @@ namespace PrHeredades.Controllers
             var Ingresos = db.resumenMovimientosCaja(dia).OrderBy(x=>x.codTransaccionCaja).Where(x=>x.tipoTransaccion==0).ToList();
             foreach (var item in Ingresos)
             {
-                totalIngresos += item.valor.Value;
+                totalIngresos += item.valor;
             }
             ViewBag.totalIngresos = Decimal.Round(totalIngresos, 2);
             ViewBag.Ingresos = Ingresos;
@@ -63,7 +63,7 @@ namespace PrHeredades.Controllers
             var Gastos = db.resumenMovimientosCaja(dia).OrderBy(x => x.codTransaccionCaja).Where(x => x.tipoTransaccion == 1).ToList();
             foreach (var item in Gastos)
             {
-                totalGastos += item.valor.Value;
+                totalGastos += item.valor;
             }
             ViewBag.totalGastos = Decimal.Round(totalGastos, 2);
             ViewBag.Gastos = Gastos;
@@ -73,7 +73,7 @@ namespace PrHeredades.Controllers
             var Retiros = db.resumenMovimientosCaja(dia).OrderBy(x => x.codTransaccionCaja).Where(x => x.tipoTransaccion == 2).ToList();
             foreach (var item in Retiros)
             {
-                totalRetiros += item.valor.Value;
+                totalRetiros += item.valor;
             }
             ViewBag.totalRetiros = Decimal.Round(totalRetiros, 2);
             ViewBag.Retiros = Retiros;

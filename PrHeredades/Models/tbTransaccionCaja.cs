@@ -15,11 +15,11 @@ namespace PrHeredades.Models
     public partial class tbTransaccionCaja
     {
         public int codTransaccionCaja { get; set; }
-        public Nullable<int> codUsuario { get; set; }
-        public Nullable<short> tipoTransaccion { get; set; }
-        public Nullable<decimal> cantidad { get; set; }
+        public int codUsuario { get; set; }
+        public short tipoTransaccion { get; set; }
+        public decimal cantidad { get; set; }
         public string descripcion { get; set; }
-        public Nullable<System.DateTime> fecha { get; set; }
+        public System.DateTime fecha { get; set; }
     
         public virtual tbUsuario tbUsuario { get; set; }
     }

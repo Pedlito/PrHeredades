@@ -4,26 +4,26 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="b967befc1fd04a649064adbdb51b3f15" Name="Diagram1" ZoomLevel="25">
-        <EntityTypeShape EntityType="dbHeredadesModel.tbCaja" Width="1.5" PointX="0.75" PointY="0.75" />
-        <EntityTypeShape EntityType="dbHeredadesModel.tbCategoria" Width="1.5" PointX="3.75" PointY="20.75" />
-        <EntityTypeShape EntityType="dbHeredadesModel.tbDeudor" Width="1.5" PointX="3" PointY="16.625" />
-        <EntityTypeShape EntityType="dbHeredadesModel.tbPagoDeudor" Width="1.5" PointX="5.25" PointY="12.75" />
-        <EntityTypeShape EntityType="dbHeredadesModel.tbPagoProveedor" Width="1.5" PointX="5.25" PointY="8.625" />
-        <EntityTypeShape EntityType="dbHeredadesModel.tbPermiso" Width="1.5" PointX="0.75" PointY="7.375" />
-        <EntityTypeShape EntityType="dbHeredadesModel.tbPresentacion" Width="1.5" PointX="6" PointY="23.5" />
-        <EntityTypeShape EntityType="dbHeredadesModel.tbProducto" Width="1.5" PointX="6" PointY="20.625" />
-        <EntityTypeShape EntityType="dbHeredadesModel.tbProductoPresentacion" Width="1.5" PointX="8.25" PointY="21.375" />
-        <EntityTypeShape EntityType="dbHeredadesModel.tbProductoProveedor" Width="1.5" PointX="10.5" PointY="16.875" />
-        <EntityTypeShape EntityType="dbHeredadesModel.tbProductoTransaccion" Width="1.5" PointX="10.5" PointY="12.625" />
-        <EntityTypeShape EntityType="dbHeredadesModel.tbProveedor" Width="1.5" PointX="3" PointY="5.625" />
-        <EntityTypeShape EntityType="dbHeredadesModel.tbRol" Width="1.5" PointX="0.75" PointY="10.375" />
-        <EntityTypeShape EntityType="dbHeredadesModel.tbRolPermiso" Width="1.5" PointX="3" PointY="9.25" />
-        <EntityTypeShape EntityType="dbHeredadesModel.tbTransaccion" Width="1.5" PointX="8.25" PointY="12.5" />
-        <EntityTypeShape EntityType="dbHeredadesModel.tbTransaccionCaja" Width="1.5" PointX="5.25" PointY="26.625" />
-        <EntityTypeShape EntityType="dbHeredadesModel.tbUsuario" Width="1.5" PointX="3" PointY="12.25" />
-        <EntityTypeShape EntityType="dbHeredadesModel.tbVenta" Width="1.5" PointX="5.25" PointY="16.625" />
-        <EntityTypeShape EntityType="dbHeredadesModel.tbVentaProducto" Width="1.5" PointX="7.5" PointY="16.75" />
+      <Diagram DiagramId="13233cc5772047d0b154e77ba1d17c88" Name="Diagram1" ZoomLevel="18">
+        <EntityTypeShape EntityType="dbHeredadesModel.tbCaja" Width="1.5" PointX="7.75" PointY="1.25" />
+        <EntityTypeShape EntityType="dbHeredadesModel.tbCategoria" Width="1.5" PointX="0.75" PointY="2.625" />
+        <EntityTypeShape EntityType="dbHeredadesModel.tbDeudor" Width="1.5" PointX="6" PointY="5.125" />
+        <EntityTypeShape EntityType="dbHeredadesModel.tbPagoDeudor" Width="1.5" PointX="8.25" PointY="13.375" />
+        <EntityTypeShape EntityType="dbHeredadesModel.tbPagoProveedor" Width="1.5" PointX="5.25" PointY="17.125" />
+        <EntityTypeShape EntityType="dbHeredadesModel.tbPermiso" Width="1.5" PointX="0.75" PointY="8" />
+        <EntityTypeShape EntityType="dbHeredadesModel.tbPresentacion" Width="1.5" PointX="3" PointY="18.375" />
+        <EntityTypeShape EntityType="dbHeredadesModel.tbProducto" Width="1.5" PointX="3" PointY="2.375" />
+        <EntityTypeShape EntityType="dbHeredadesModel.tbProductoPresentacion" Width="1.5" PointX="5.25" PointY="0.75" />
+        <EntityTypeShape EntityType="dbHeredadesModel.tbProductoProveedor" Width="1.5" PointX="8.5" PointY="3.625" />
+        <EntityTypeShape EntityType="dbHeredadesModel.tbProductoTransaccion" Width="1.5" PointX="7.5" PointY="9.25" />
+        <EntityTypeShape EntityType="dbHeredadesModel.tbProveedor" Width="1.5" PointX="3" PointY="6.125" />
+        <EntityTypeShape EntityType="dbHeredadesModel.tbRol" Width="1.5" PointX="0.75" PointY="10.875" />
+        <EntityTypeShape EntityType="dbHeredadesModel.tbRolPermiso" Width="1.5" PointX="3" PointY="9.75" />
+        <EntityTypeShape EntityType="dbHeredadesModel.tbTransaccion" Width="1.5" PointX="5.25" PointY="9" />
+        <EntityTypeShape EntityType="dbHeredadesModel.tbTransaccionCaja" Width="1.5" PointX="5.25" PointY="27.125" />
+        <EntityTypeShape EntityType="dbHeredadesModel.tbUsuario" Width="1.5" PointX="3" PointY="12.875" />
+        <EntityTypeShape EntityType="dbHeredadesModel.tbVenta" Width="1.5" PointX="5.25" PointY="13.125" />
+        <EntityTypeShape EntityType="dbHeredadesModel.tbVentaProducto" Width="1.5" PointX="10.5" PointY="13.375" />
         <AssociationConnector Association="dbHeredadesModel.FK_tbProducto_tbCategoria" />
         <AssociationConnector Association="dbHeredadesModel.FK_tbPagoDeudor_tbDeudor" />
         <AssociationConnector Association="dbHeredadesModel.FK_tbVenta_tbDeudor" />

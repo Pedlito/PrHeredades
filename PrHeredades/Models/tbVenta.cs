@@ -22,10 +22,10 @@ namespace PrHeredades.Models
     
         public int codVenta { get; set; }
         public Nullable<int> codDeudor { get; set; }
-        public Nullable<int> codUsuario { get; set; }
-        public Nullable<System.DateTime> fecha { get; set; }
+        public int codUsuario { get; set; }
+        public System.DateTime fecha { get; set; }
         public string numFactura { get; set; }
-        public Nullable<bool> estado { get; set; }
+        public bool estado { get; set; }
     
         public virtual tbDeudor tbDeudor { get; set; }
         public virtual tbUsuario tbUsuario { get; set; }

@@ -15,6 +15,6 @@ namespace PrHeredades.Models
     public partial class tbCaja
     {
         public short codCaja { get; set; }
-        public Nullable<decimal> cantidad { get; set; }
+        public decimal cantidad { get; set; }
     }
 }

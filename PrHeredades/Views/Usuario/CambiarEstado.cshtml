@@ -6,7 +6,7 @@
 
 <h2>Cambiar Estado</h2>
 
-@if (Model.estado.Value)
+@if (Model.estado)
 {
     <h3>¿Realmente quieres <strong>Deshabilitar</strong> a este usuario?</h3>
 }
@@ -36,7 +36,7 @@ else
         <div class="form-group col-md-4 text-center" style="padding-left:0; padding-right:0">
             <button type="submit" class="btn btn-primary" style="width: 150px">
                 <span class="fa fa-check"></span> 
-                @if (Model.estado.Value)
+                @if (Model.estado)
                 { 
                     <text>Deshabilitar</text> 
                 }

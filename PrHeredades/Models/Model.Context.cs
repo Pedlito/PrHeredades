@@ -47,19 +47,6 @@ namespace PrHeredades.Models
         public virtual DbSet<tbVenta> tbVenta { get; set; }
         public virtual DbSet<tbVentaProducto> tbVentaProducto { get; set; }
     
-        public virtual int DeshabilitarProductos(Nullable<int> codProd, Nullable<int> codPres)
-        {
-            var codProdParameter = codProd.HasValue ?
-                new ObjectParameter("codProd", codProd) :
-                new ObjectParameter("codProd", typeof(int));
-    
-            var codPresParameter = codPres.HasValue ?
-                new ObjectParameter("codPres", codPres) :
-                new ObjectParameter("codPres", typeof(int));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("DeshabilitarProductos", codProdParameter, codPresParameter);
-        }
-    
         [DbFunction("dbHeredadesEntities", "resumenComprasDia")]
         public virtual IQueryable<resumenComprasDia_Result> resumenComprasDia(Nullable<System.DateTime> dia)
         {
@@ -88,6 +75,19 @@ namespace PrHeredades.Models
                 new ObjectParameter("dia", typeof(System.DateTime));
     
             return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<resumenVentasDia_Result>("[dbHeredadesEntities].[resumenVentasDia](@dia)", diaParameter);
+        }
+    
+        public virtual int DeshabilitarProductos(Nullable<int> codProd, Nullable<int> codPres)
+        {
+            var codProdParameter = codProd.HasValue ?
+                new ObjectParameter("codProd", codProd) :
+                new ObjectParameter("codProd", typeof(int));
+    
+            var codPresParameter = codPres.HasValue ?
+                new ObjectParameter("codPres", codPres) :
+                new ObjectParameter("codPres", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("DeshabilitarProductos", codProdParameter, codPresParameter);
         }
     }
 }

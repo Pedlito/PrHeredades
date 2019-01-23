@@ -21,9 +21,9 @@ namespace PrHeredades.Models
         }
     
         public int codProducto { get; set; }
-        public Nullable<int> codCategoria { get; set; }
+        public int codCategoria { get; set; }
         public string producto { get; set; }
-        public Nullable<bool> estado { get; set; }
+        public bool estado { get; set; }
     
         public virtual tbCategoria tbCategoria { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

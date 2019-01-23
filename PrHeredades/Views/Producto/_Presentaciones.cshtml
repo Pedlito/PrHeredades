@@ -13,10 +13,19 @@
                     Presentación
                 </th>
                 <th scope="col" class="text-center">
-                    Precio venta
+                    Precio mínimo
+                </th>
+                <th scope="col" class="text-center">
+                    Precio medio
+                </th>
+                <th scope="col" class="text-center">
+                    Precio máximo
                 </th>
                 <th scope="col" class="text-center">
                     Unidades
+                </th>
+                <th scope="col" class="text-center">
+                    Existencia
                 </th>
                 <th scope="col"></th>
             </tr>
@@ -30,10 +39,19 @@
                     @item.tbPresentacion.presentacion
                 </td>
                 <td class="align-middle text-center">
-                    Q @item.precioVenta
+                    Q @item.precioVentaMinimo
+                </td>
+                <td class="align-middle text-center">
+                    Q @item.precioVentaMedio
+                </td>
+                <td class="align-middle text-center">
+                    Q @item.precioVentaMaximo
                 </td>
                 <td class="align-middle text-center">
                     @item.unidades
+                </td>
+                <td class="align-middle text-center">
+                    @item.existencia
                 </td>
                 <td class="align-middle">
                     <button type="button" class="btn btn-warning btn-sm" onclick="Editar(@item.codPresentacion, '@item.tbPresentacion.presentacion')">

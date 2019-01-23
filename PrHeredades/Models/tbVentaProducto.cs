@@ -17,8 +17,8 @@ namespace PrHeredades.Models
         public int codVenta { get; set; }
         public int codProducto { get; set; }
         public int codPresentacion { get; set; }
-        public Nullable<decimal> cantidad { get; set; }
-        public Nullable<decimal> precioVenta { get; set; }
+        public decimal cantidad { get; set; }
+        public decimal precioVenta { get; set; }
     
         public virtual tbProductoPresentacion tbProductoPresentacion { get; set; }
         public virtual tbVenta tbVenta { get; set; }

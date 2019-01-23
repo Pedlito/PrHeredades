@@ -92,7 +92,7 @@ namespace PrHeredades.Controllers
         {
             dbHeredadesEntities db = new dbHeredadesEntities();
             tbRolPermiso permiso = db.tbRolPermiso.Find(codRol, codPermiso);
-            permiso.estado = !(permiso.estado.Value);
+            permiso.estado = !(permiso.estado);
             db.SaveChanges();
             return PartialView("_ListaPermisos", (from t in db.tbRolPermiso where t.codRol == codRol select t).ToList());
         }

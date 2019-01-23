@@ -15,5 +15,6 @@ namespace PrHeredades.Models
         public decimal existencia { get; set; }
         public decimal precioVenta { get; set; }
         public bool tieneMayor { get; set; }
+        public short precioSeleccionado { get; set; }
     }
 }

@@ -92,7 +92,7 @@ namespace PrHeredades.Controllers
         {
             dbHeredadesEntities db = new dbHeredadesEntities();
             tbProveedor proveedor = db.tbProveedor.Find(id);
-            proveedor.estado = !(proveedor.estado.Value);
+            proveedor.estado = !(proveedor.estado);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
@@ -103,11 +103,11 @@ namespace PrHeredades.Controllers
             tbProveedor proveedor = db.tbProveedor.Find(id);
             ViewBag.proveedor = proveedor.proveedor;
             ViewBag.codproveedor = proveedor.codProveedor;
-            List<tbProducto> productos = db.tbProducto.Where(t => t.estado.Value).OrderBy(t => t.producto).ToList();
+            List<tbProducto> productos = db.tbProducto.Where(t => t.estado).OrderBy(t => t.producto).ToList();
             ViewBag.codProducto = new SelectList(productos, "codProducto", "producto");
             ViewBag.codPresentacion = new SelectList(new List<tbPresentacion>(), "codPresentacion", "presentacion");
             ViewBag.productos = (from t in db.tbProductoProveedor
-                                 where t.codProveedor == id && t.estado.Value
+                                 where t.codProveedor == id && t.estado
                                  orderby t.tbProductoPresentacion.correlativo descending
                                  select new
                                  {

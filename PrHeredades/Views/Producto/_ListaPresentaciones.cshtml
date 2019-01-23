@@ -11,7 +11,13 @@
                 Presentación
             </th>
             <th scope="col" class="text-center">
-                Precio venta
+                Precio Mínimo
+            </th>
+            <th scope="col" class="text-center">
+                Precio Medio
+            </th>
+            <th scope="col" class="text-center">
+                Precio Máximo
             </th>
             <th scope="col" class="text-center">
                 Unidades
@@ -27,7 +33,13 @@
                 @item.tbPresentacion.presentacion
             </td>
             <td class="align-middle text-center">
-                Q @item.precioVenta
+                Q @item.precioVentaMinimo
+            </td>
+            <td class="align-middle text-center">
+                Q @item.precioVentaMedio
+            </td>
+            <td class="align-middle text-center">
+                Q @item.precioVentaMaximo
             </td>
             <td class="align-middle text-center">
                 @item.unidades

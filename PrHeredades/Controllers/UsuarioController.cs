@@ -99,7 +99,7 @@ namespace PrHeredades.Controllers
         {
             dbHeredadesEntities db = new dbHeredadesEntities();
             tbUsuario usuario = db.tbUsuario.Find(id);
-            usuario.estado = !(usuario.estado.Value);
+            usuario.estado = !(usuario.estado);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

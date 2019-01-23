@@ -90,7 +90,7 @@ namespace PrHeredades.Controllers
         {
             dbHeredadesEntities db = new dbHeredadesEntities();
             tbCategoria categoria = db.tbCategoria.Find(id);
-            categoria.estado = !(categoria.estado.Value);
+            categoria.estado = !(categoria.estado);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

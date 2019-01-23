@@ -10,23 +10,23 @@
             <PropertyRef Name="codCaja" />
           </Key>
           <Property Name="codCaja" Type="smallint" Nullable="false" />
-          <Property Name="cantidad" Type="decimal" Precision="8" Scale="2" />
+          <Property Name="cantidad" Type="decimal" Precision="8" Scale="2" Nullable="false" />
         </EntityType>
         <EntityType Name="tbCategoria">
           <Key>
             <PropertyRef Name="codCategoria" />
           </Key>
           <Property Name="codCategoria" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="categoria" Type="varchar" MaxLength="50" />
-          <Property Name="estado" Type="bit" />
+          <Property Name="categoria" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="estado" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="tbDeudor">
           <Key>
             <PropertyRef Name="codDeudor" />
           </Key>
           <Property Name="codDeudor" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="nombre" Type="varchar" MaxLength="50" />
-          <Property Name="telefono" Type="varchar" MaxLength="15" />
+          <Property Name="nombre" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="telefono" Type="varchar" MaxLength="15" Nullable="false" />
           <Property Name="residencia" Type="varchar" MaxLength="50" />
           <Property Name="refUno" Type="varchar" MaxLength="50" />
           <Property Name="refDos" Type="varchar" MaxLength="50" />
@@ -37,46 +37,46 @@
             <PropertyRef Name="codPagoDeudor" />
           </Key>
           <Property Name="codPagoDeudor" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="codDeudor" Type="int" />
-          <Property Name="codUsuario" Type="int" />
-          <Property Name="pago" Type="decimal" Precision="8" Scale="2" />
-          <Property Name="fecha" Type="datetime" />
+          <Property Name="codDeudor" Type="int" Nullable="false" />
+          <Property Name="codUsuario" Type="int" Nullable="false" />
+          <Property Name="pago" Type="decimal" Precision="8" Scale="2" Nullable="false" />
+          <Property Name="fecha" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="tbPagoProveedor">
           <Key>
             <PropertyRef Name="codPagoProveedor" />
           </Key>
           <Property Name="codPagoProveedor" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="codProveedor" Type="int" />
-          <Property Name="codUsuario" Type="int" />
-          <Property Name="fecha" Type="datetime" />
-          <Property Name="pago" Type="decimal" Precision="8" Scale="2" />
+          <Property Name="codProveedor" Type="int" Nullable="false" />
+          <Property Name="codUsuario" Type="int" Nullable="false" />
+          <Property Name="fecha" Type="datetime" Nullable="false" />
+          <Property Name="pago" Type="decimal" Precision="8" Scale="2" Nullable="false" />
           <Property Name="descripcion" Type="varchar" MaxLength="150" />
-          <Property Name="estado" Type="bit" />
+          <Property Name="estado" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="tbPermiso">
           <Key>
             <PropertyRef Name="codPermiso" />
           </Key>
           <Property Name="codPermiso" Type="int" Nullable="false" />
-          <Property Name="permiso" Type="varchar" MaxLength="75" />
+          <Property Name="permiso" Type="varchar" MaxLength="75" Nullable="false" />
         </EntityType>
         <EntityType Name="tbPresentacion">
           <Key>
             <PropertyRef Name="codPresentacion" />
           </Key>
           <Property Name="codPresentacion" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="presentacion" Type="varchar" MaxLength="50" />
-          <Property Name="estado" Type="bit" />
+          <Property Name="presentacion" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="estado" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="tbProducto">
           <Key>
             <PropertyRef Name="codProducto" />
           </Key>
           <Property Name="codProducto" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="codCategoria" Type="int" />
-          <Property Name="producto" Type="varchar" MaxLength="50" />
-          <Property Name="estado" Type="bit" />
+          <Property Name="codCategoria" Type="int" Nullable="false" />
+          <Property Name="producto" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="estado" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="tbProductoPresentacion">
           <Key>
@@ -85,10 +85,12 @@
           </Key>
           <Property Name="codProducto" Type="int" Nullable="false" />
           <Property Name="codPresentacion" Type="int" Nullable="false" />
-          <Property Name="precioVenta" Type="decimal" Precision="8" Scale="2" />
-          <Property Name="unidades" Type="smallint" />
-          <Property Name="correlativo" Type="smallint" />
-          <Property Name="existencia" Type="decimal" Precision="8" Scale="2" />
+          <Property Name="precioVentaMinimo" Type="decimal" Precision="8" Scale="2" Nullable="false" />
+          <Property Name="precioVentaMedio" Type="decimal" Precision="8" Scale="2" Nullable="false" />
+          <Property Name="precioVentaMaximo" Type="decimal" Precision="8" Scale="2" Nullable="false" />
+          <Property Name="unidades" Type="smallint" Nullable="false" />
+          <Property Name="correlativo" Type="smallint" Nullable="false" />
+          <Property Name="existencia" Type="decimal" Precision="8" Scale="2" Nullable="false" />
         </EntityType>
         <EntityType Name="tbProductoProveedor">
           <Key>
@@ -99,8 +101,8 @@
           <Property Name="codProveedor" Type="int" Nullable="false" />
           <Property Name="codProducto" Type="int" Nullable="false" />
           <Property Name="codPresentacion" Type="int" Nullable="false" />
-          <Property Name="precioCompra" Type="decimal" Precision="6" Scale="2" />
-          <Property Name="estado" Type="bit" />
+          <Property Name="precioCompra" Type="decimal" Precision="6" Scale="2" Nullable="false" />
+          <Property Name="estado" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="tbProductoTransaccion">
           <Key>
@@ -110,7 +112,7 @@
           <Property Name="codTransaccion" Type="int" Nullable="false" />
           <Property Name="codProducto" Type="int" Nullable="false" />
           <Property Name="codPresentacion" Type="int" Nullable="false" />
-          <Property Name="cantidad" Type="int" />
+          <Property Name="cantidad" Type="int" Nullable="false" />
           <Property Name="precioCompra" Type="decimal" Precision="6" Scale="2" />
         </EntityType>
         <EntityType Name="tbProveedor">
@@ -118,18 +120,18 @@
             <PropertyRef Name="codProveedor" />
           </Key>
           <Property Name="codProveedor" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="proveedor" Type="varchar" MaxLength="50" />
+          <Property Name="proveedor" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="telefono" Type="varchar" MaxLength="10" />
           <Property Name="direccion" Type="varchar" MaxLength="50" />
-          <Property Name="estado" Type="bit" />
-          <Property Name="deuda" Type="decimal" Precision="8" Scale="2" />
+          <Property Name="estado" Type="bit" Nullable="false" />
+          <Property Name="deuda" Type="decimal" Precision="8" Scale="2" Nullable="false" />
         </EntityType>
         <EntityType Name="tbRol">
           <Key>
             <PropertyRef Name="codRol" />
           </Key>
           <Property Name="codRol" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="rol" Type="varchar" MaxLength="25" />
+          <Property Name="rol" Type="varchar" MaxLength="25" Nullable="false" />
         </EntityType>
         <EntityType Name="tbRolPermiso">
           <Key>
@@ -138,30 +140,30 @@
           </Key>
           <Property Name="codRol" Type="int" Nullable="false" />
           <Property Name="codPermiso" Type="int" Nullable="false" />
-          <Property Name="estado" Type="bit" />
+          <Property Name="estado" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="tbTransaccion">
           <Key>
             <PropertyRef Name="codTransaccion" />
           </Key>
           <Property Name="codTransaccion" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="codProveedor" Type="int" />
-          <Property Name="codTipoTransaccion" Type="smallint" />
+          <Property Name="codProveedor" Type="int" Nullable="false" />
+          <Property Name="codTipoTransaccion" Type="smallint" Nullable="false" />
           <Property Name="descripcion" Type="varchar" MaxLength="500" />
           <Property Name="fecha" Type="datetime" Nullable="false" />
-          <Property Name="estado" Type="bit" />
-          <Property Name="codUsuario" Type="int" />
+          <Property Name="estado" Type="bit" Nullable="false" />
+          <Property Name="codUsuario" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="tbTransaccionCaja">
           <Key>
             <PropertyRef Name="codTransaccionCaja" />
           </Key>
           <Property Name="codTransaccionCaja" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="codUsuario" Type="int" />
-          <Property Name="tipoTransaccion" Type="smallint" />
-          <Property Name="cantidad" Type="decimal" Precision="8" Scale="2" />
+          <Property Name="codUsuario" Type="int" Nullable="false" />
+          <Property Name="tipoTransaccion" Type="smallint" Nullable="false" />
+          <Property Name="cantidad" Type="decimal" Precision="8" Scale="2" Nullable="false" />
           <Property Name="descripcion" Type="varchar" MaxLength="150" />
-          <Property Name="fecha" Type="datetime" />
+          <Property Name="fecha" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="tbUsuario">
           <Key>
@@ -172,7 +174,7 @@
           <Property Name="usuario" Type="varchar" MaxLength="20" Nullable="false" />
           <Property Name="nombre" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="password" Type="varchar" MaxLength="30" Nullable="false" />
-          <Property Name="estado" Type="bit" />
+          <Property Name="estado" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="tbVenta">
           <Key>
@@ -180,10 +182,10 @@
           </Key>
           <Property Name="codVenta" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="codDeudor" Type="int" />
-          <Property Name="codUsuario" Type="int" />
-          <Property Name="fecha" Type="datetime" />
+          <Property Name="codUsuario" Type="int" Nullable="false" />
+          <Property Name="fecha" Type="datetime" Nullable="false" />
           <Property Name="numFactura" Type="varchar" MaxLength="15" />
-          <Property Name="estado" Type="bit" />
+          <Property Name="estado" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="tbVentaProducto">
           <Key>
@@ -194,11 +196,11 @@
           <Property Name="codVenta" Type="int" Nullable="false" />
           <Property Name="codProducto" Type="int" Nullable="false" />
           <Property Name="codPresentacion" Type="int" Nullable="false" />
-          <Property Name="cantidad" Type="decimal" Precision="6" Scale="2" />
-          <Property Name="precioVenta" Type="decimal" Precision="8" Scale="2" />
+          <Property Name="cantidad" Type="decimal" Precision="6" Scale="2" Nullable="false" />
+          <Property Name="precioVenta" Type="decimal" Precision="8" Scale="2" Nullable="false" />
         </EntityType>
         <Association Name="FK_tbPagoDeudor_tbDeudor">
-          <End Role="tbDeudor" Type="Self.tbDeudor" Multiplicity="0..1" />
+          <End Role="tbDeudor" Type="Self.tbDeudor" Multiplicity="1" />
           <End Role="tbPagoDeudor" Type="Self.tbPagoDeudor" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tbDeudor">
@@ -210,7 +212,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_tbPagoDeudor_tbUsuario">
-          <End Role="tbUsuario" Type="Self.tbUsuario" Multiplicity="0..1" />
+          <End Role="tbUsuario" Type="Self.tbUsuario" Multiplicity="1" />
           <End Role="tbPagoDeudor" Type="Self.tbPagoDeudor" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tbUsuario">
@@ -222,7 +224,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_tbPagoProveedor_tbProveedor">
-          <End Role="tbProveedor" Type="Self.tbProveedor" Multiplicity="0..1" />
+          <End Role="tbProveedor" Type="Self.tbProveedor" Multiplicity="1" />
           <End Role="tbPagoProveedor" Type="Self.tbPagoProveedor" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tbProveedor">
@@ -234,7 +236,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_tbPagoProveedor_tbUsuario">
-          <End Role="tbUsuario" Type="Self.tbUsuario" Multiplicity="0..1" />
+          <End Role="tbUsuario" Type="Self.tbUsuario" Multiplicity="1" />
           <End Role="tbPagoProveedor" Type="Self.tbPagoProveedor" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tbUsuario">
@@ -270,7 +272,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_tbProducto_tbCategoria">
-          <End Role="tbCategoria" Type="Self.tbCategoria" Multiplicity="0..1" />
+          <End Role="tbCategoria" Type="Self.tbCategoria" Multiplicity="1" />
           <End Role="tbProducto" Type="Self.tbProducto" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tbCategoria">
@@ -358,7 +360,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_tbTransaccion_tbProveedor">
-          <End Role="tbProveedor" Type="Self.tbProveedor" Multiplicity="0..1" />
+          <End Role="tbProveedor" Type="Self.tbProveedor" Multiplicity="1" />
           <End Role="tbTransaccion" Type="Self.tbTransaccion" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tbProveedor">
@@ -370,7 +372,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_tbTransaccion_tbUsuario">
-          <End Role="tbUsuario" Type="Self.tbUsuario" Multiplicity="0..1" />
+          <End Role="tbUsuario" Type="Self.tbUsuario" Multiplicity="1" />
           <End Role="tbTransaccion" Type="Self.tbTransaccion" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tbUsuario">
@@ -382,7 +384,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_tbTransaccionCaja_tbUsuario">
-          <End Role="tbUsuario" Type="Self.tbUsuario" Multiplicity="0..1" />
+          <End Role="tbUsuario" Type="Self.tbUsuario" Multiplicity="1" />
           <End Role="tbTransaccionCaja" Type="Self.tbTransaccionCaja" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tbUsuario">
@@ -418,7 +420,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_tbVenta_tbUsuario">
-          <End Role="tbUsuario" Type="Self.tbUsuario" Multiplicity="0..1" />
+          <End Role="tbUsuario" Type="Self.tbUsuario" Multiplicity="1" />
           <End Role="tbVenta" Type="Self.tbVenta" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tbUsuario">
@@ -465,8 +467,8 @@
             <CollectionType>
               <RowType>
                 <Property Name="codProducto" Type="int" Nullable="false" />
-                <Property Name="producto" Type="varchar" MaxLength="50" />
-                <Property Name="presentacion" Type="varchar" MaxLength="50" />
+                <Property Name="producto" Type="varchar" MaxLength="50" Nullable="false" />
+                <Property Name="presentacion" Type="varchar" MaxLength="50" Nullable="false" />
                 <Property Name="cantidad" Type="int" />
                 <Property Name="gasto" Type="decimal" Precision="38" Scale="2" />
               </RowType>
@@ -479,9 +481,9 @@
             <CollectionType>
               <RowType>
                 <Property Name="codTransaccionCaja" Type="int" Nullable="false" />
-                <Property Name="tipoTransaccion" Type="smallint" />
+                <Property Name="tipoTransaccion" Type="smallint" Nullable="false" />
                 <Property Name="descripcion" Type="varchar" MaxLength="150" />
-                <Property Name="valor" Type="decimal" Precision="8" Scale="2" />
+                <Property Name="valor" Type="decimal" Precision="8" Scale="2" Nullable="false" />
               </RowType>
             </CollectionType>
           </ReturnType>
@@ -492,8 +494,8 @@
             <CollectionType>
               <RowType>
                 <Property Name="codProducto" Type="int" Nullable="false" />
-                <Property Name="producto" Type="varchar" MaxLength="50" />
-                <Property Name="presentacion" Type="varchar" MaxLength="50" />
+                <Property Name="producto" Type="varchar" MaxLength="50" Nullable="false" />
+                <Property Name="presentacion" Type="varchar" MaxLength="50" Nullable="false" />
                 <Property Name="cantidad" Type="decimal" Precision="38" Scale="2" />
                 <Property Name="entrada" Type="decimal" Precision="38" Scale="4" />
               </RowType>
@@ -610,10 +612,6 @@
     <edmx:ConceptualModels>
       <Schema Namespace="dbHeredadesModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="dbHeredadesEntities" annotation:LazyLoadingEnabled="true">
-          <FunctionImport Name="DeshabilitarProductos">
-            <Parameter Name="codProd" Mode="In" Type="Int32" />
-            <Parameter Name="codPres" Mode="In" Type="Int32" />
-          </FunctionImport>
           <EntitySet Name="tbCaja" EntityType="dbHeredadesModel.tbCaja" />
           <EntitySet Name="tbCategoria" EntityType="dbHeredadesModel.tbCategoria" />
           <EntitySet Name="tbDeudor" EntityType="dbHeredadesModel.tbDeudor" />
@@ -718,29 +716,33 @@
             <End Role="tbVentaProducto" EntitySet="tbVentaProducto" />
           </AssociationSet>
           <FunctionImport Name="resumenComprasDia" IsComposable="true" ReturnType="Collection(dbHeredadesModel.resumenComprasDia_Result)">
-            <Parameter Name="dia" Mode="In" Type="DateTime" />
+          <Parameter Name="dia" Mode="In" Type="DateTime" />
           </FunctionImport>
           <FunctionImport Name="resumenMovimientosCaja" IsComposable="true" ReturnType="Collection(dbHeredadesModel.resumenMovimientosCaja_Result)">
-            <Parameter Name="dia" Mode="In" Type="DateTime" />
+          <Parameter Name="dia" Mode="In" Type="DateTime" />
           </FunctionImport>
           <FunctionImport Name="resumenVentasDia" IsComposable="true" ReturnType="Collection(dbHeredadesModel.resumenVentasDia_Result)">
-            <Parameter Name="dia" Mode="In" Type="DateTime" />
+          <Parameter Name="dia" Mode="In" Type="DateTime" />
           </FunctionImport>
-          </EntityContainer>
+          <FunctionImport Name="DeshabilitarProductos">
+            <Parameter Name="codProd" Mode="In" Type="Int32" />
+            <Parameter Name="codPres" Mode="In" Type="Int32" />
+          </FunctionImport>
+        </EntityContainer>
         <EntityType Name="tbCaja">
           <Key>
             <PropertyRef Name="codCaja" />
           </Key>
           <Property Name="codCaja" Type="Int16" Nullable="false" />
-          <Property Name="cantidad" Type="Decimal" Precision="8" Scale="2" />
+          <Property Name="cantidad" Type="Decimal" Nullable="false" Precision="8" Scale="2" />
         </EntityType>
         <EntityType Name="tbCategoria">
           <Key>
             <PropertyRef Name="codCategoria" />
           </Key>
           <Property Name="codCategoria" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="categoria" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="estado" Type="Boolean" />
+          <Property Name="categoria" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="estado" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="tbProducto" Relationship="dbHeredadesModel.FK_tbProducto_tbCategoria" FromRole="tbCategoria" ToRole="tbProducto" />
         </EntityType>
         <EntityType Name="tbDeudor">
@@ -748,8 +750,8 @@
             <PropertyRef Name="codDeudor" />
           </Key>
           <Property Name="codDeudor" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="telefono" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="nombre" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="telefono" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
           <Property Name="residencia" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="refUno" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="refDos" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
@@ -762,10 +764,10 @@
             <PropertyRef Name="codPagoDeudor" />
           </Key>
           <Property Name="codPagoDeudor" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="codDeudor" Type="Int32" />
-          <Property Name="codUsuario" Type="Int32" />
-          <Property Name="pago" Type="Decimal" Precision="8" Scale="2" />
-          <Property Name="fecha" Type="DateTime" Precision="3" />
+          <Property Name="codDeudor" Type="Int32" Nullable="false" />
+          <Property Name="codUsuario" Type="Int32" Nullable="false" />
+          <Property Name="pago" Type="Decimal" Nullable="false" Precision="8" Scale="2" />
+          <Property Name="fecha" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="tbDeudor" Relationship="dbHeredadesModel.FK_tbPagoDeudor_tbDeudor" FromRole="tbPagoDeudor" ToRole="tbDeudor" />
           <NavigationProperty Name="tbUsuario" Relationship="dbHeredadesModel.FK_tbPagoDeudor_tbUsuario" FromRole="tbPagoDeudor" ToRole="tbUsuario" />
         </EntityType>
@@ -774,12 +776,12 @@
             <PropertyRef Name="codPagoProveedor" />
           </Key>
           <Property Name="codPagoProveedor" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="codProveedor" Type="Int32" />
-          <Property Name="codUsuario" Type="Int32" />
-          <Property Name="fecha" Type="DateTime" Precision="3" />
-          <Property Name="pago" Type="Decimal" Precision="8" Scale="2" />
+          <Property Name="codProveedor" Type="Int32" Nullable="false" />
+          <Property Name="codUsuario" Type="Int32" Nullable="false" />
+          <Property Name="fecha" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="pago" Type="Decimal" Nullable="false" Precision="8" Scale="2" />
           <Property Name="descripcion" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
-          <Property Name="estado" Type="Boolean" />
+          <Property Name="estado" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="tbProveedor" Relationship="dbHeredadesModel.FK_tbPagoProveedor_tbProveedor" FromRole="tbPagoProveedor" ToRole="tbProveedor" />
           <NavigationProperty Name="tbUsuario" Relationship="dbHeredadesModel.FK_tbPagoProveedor_tbUsuario" FromRole="tbPagoProveedor" ToRole="tbUsuario" />
         </EntityType>
@@ -788,7 +790,7 @@
             <PropertyRef Name="codPermiso" />
           </Key>
           <Property Name="codPermiso" Type="Int32" Nullable="false" />
-          <Property Name="permiso" Type="String" MaxLength="75" FixedLength="false" Unicode="false" />
+          <Property Name="permiso" Type="String" Nullable="false" MaxLength="75" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="tbRolPermiso" Relationship="dbHeredadesModel.FK_tbPermisoDenegado_tbPermiso" FromRole="tbPermiso" ToRole="tbRolPermiso" />
         </EntityType>
         <EntityType Name="tbPresentacion">
@@ -796,8 +798,8 @@
             <PropertyRef Name="codPresentacion" />
           </Key>
           <Property Name="codPresentacion" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="presentacion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="estado" Type="Boolean" />
+          <Property Name="presentacion" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="estado" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="tbProductoPresentacion" Relationship="dbHeredadesModel.FK_tbProductoPresentacion_tbPresentacion" FromRole="tbPresentacion" ToRole="tbProductoPresentacion" />
         </EntityType>
         <EntityType Name="tbProducto">
@@ -805,9 +807,9 @@
             <PropertyRef Name="codProducto" />
           </Key>
           <Property Name="codProducto" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="codCategoria" Type="Int32" />
-          <Property Name="producto" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="estado" Type="Boolean" />
+          <Property Name="codCategoria" Type="Int32" Nullable="false" />
+          <Property Name="producto" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="estado" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="tbCategoria" Relationship="dbHeredadesModel.FK_tbProducto_tbCategoria" FromRole="tbProducto" ToRole="tbCategoria" />
           <NavigationProperty Name="tbProductoPresentacion" Relationship="dbHeredadesModel.FK_tbProductoPresentacion_tbProducto" FromRole="tbProducto" ToRole="tbProductoPresentacion" />
         </EntityType>
@@ -818,10 +820,12 @@
           </Key>
           <Property Name="codProducto" Type="Int32" Nullable="false" />
           <Property Name="codPresentacion" Type="Int32" Nullable="false" />
-          <Property Name="precioVenta" Type="Decimal" Precision="8" Scale="2" />
-          <Property Name="unidades" Type="Int16" />
-          <Property Name="correlativo" Type="Int16" />
-          <Property Name="existencia" Type="Decimal" Precision="8" Scale="2" />
+          <Property Name="precioVentaMinimo" Type="Decimal" Nullable="false" Precision="8" Scale="2" />
+          <Property Name="precioVentaMedio" Type="Decimal" Nullable="false" Precision="8" Scale="2" />
+          <Property Name="precioVentaMaximo" Type="Decimal" Nullable="false" Precision="8" Scale="2" />
+          <Property Name="unidades" Type="Int16" Nullable="false" />
+          <Property Name="correlativo" Type="Int16" Nullable="false" />
+          <Property Name="existencia" Type="Decimal" Nullable="false" Precision="8" Scale="2" />
           <NavigationProperty Name="tbPresentacion" Relationship="dbHeredadesModel.FK_tbProductoPresentacion_tbPresentacion" FromRole="tbProductoPresentacion" ToRole="tbPresentacion" />
           <NavigationProperty Name="tbProducto" Relationship="dbHeredadesModel.FK_tbProductoPresentacion_tbProducto" FromRole="tbProductoPresentacion" ToRole="tbProducto" />
           <NavigationProperty Name="tbProductoProveedor" Relationship="dbHeredadesModel.FK_tbProductoProveedor_tbProductoPresentacion" FromRole="tbProductoPresentacion" ToRole="tbProductoProveedor" />
@@ -837,8 +841,8 @@
           <Property Name="codProveedor" Type="Int32" Nullable="false" />
           <Property Name="codProducto" Type="Int32" Nullable="false" />
           <Property Name="codPresentacion" Type="Int32" Nullable="false" />
-          <Property Name="precioCompra" Type="Decimal" Precision="6" Scale="2" />
-          <Property Name="estado" Type="Boolean" />
+          <Property Name="precioCompra" Type="Decimal" Nullable="false" Precision="6" Scale="2" />
+          <Property Name="estado" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="tbProductoPresentacion" Relationship="dbHeredadesModel.FK_tbProductoProveedor_tbProductoPresentacion" FromRole="tbProductoProveedor" ToRole="tbProductoPresentacion" />
           <NavigationProperty Name="tbProveedor" Relationship="dbHeredadesModel.FK_tbProductoProveedor_tbProveedor" FromRole="tbProductoProveedor" ToRole="tbProveedor" />
         </EntityType>
@@ -850,7 +854,7 @@
           <Property Name="codTransaccion" Type="Int32" Nullable="false" />
           <Property Name="codProducto" Type="Int32" Nullable="false" />
           <Property Name="codPresentacion" Type="Int32" Nullable="false" />
-          <Property Name="cantidad" Type="Int32" />
+          <Property Name="cantidad" Type="Int32" Nullable="false" />
           <Property Name="precioCompra" Type="Decimal" Precision="6" Scale="2" />
           <NavigationProperty Name="tbProductoPresentacion" Relationship="dbHeredadesModel.FK_tbProductoTransaccion_tbProductoPresentacion1" FromRole="tbProductoTransaccion" ToRole="tbProductoPresentacion" />
           <NavigationProperty Name="tbTransaccion" Relationship="dbHeredadesModel.FK_tbProductoTransaccion_tbTransaccion1" FromRole="tbProductoTransaccion" ToRole="tbTransaccion" />
@@ -860,11 +864,11 @@
             <PropertyRef Name="codProveedor" />
           </Key>
           <Property Name="codProveedor" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="proveedor" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="proveedor" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="telefono" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="direccion" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="estado" Type="Boolean" />
-          <Property Name="deuda" Type="Decimal" Precision="8" Scale="2" />
+          <Property Name="estado" Type="Boolean" Nullable="false" />
+          <Property Name="deuda" Type="Decimal" Nullable="false" Precision="8" Scale="2" />
           <NavigationProperty Name="tbPagoProveedor" Relationship="dbHeredadesModel.FK_tbPagoProveedor_tbProveedor" FromRole="tbProveedor" ToRole="tbPagoProveedor" />
           <NavigationProperty Name="tbProductoProveedor" Relationship="dbHeredadesModel.FK_tbProductoProveedor_tbProveedor" FromRole="tbProveedor" ToRole="tbProductoProveedor" />
           <NavigationProperty Name="tbTransaccion" Relationship="dbHeredadesModel.FK_tbTransaccion_tbProveedor" FromRole="tbProveedor" ToRole="tbTransaccion" />
@@ -874,7 +878,7 @@
             <PropertyRef Name="codRol" />
           </Key>
           <Property Name="codRol" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="rol" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="rol" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="tbRolPermiso" Relationship="dbHeredadesModel.FK_tbPermisoDenegado_tbRol" FromRole="tbRol" ToRole="tbRolPermiso" />
           <NavigationProperty Name="tbUsuario" Relationship="dbHeredadesModel.FK_tbUsuario_tbRol" FromRole="tbRol" ToRole="tbUsuario" />
         </EntityType>
@@ -885,7 +889,7 @@
           </Key>
           <Property Name="codRol" Type="Int32" Nullable="false" />
           <Property Name="codPermiso" Type="Int32" Nullable="false" />
-          <Property Name="estado" Type="Boolean" />
+          <Property Name="estado" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="tbPermiso" Relationship="dbHeredadesModel.FK_tbPermisoDenegado_tbPermiso" FromRole="tbRolPermiso" ToRole="tbPermiso" />
           <NavigationProperty Name="tbRol" Relationship="dbHeredadesModel.FK_tbPermisoDenegado_tbRol" FromRole="tbRolPermiso" ToRole="tbRol" />
         </EntityType>
@@ -894,12 +898,12 @@
             <PropertyRef Name="codTransaccion" />
           </Key>
           <Property Name="codTransaccion" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="codProveedor" Type="Int32" />
-          <Property Name="codTipoTransaccion" Type="Int16" />
+          <Property Name="codProveedor" Type="Int32" Nullable="false" />
+          <Property Name="codTipoTransaccion" Type="Int16" Nullable="false" />
           <Property Name="descripcion" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
           <Property Name="fecha" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="estado" Type="Boolean" />
-          <Property Name="codUsuario" Type="Int32" />
+          <Property Name="estado" Type="Boolean" Nullable="false" />
+          <Property Name="codUsuario" Type="Int32" Nullable="false" />
           <NavigationProperty Name="tbProductoTransaccion" Relationship="dbHeredadesModel.FK_tbProductoTransaccion_tbTransaccion1" FromRole="tbTransaccion" ToRole="tbProductoTransaccion" />
           <NavigationProperty Name="tbProveedor" Relationship="dbHeredadesModel.FK_tbTransaccion_tbProveedor" FromRole="tbTransaccion" ToRole="tbProveedor" />
           <NavigationProperty Name="tbUsuario" Relationship="dbHeredadesModel.FK_tbTransaccion_tbUsuario" FromRole="tbTransaccion" ToRole="tbUsuario" />
@@ -909,11 +913,11 @@
             <PropertyRef Name="codTransaccionCaja" />
           </Key>
           <Property Name="codTransaccionCaja" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="codUsuario" Type="Int32" />
-          <Property Name="tipoTransaccion" Type="Int16" />
-          <Property Name="cantidad" Type="Decimal" Precision="8" Scale="2" />
+          <Property Name="codUsuario" Type="Int32" Nullable="false" />
+          <Property Name="tipoTransaccion" Type="Int16" Nullable="false" />
+          <Property Name="cantidad" Type="Decimal" Nullable="false" Precision="8" Scale="2" />
           <Property Name="descripcion" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
-          <Property Name="fecha" Type="DateTime" Precision="3" />
+          <Property Name="fecha" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="tbUsuario" Relationship="dbHeredadesModel.FK_tbTransaccionCaja_tbUsuario" FromRole="tbTransaccionCaja" ToRole="tbUsuario" />
         </EntityType>
         <EntityType Name="tbUsuario">
@@ -925,7 +929,7 @@
           <Property Name="usuario" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="nombre" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="password" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="estado" Type="Boolean" />
+          <Property Name="estado" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="tbPagoDeudor" Relationship="dbHeredadesModel.FK_tbPagoDeudor_tbUsuario" FromRole="tbUsuario" ToRole="tbPagoDeudor" />
           <NavigationProperty Name="tbPagoProveedor" Relationship="dbHeredadesModel.FK_tbPagoProveedor_tbUsuario" FromRole="tbUsuario" ToRole="tbPagoProveedor" />
           <NavigationProperty Name="tbRol" Relationship="dbHeredadesModel.FK_tbUsuario_tbRol" FromRole="tbUsuario" ToRole="tbRol" />
@@ -939,10 +943,10 @@
           </Key>
           <Property Name="codVenta" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="codDeudor" Type="Int32" />
-          <Property Name="codUsuario" Type="Int32" />
-          <Property Name="fecha" Type="DateTime" Precision="3" />
+          <Property Name="codUsuario" Type="Int32" Nullable="false" />
+          <Property Name="fecha" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="numFactura" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
-          <Property Name="estado" Type="Boolean" />
+          <Property Name="estado" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="tbDeudor" Relationship="dbHeredadesModel.FK_tbVenta_tbDeudor" FromRole="tbVenta" ToRole="tbDeudor" />
           <NavigationProperty Name="tbUsuario" Relationship="dbHeredadesModel.FK_tbVenta_tbUsuario" FromRole="tbVenta" ToRole="tbUsuario" />
           <NavigationProperty Name="tbVentaProducto" Relationship="dbHeredadesModel.FK_tbVentaProducto_tbVenta" FromRole="tbVenta" ToRole="tbVentaProducto" />
@@ -956,13 +960,13 @@
           <Property Name="codVenta" Type="Int32" Nullable="false" />
           <Property Name="codProducto" Type="Int32" Nullable="false" />
           <Property Name="codPresentacion" Type="Int32" Nullable="false" />
-          <Property Name="cantidad" Type="Decimal" Precision="6" Scale="2" />
-          <Property Name="precioVenta" Type="Decimal" Precision="8" Scale="2" />
+          <Property Name="cantidad" Type="Decimal" Nullable="false" Precision="6" Scale="2" />
+          <Property Name="precioVenta" Type="Decimal" Nullable="false" Precision="8" Scale="2" />
           <NavigationProperty Name="tbProductoPresentacion" Relationship="dbHeredadesModel.FK_tbVentaProducto_tbProductoPresentacion" FromRole="tbVentaProducto" ToRole="tbProductoPresentacion" />
           <NavigationProperty Name="tbVenta" Relationship="dbHeredadesModel.FK_tbVentaProducto_tbVenta" FromRole="tbVentaProducto" ToRole="tbVenta" />
         </EntityType>
         <Association Name="FK_tbProducto_tbCategoria">
-          <End Type="dbHeredadesModel.tbCategoria" Role="tbCategoria" Multiplicity="0..1" />
+          <End Type="dbHeredadesModel.tbCategoria" Role="tbCategoria" Multiplicity="1" />
           <End Type="dbHeredadesModel.tbProducto" Role="tbProducto" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tbCategoria">
@@ -974,7 +978,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_tbPagoDeudor_tbDeudor">
-          <End Type="dbHeredadesModel.tbDeudor" Role="tbDeudor" Multiplicity="0..1" />
+          <End Type="dbHeredadesModel.tbDeudor" Role="tbDeudor" Multiplicity="1" />
           <End Type="dbHeredadesModel.tbPagoDeudor" Role="tbPagoDeudor" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tbDeudor">
@@ -998,7 +1002,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_tbPagoDeudor_tbUsuario">
-          <End Type="dbHeredadesModel.tbUsuario" Role="tbUsuario" Multiplicity="0..1" />
+          <End Type="dbHeredadesModel.tbUsuario" Role="tbUsuario" Multiplicity="1" />
           <End Type="dbHeredadesModel.tbPagoDeudor" Role="tbPagoDeudor" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tbUsuario">
@@ -1010,7 +1014,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_tbPagoProveedor_tbProveedor">
-          <End Type="dbHeredadesModel.tbProveedor" Role="tbProveedor" Multiplicity="0..1" />
+          <End Type="dbHeredadesModel.tbProveedor" Role="tbProveedor" Multiplicity="1" />
           <End Type="dbHeredadesModel.tbPagoProveedor" Role="tbPagoProveedor" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tbProveedor">
@@ -1022,7 +1026,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_tbPagoProveedor_tbUsuario">
-          <End Type="dbHeredadesModel.tbUsuario" Role="tbUsuario" Multiplicity="0..1" />
+          <End Type="dbHeredadesModel.tbUsuario" Role="tbUsuario" Multiplicity="1" />
           <End Type="dbHeredadesModel.tbPagoProveedor" Role="tbPagoProveedor" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tbUsuario">
@@ -1136,7 +1140,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_tbTransaccion_tbProveedor">
-          <End Type="dbHeredadesModel.tbProveedor" Role="tbProveedor" Multiplicity="0..1" />
+          <End Type="dbHeredadesModel.tbProveedor" Role="tbProveedor" Multiplicity="1" />
           <End Type="dbHeredadesModel.tbTransaccion" Role="tbTransaccion" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tbProveedor">
@@ -1172,7 +1176,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_tbTransaccion_tbUsuario">
-          <End Type="dbHeredadesModel.tbUsuario" Role="tbUsuario" Multiplicity="0..1" />
+          <End Type="dbHeredadesModel.tbUsuario" Role="tbUsuario" Multiplicity="1" />
           <End Type="dbHeredadesModel.tbTransaccion" Role="tbTransaccion" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tbUsuario">
@@ -1184,7 +1188,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_tbTransaccionCaja_tbUsuario">
-          <End Type="dbHeredadesModel.tbUsuario" Role="tbUsuario" Multiplicity="0..1" />
+          <End Type="dbHeredadesModel.tbUsuario" Role="tbUsuario" Multiplicity="1" />
           <End Type="dbHeredadesModel.tbTransaccionCaja" Role="tbTransaccionCaja" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tbUsuario">
@@ -1196,7 +1200,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_tbVenta_tbUsuario">
-          <End Type="dbHeredadesModel.tbUsuario" Role="tbUsuario" Multiplicity="0..1" />
+          <End Type="dbHeredadesModel.tbUsuario" Role="tbUsuario" Multiplicity="1" />
           <End Type="dbHeredadesModel.tbVenta" Role="tbVenta" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="tbUsuario">
@@ -1221,31 +1225,30 @@
         </Association>
         <ComplexType Name="resumenComprasDia_Result">
           <Property Type="Int32" Name="codProducto" Nullable="false" />
-          <Property Type="String" Name="producto" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="presentacion" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="producto" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="presentacion" Nullable="false" MaxLength="50" />
           <Property Type="Int32" Name="cantidad" Nullable="true" />
           <Property Type="Decimal" Name="gasto" Nullable="true" Precision="38" Scale="2" />
         </ComplexType>
         <ComplexType Name="resumenMovimientosCaja_Result">
           <Property Type="Int32" Name="codTransaccionCaja" Nullable="false" />
-          <Property Type="Int16" Name="tipoTransaccion" Nullable="true" />
+          <Property Type="Int16" Name="tipoTransaccion" Nullable="false" />
           <Property Type="String" Name="descripcion" Nullable="true" MaxLength="150" />
-          <Property Type="Decimal" Name="valor" Nullable="true" Precision="8" Scale="2" />
+          <Property Type="Decimal" Name="valor" Nullable="false" Precision="8" Scale="2" />
         </ComplexType>
         <ComplexType Name="resumenVentasDia_Result">
           <Property Type="Int32" Name="codProducto" Nullable="false" />
-          <Property Type="String" Name="producto" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="presentacion" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="producto" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="presentacion" Nullable="false" MaxLength="50" />
           <Property Type="Decimal" Name="cantidad" Nullable="true" Precision="38" Scale="2" />
           <Property Type="Decimal" Name="entrada" Nullable="true" Precision="38" Scale="4" />
         </ComplexType>
-        </Schema>
+      </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="dbHeredadesModelStoreContainer" CdmEntityContainer="dbHeredadesEntities">
-          <FunctionImportMapping FunctionImportName="DeshabilitarProductos" FunctionName="dbHeredadesModel.Store.DeshabilitarProductos" />
           <EntitySetMapping Name="tbCaja">
             <EntityTypeMapping TypeName="dbHeredadesModel.tbCaja">
               <MappingFragment StoreEntitySet="tbCaja">
@@ -1333,7 +1336,9 @@
                 <ScalarProperty Name="existencia" ColumnName="existencia" />
                 <ScalarProperty Name="correlativo" ColumnName="correlativo" />
                 <ScalarProperty Name="unidades" ColumnName="unidades" />
-                <ScalarProperty Name="precioVenta" ColumnName="precioVenta" />
+                <ScalarProperty Name="precioVentaMaximo" ColumnName="precioVentaMaximo" />
+                <ScalarProperty Name="precioVentaMedio" ColumnName="precioVentaMedio" />
+                <ScalarProperty Name="precioVentaMinimo" ColumnName="precioVentaMinimo" />
                 <ScalarProperty Name="codPresentacion" ColumnName="codPresentacion" />
                 <ScalarProperty Name="codProducto" ColumnName="codProducto" />
               </MappingFragment>
@@ -1483,7 +1488,8 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          </EntityContainerMapping>
+          <FunctionImportMapping FunctionImportName="DeshabilitarProductos" FunctionName="dbHeredadesModel.Store.DeshabilitarProductos" />
+        </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
   </edmx:Runtime>
@@ -1497,7 +1503,7 @@
     <Options>
       <DesignerInfoPropertySet>
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
-        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
         <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
         <DesignerProperty Name="UseLegacyProvider" Value="false" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />

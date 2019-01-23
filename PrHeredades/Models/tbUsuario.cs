@@ -29,7 +29,7 @@ namespace PrHeredades.Models
         public string usuario { get; set; }
         public string nombre { get; set; }
         public string password { get; set; }
-        public Nullable<bool> estado { get; set; }
+        public bool estado { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tbPagoDeudor> tbPagoDeudor { get; set; }

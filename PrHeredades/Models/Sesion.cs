@@ -80,7 +80,7 @@ namespace PrHeredades.Models
             dbHeredadesEntities db = new dbHeredadesEntities();
             int codUsuario = ObtenerCodigo();
             int codRol = (from t in db.tbUsuario where t.codUsuario == codUsuario select t.codRol).SingleOrDefault();
-            return (from t in db.tbRolPermiso where t.codRol == codRol && t.codPermiso == (int)valor select t.estado).SingleOrDefault().Value;
+            return (from t in db.tbRolPermiso where t.codRol == codRol && t.codPermiso == (int)valor select t.estado).SingleOrDefault();
         }
     }
 

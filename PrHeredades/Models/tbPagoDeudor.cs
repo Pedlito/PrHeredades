@@ -15,10 +15,10 @@ namespace PrHeredades.Models
     public partial class tbPagoDeudor
     {
         public int codPagoDeudor { get; set; }
-        public Nullable<int> codDeudor { get; set; }
-        public Nullable<int> codUsuario { get; set; }
-        public Nullable<decimal> pago { get; set; }
-        public Nullable<System.DateTime> fecha { get; set; }
+        public int codDeudor { get; set; }
+        public int codUsuario { get; set; }
+        public decimal pago { get; set; }
+        public System.DateTime fecha { get; set; }
     
         public virtual tbDeudor tbDeudor { get; set; }
         public virtual tbUsuario tbUsuario { get; set; }

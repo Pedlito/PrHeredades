@@ -135,11 +135,11 @@ namespace PrHeredades.Controllers
             db.tbTransaccionCaja.Add(transaccion);
             if (transaccion.tipoTransaccion == 0)
             {
-                CajaController.Sumar(transaccion.cantidad.Value);
+                CajaController.Sumar(transaccion.cantidad);
             }
             else
             {
-                CajaController.Restar(transaccion.cantidad.Value);
+                CajaController.Restar(transaccion.cantidad);
             }
             db.SaveChanges();
             switch (transaccion.tipoTransaccion)

@@ -33,6 +33,7 @@ namespace PrHeredades.Controllers
             tbProveedor proveedor = db.tbProveedor.Find(id);
             ViewBag.codProveedor = id;
             ViewBag.proveedor = proveedor.proveedor;
+            ViewBag.caja = db.tbCaja.Find(1).cantidad;
             return View();
         }
 
@@ -56,6 +57,20 @@ namespace PrHeredades.Controllers
             proveedor.deuda -= pago.pago;
             //agrego el pago a la tabla y guardo cambios
             db.tbPagoProveedor.Add(pago);
+            if (collection["rdFuente"] == "caja")
+            {
+                //el pago se debe de efectuar desde caja, de lo contrario no se resta nada de caja
+                tbTransaccionCaja transaccionCaja = new tbTransaccionCaja
+                {
+                    tipoTransaccion = 1,
+                    codUsuario = Sesion.ObtenerCodigo(),
+                    cantidad = pago.pago,
+                    fecha = DateTime.Now,
+                    descripcion = "Pago a " + proveedor.proveedor
+                };
+                CajaController.Restar(pago.pago);
+                db.tbTransaccionCaja.Add(transaccionCaja);
+            }
             db.SaveChanges();
             return RedirectToAction("Index");
         }
@@ -104,16 +119,16 @@ namespace PrHeredades.Controllers
             dbHeredadesEntities db = new dbHeredadesEntities();
             // obtengo el pago y le cambio el estado
             tbPagoProveedor pago = db.tbPagoProveedor.Find(id);
-            pago.estado = !(pago.estado.Value);
+            pago.estado = !(pago.estado);
             // en este punto, el estado es el final, si es verdadero (se habilita) se resta de la deuda, si es falso (se deshabilito) sumar a la deuda
             tbProveedor proveedor = db.tbProveedor.Find(pago.codProveedor);
-            if (pago.estado.Value)
+            if (pago.estado)
             {
                 proveedor.deuda -= pago.pago;
             }
             else
             {
-                proveedor.deuda += pago.pago; 
+                proveedor.deuda += pago.pago;
             }
             db.SaveChanges();
             return RedirectToAction("VerPagos", new { id = pago.codProveedor });

@@ -21,12 +21,12 @@ namespace PrHeredades.Models
         }
     
         public int codTransaccion { get; set; }
-        public Nullable<int> codProveedor { get; set; }
-        public Nullable<short> codTipoTransaccion { get; set; }
+        public int codProveedor { get; set; }
+        public short codTipoTransaccion { get; set; }
         public string descripcion { get; set; }
         public System.DateTime fecha { get; set; }
-        public Nullable<bool> estado { get; set; }
-        public Nullable<int> codUsuario { get; set; }
+        public bool estado { get; set; }
+        public int codUsuario { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<tbProductoTransaccion> tbProductoTransaccion { get; set; }
