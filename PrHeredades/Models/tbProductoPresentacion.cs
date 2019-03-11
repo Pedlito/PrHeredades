@@ -27,6 +27,7 @@ namespace PrHeredades.Models
         public decimal precioVentaMinimo { get; set; }
         public decimal precioVentaMedio { get; set; }
         public decimal precioVentaMaximo { get; set; }
+        public decimal agregado { get; set; }
         public short unidades { get; set; }
         public short correlativo { get; set; }
         public decimal existencia { get; set; }

@@ -21,7 +21,7 @@ namespace PrHeredades.Models
         public int cantidad { get; set; }
         public Nullable<decimal> precioCompra { get; set; }
     
-        public virtual tbProductoPresentacion tbProductoPresentacion { get; set; }
         public virtual tbTransaccion tbTransaccion { get; set; }
+        public virtual tbProductoPresentacion tbProductoPresentacion { get; set; }
     }
 }

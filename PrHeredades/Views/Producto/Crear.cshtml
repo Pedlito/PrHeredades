@@ -73,7 +73,11 @@
                         @Html.TextBox("precioVentaMaximo", "", new { @class = "form-control", autocomplete = "off" })
                     </div>
                     <div class="form-group">
-                        <label for="unidades" class="col-form-label">Se divide en</label>
+                        <label for="agregado" class="col-form-label">Agregado a deuda</label>
+                        @Html.TextBox("agregado", "", new { @class = "form-control", autocomplete = "off" })
+                    </div>
+                    <div class="form-group" id="divUnidades">
+                        <label for="unidades" id="lblUnidades" class="col-form-label">Se divide en</label>
                         @Html.TextBox("unidades", "", new { @class = "form-control", autocomplete = "off", placeholder = "Número de unidades en que se divide" })
                     </div>
                     <div class="form-group">
@@ -123,7 +127,11 @@
                         @Html.TextBox("editPrecioVentaMaximo", "", new { @class = "form-control", autocomplete = "off" })
                     </div>
                     <div class="form-group">
-                        <label for="editUnidades" class="col-form-label">Se divide en</label>
+                        <label for="editAgregado" class="col-form-label">Agregado a deuda</label>
+                        @Html.TextBox("editAgregado", "", new { @class = "form-control", autocomplete = "off" })
+                    </div>
+                    <div class="form-group" id="editDivUnidades">
+                        <label for="editUnidades" id="editLblUnidades" class="col-form-label">Se divide en</label>
                         @Html.TextBox("editUnidades", "", new { @class = "form-control", autocomplete = "off", placeholder = "Número de unidades" })
                     </div>
                     <div class="form-group">
@@ -154,6 +162,7 @@
     <script>
         var presentaciones = [];
         var editar;
+        var lstPresentaciones = @Html.Raw(Json.Encode(@ViewBag.presentaciones));
 
         function AgregarPresentacion() {
             if ($("#agrPresentacion").valid()) {
@@ -170,6 +179,7 @@
                 precioVentaMinimo: $('#precioVentaMinimo').val(),
                 precioVentaMedio: $('#precioVentaMedio').val(),
                 precioVentaMaximo: $('#precioVentaMaximo').val(),
+                agregado: $('#agregado').val(),
                 unidades: $('#unidades').val(),
                 existencia: $('#existencia').val()
             });
@@ -179,24 +189,49 @@
 
         function ModalPresentacion() {
             if (presentaciones.length < 1) {
-                $('#unidades').val("1");
-                $('#unidades').attr('readonly', true);
-            }
-            else {
+                $('#divUnidades').hide();
+            } else {
+                $('#divUnidades').show();
+                var codPresentacion = presentaciones[presentaciones.length - 1].codPresentacion;
+                var index = lstPresentaciones.findIndex(function (element) { return element.codPresentacion == codPresentacion })
+                var nombrePres = lstPresentaciones[index].presentacion;
+                if (nombrePres.toUpperCase() == "UNIDAD") {
+                    nombrePres = "Unidades"
+                } else {
+                    nombrePres += "s";
+                }
+                $('#lblUnidades').text("En cuantas \"" + nombrePres + "\" se divide");
                 $('#unidades').val("");
-                $('#unidades').removeAttr('readonly');
             }
+            $('#agregado').val("0");
             $('#pedirPresentacion').modal('show');
         }
 
         function Editar(codPresentacion, presentacion) {
-            editar = presentaciones.find(function (element) { return element.codPresentacion == codPresentacion });
+            var index = presentaciones.findIndex(function (element) { return element.codPresentacion == codPresentacion })
+            editar = presentaciones[index];
+            if (index == 0) {
+                $('#editDivUnidades').hide();
+            } else {
+                $('#editDivUnidades').show();
+                var codPresentacion = presentaciones[index - 1].codPresentacion;
+                var index = lstPresentaciones.findIndex(function (element) { return element.codPresentacion == codPresentacion })
+                var nombrePres = lstPresentaciones[index].presentacion;
+                if (nombrePres.toUpperCase() == "UNIDAD") {
+                    nombrePres = "Unidades"
+                } else {
+                    nombrePres += "s";
+                }
+                $('#editLblUnidades').text("En cuantas \"" + nombrePres + "\" se divide");
+            }
             $('#presentacion').val(presentacion);
             $('#editPrecioVentaMinimo').val(editar.precioVentaMinimo);
             $('#editPrecioVentaMedio').val(editar.precioVentaMedio);
             $('#editPrecioVentaMaximo').val(editar.precioVentaMaximo);
+            $('#editAgregado').val(editar.agregado);
             $('#editUnidades').val(editar.unidades);
             $('#editExistencia').val(editar.existencia);
+
             $('#editarPresentacion').modal('show');
         }
         
@@ -205,6 +240,7 @@
                 editar.precioVentaMinimo = $('#editPrecioVentaMinimo').val();
                 editar.precioVentaMedio = $('#editPrecioVentaMedio').val();
                 editar.precioVentaMaximo = $('#editPrecioVentaMaximo').val();
+                editar.agregado = $('#editAgregado').val();
                 editar.unidades = $('#editUnidades').val();
                 editar.existencia = $('#editExistencia').val();
                 $('#editarPresentacion').modal('hide');

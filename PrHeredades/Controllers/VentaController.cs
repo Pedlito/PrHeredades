@@ -20,7 +20,7 @@ namespace PrHeredades.Controllers
         public ActionResult Index(int pagina = 1, string filtro = "", bool tipoVenta = true, bool estado = true)
         {
             dbHeredadesEntities db = new dbHeredadesEntities();
-            List<tbVenta> lista;
+            List<clsVentas> lista;
             if (filtro != "")
             {
                 DateTime fecha = DateTime.Parse(filtro);
@@ -29,14 +29,28 @@ namespace PrHeredades.Controllers
                     lista = (from t in db.tbVenta
                              where DbFunctions.TruncateTime(t.fecha) == fecha && t.codDeudor == null && t.estado == estado
                              orderby t.fecha descending
-                             select t).ToList();
+                             select new clsVentas
+                             {
+                                 codVenta = t.codVenta,
+                                 fecha = t.fecha,
+                                 codDeudor = t.codDeudor,
+                                 tbDeudor = t.tbDeudor,
+                                 tbVentaProducto = t.tbVentaProducto
+                             }).ToList();
                 }
                 else
                 {
                     lista = (from t in db.tbVenta
                              where DbFunctions.TruncateTime(t.fecha) == fecha && t.codDeudor != null && t.estado == estado
                              orderby t.fecha descending
-                             select t).ToList();
+                             select new clsVentas
+                             {
+                                 codVenta = t.codVenta,
+                                 fecha = t.fecha,
+                                 codDeudor = t.codDeudor,
+                                 tbDeudor = t.tbDeudor,
+                                 tbVentaProducto = t.tbVentaProducto
+                             }).ToList();
                 }
 
             }
@@ -47,15 +61,46 @@ namespace PrHeredades.Controllers
                     lista = (from t in db.tbVenta
                              where t.codDeudor == null && t.estado == estado
                              orderby t.fecha descending
-                             select t).ToList();
+                             select new clsVentas
+                             {
+                                 codVenta = t.codVenta,
+                                 fecha = t.fecha,
+                                 codDeudor = t.codDeudor,
+                                 tbDeudor = t.tbDeudor,
+                                 tbVentaProducto = t.tbVentaProducto
+                             }).ToList();
                 }
                 else
                 {
                     lista = (from t in db.tbVenta
                              where t.codDeudor != null && t.estado == estado
                              orderby t.fecha descending
-                             select t).ToList();
+                             select new clsVentas
+                             {
+                                 codVenta = t.codVenta,
+                                 fecha = t.fecha,
+                                 codDeudor = t.codDeudor,
+                                 tbDeudor = t.tbDeudor,
+                                 tbVentaProducto = t.tbVentaProducto
+                             }).ToList();
                 }
+            }
+
+            foreach (clsVentas item in lista)
+            {
+                decimal total = 0;
+                foreach (tbVentaProducto producto in item.tbVentaProducto)
+                {
+                    if (tipoVenta)
+                    {
+                        total += producto.precioVenta * producto.cantidad;
+                    }
+                    else
+                    {
+                        total += (producto.precioVenta + producto.agregado) * producto.cantidad;
+                    }
+                }
+                item.total = Math.Truncate(100 * total) / 100;
             }
             int paginas = (int)Math.Ceiling((double)lista.Count() / registrosPagina);
             Paginacion paginacion = new Paginacion(pagina, paginas, "Index", "Categoria");
@@ -105,13 +150,22 @@ namespace PrHeredades.Controllers
                         codProducto = prodPres.codProducto,
                         codPresentacion = prodPres.codPresentacion,
                         cantidad = item.cantidad,
-                        precioVenta = (item.precioSeleccionado == 1) ? prodPres.precioVentaMinimo : ((item.precioSeleccionado == 2) ? prodPres.precioVentaMedio : prodPres.precioVentaMaximo)
+                        precioVenta = (item.precioSeleccionado == 1) ? prodPres.precioVentaMinimo : ((item.precioSeleccionado == 2) ? prodPres.precioVentaMedio : prodPres.precioVentaMaximo),
+                        agregado = prodPres.agregado
                     };
                     venta.tbVentaProducto.Add(producto);
                     //se reduce la venta a la existencia
                     prodPres.existencia -= item.cantidad;
                     //se agrega al total
-                    total += producto.precioVenta * producto.cantidad;
+                    if (deudor != null)
+                    {
+                        total += (producto.precioVenta + producto.agregado) * producto.cantidad;
+                    }
+                    else
+                    {
+                        total += producto.precioVenta * producto.cantidad;
+                    }
+                    
                 }
                 if (deudor != null)
                 {
@@ -146,11 +200,17 @@ namespace PrHeredades.Controllers
         {
             dbHeredadesEntities db = new dbHeredadesEntities();
             tbVenta venta = db.tbVenta.Find(id);
+            bool tipoVenta = false;
             decimal total = 0;
             foreach (tbVentaProducto item in venta.tbVentaProducto)
             {
-                total += item.precioVenta * item.cantidad;
+                total += (item.precioVenta + item.agregado) * item.cantidad;
             }
+            if (venta.codDeudor != null)
+            {
+                tipoVenta = true;
+            }
+            ViewBag.tipoVenta = tipoVenta;
             ViewBag.total = Math.Truncate(total * 100) / 100;
             return View(venta);
         }
@@ -187,6 +247,7 @@ namespace PrHeredades.Controllers
                         existencia = producto.existencia,
                         cantidad = item.cantidad,
                         precioVenta = (item.precioSeleccionado == 1) ? producto.precioVentaMinimo : ((item.precioSeleccionado == 2) ? producto.precioVentaMedio : producto.precioVentaMaximo),
+                        agregado = producto.agregado,
                         tieneMayor = (correlativoMayor == null)
                     });
                     total += listaVenta.Last().precioVenta * listaVenta.Last().cantidad;

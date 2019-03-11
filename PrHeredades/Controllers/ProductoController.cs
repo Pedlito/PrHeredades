@@ -36,6 +36,7 @@ namespace PrHeredades.Controllers
             dbHeredadesEntities db = new dbHeredadesEntities();
             List<tbPresentacion> presentaciones = db.tbPresentacion.Where(t => t.estado == true).OrderBy(t => t.presentacion).ToList();
             ViewBag.codPresentacion = new SelectList(presentaciones, "codPresentacion", "presentacion");
+            ViewBag.presentaciones = db.tbPresentacion.Where(t => t.estado == true).Select(t => new { t.codPresentacion, t.presentacion });
             List<tbCategoria> categorias = db.tbCategoria.Where(t => t.estado == true).OrderBy(t => t.categoria).ToList();
             ViewBag.codCategoria = new SelectList(categorias, "codCategoria", "categoria");
             return View();
@@ -78,12 +79,13 @@ namespace PrHeredades.Controllers
             List<int> usadas = producto.tbProductoPresentacion.Where(t => t.correlativo > 0).Select(t => t.codPresentacion).ToList();
             //obtengo las presentaciones que no se encuentren dentro de las usadas
             List<tbPresentacion> presentaciones = db.tbPresentacion.Where(t => t.estado == true && !usadas.Contains(t.codPresentacion)).OrderBy(t => t.presentacion).ToList();
+            ViewBag.lstPresentaciones = db.tbPresentacion.Where(t => t.estado == true).Select(t => new { t.codPresentacion, t.presentacion });
             ViewBag.codPresentacion = new SelectList(presentaciones, "codPresentacion", "presentacion");
             List<tbCategoria> categorias = db.tbCategoria.Where(t => t.estado == true).OrderBy(t => t.categoria).ToList();
             ViewBag.codCategoria = new SelectList(categorias, "codCategoria", "categoria");
             ViewBag.presentaciones = producto.tbProductoPresentacion
                 .Where(t => t.correlativo > 0).OrderBy(t => t.correlativo)
-                .Select(t => new { t.codProducto, t.codPresentacion, t.precioVentaMinimo, t.precioVentaMedio, t.precioVentaMaximo, t.unidades, t.existencia });
+                .Select(t => new { t.codProducto, t.codPresentacion, t.precioVentaMinimo, t.precioVentaMedio, t.precioVentaMaximo, t.agregado, t.unidades, t.existencia });
             return View(producto);
         }
 
@@ -118,6 +120,7 @@ namespace PrHeredades.Controllers
                             guardadas[index].precioVentaMinimo = item.precioVentaMinimo;
                             guardadas[index].precioVentaMedio = item.precioVentaMedio;
                             guardadas[index].precioVentaMaximo = item.precioVentaMaximo;
+                            guardadas[index].agregado = item.agregado;
                             guardadas[index].unidades = item.unidades;
                             guardadas[index].correlativo = correlativo;
                         }
@@ -191,5 +194,11 @@ namespace PrHeredades.Controllers
             return PartialView("_ListaPresentaciones", lista);
         }
 
+    }
+
+    public class pres
+    {
+        int codPresentacion { get; set; }
+        string presentacion { get; set; }
     }
 }

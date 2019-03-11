@@ -20,7 +20,7 @@ namespace PrHeredades.Models
         public decimal precioCompra { get; set; }
         public bool estado { get; set; }
     
-        public virtual tbProductoPresentacion tbProductoPresentacion { get; set; }
         public virtual tbProveedor tbProveedor { get; set; }
+        public virtual tbProductoPresentacion tbProductoPresentacion { get; set; }
     }
 }

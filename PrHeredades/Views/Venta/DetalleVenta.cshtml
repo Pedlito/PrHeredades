@@ -32,8 +32,14 @@
                     Presentación
                 </th>
                 <th scope="col" class="text-center">
-                    Precio compra
+                    Precio venta
                 </th>
+                @if (ViewBag.tipoVenta)
+                {
+                    <th scope="col" class="text-center">
+                        Agregado
+                    </th>
+                }
                 <th class="text-center">
                     Cantidad
                 </th>
@@ -53,6 +59,12 @@
                     <td class="align-middle text-center">
                         Q @item.precioVenta
                     </td>
+                    @if (ViewBag.tipoVenta)
+                    {
+                        <td class="align-middle text-center">
+                            Q @item.agregado
+                        </td>
+                    }
                     <td class="align-middle text-center">
                         @item.cantidad
                     </td>

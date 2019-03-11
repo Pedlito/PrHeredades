@@ -131,7 +131,26 @@ namespace PrHeredades.Controllers
         public ActionResult Compras(int id, int pagina = 1)
         {
             dbHeredadesEntities db = new dbHeredadesEntities();
-            List<tbVenta> lista = db.tbVenta.Where(t => t.codDeudor == id).OrderByDescending(t => t.fecha).ToList();
+            List<clsVentas> lista = (from t in db.tbVenta
+                                     where t.codDeudor == id
+                                     orderby t.fecha descending
+                                     select new clsVentas
+                                     {
+                                         codVenta = t.codVenta,
+                                         fecha = t.fecha,
+                                         codDeudor = t.codDeudor,
+                                         tbDeudor = t.tbDeudor,
+                                         tbVentaProducto = t.tbVentaProducto
+                                     }).ToList();
+            foreach (clsVentas item in lista)
+            {
+                decimal total = 0;
+                foreach (tbVentaProducto producto in item.tbVentaProducto)
+                {
+                    total += (producto.precioVenta + producto.agregado) * producto.cantidad;
+                }
+                item.total = Math.Truncate(100 * total) / 100;
+            }
             tbDeudor deudor = db.tbDeudor.Find(id);
             int paginas = (int)Math.Ceiling((double)lista.Count() / registrosPagina);
             Paginacion paginacion = new Paginacion(id, pagina, paginas, "Pagos", "Deudor");
@@ -148,7 +167,7 @@ namespace PrHeredades.Controllers
             decimal total = 0;
             foreach (tbVentaProducto item in venta.tbVentaProducto)
             {
-                total += item.precioVenta * item.cantidad;
+                total += (item.precioVenta + item.agregado) * item.cantidad;
             }
             ViewBag.total = Math.Truncate(total * 100) / 100;
             ViewBag.codDeudor = venta.codDeudor;

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<PrHeredades.Models.tbVenta>
+﻿@model IEnumerable<PrHeredades.Models.clsVentas>
 @using PrHeredades.Models
 
 @{
@@ -10,7 +10,7 @@
 <form action="@Url.Action("Index")" method="get" class="form-group">
 
     <div class="form-group">
-        
+
     </div>
 
     <div class="row">
@@ -33,6 +33,9 @@
             <th>
                 Hora
             </th>
+            <th>
+                Total
+            </th>
             <th scope="col"></th>
         </tr>
     </thead>
@@ -46,6 +49,9 @@
                 </td>
                 <td class="align-middle">
                     @item.fecha.ToShortTimeString()
+                </td>
+                <td class="align-middle">
+                    Q @item.total
                 </td>
                 <td class="align-middle">
                     <a href="@Url.Action("DetalleCompra", new { id = item.codVenta })" class="btn btn-primary btn-sm">

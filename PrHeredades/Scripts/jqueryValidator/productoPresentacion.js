@@ -35,6 +35,10 @@ $("#agrPresentacion").validate({
             required: true,
             number: true
         },
+        agregado: {
+            required: true,
+            number: true
+        },
         unidades: {
             required: true,
             entero: true
@@ -55,6 +59,10 @@ $("#agrPresentacion").validate({
         },
         precioVentaMaximo: {
             required: "Especifique el precio de venta máximo",
+            number: "Ingrese un número valido"
+        },
+        agregado: {
+            required: "Especifique el agregado de deuda para esta presentación",
             number: "Ingrese un número valido"
         },
         unidades: {
@@ -84,6 +92,10 @@ $("#editPresentacion").validate({
             required: true,
             number: true
         },
+        editAgregado: {
+            required: true,
+            number: true
+        },
         editUnidades: {
             required: true,
             entero: true
@@ -104,6 +116,10 @@ $("#editPresentacion").validate({
         },
         editPrecioVentaMaximo: {
             required: "Especifique el precio de venta máximo",
+            number: "Ingrese un número valido"
+        },
+        editAgregado: {
+            required: "Especifique el agregado de deuda para esta presentación",
             number: "Ingrese un número valido"
         },
         editUnidades: {

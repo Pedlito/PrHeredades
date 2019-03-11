@@ -1,4 +1,4 @@
-﻿@model IEnumerable<PrHeredades.Models.tbVenta>
+﻿@model IEnumerable<PrHeredades.Models.clsVentas>
 @using PrHeredades.Models
 
 @{
@@ -60,8 +60,14 @@
             <th>
                 Hora
             </th>
+            @if (!ViewBag.tipoVenta)
+            {
+                <th>
+                    Cliente
+                </th>
+            }
             <th scope="col">
-                Tipo
+                Total
             </th>
             <th scope="col"></th>
         </tr>
@@ -77,15 +83,14 @@
                 <td class="align-middle">
                     @item.fecha.ToShortTimeString()
                 </td>
+                @if (!ViewBag.tipoVenta)
+                {
+                    <td>
+                        @item.tbDeudor.nombre
+                    </td>
+                }
                 <td class="align-middle">
-                    @if (item.codDeudor != null && item.codDeudor > 0)
-                    {
-                        <text>Credito</text>
-                    }
-                    else
-                    {
-                        <text>Contado</text>
-                    }
+                    Q @Convert.ToDecimal(item.total)
                 </td>
                 <td class="align-middle">
                     <a href="@Url.Action("DetalleVenta", new { id = item.codVenta })" class="btn btn-primary btn-sm">
