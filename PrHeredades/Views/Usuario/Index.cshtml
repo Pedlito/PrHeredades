@@ -5,7 +5,18 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Usuarios</h2>
+<div class="container">
+    <div class="row">
+        <div class="col-md-10 col-sm-11">
+            <h1 class="text-monospace text-dark">Usuarios</h1>
+        </div>
+        <div class="col-md-2 text-right col-sm-1">
+            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modalInfo">
+                <i class="fa fa-question"></i>
+            </button>
+        </div>
+    </div>
+</div>
 
 <p>
     <a class="btn btn-success" href="@Url.Action("Crear")">
@@ -92,3 +103,35 @@
 </table>
 
 @Html.Partial("_Paginacion", (Paginacion)ViewBag.paginacion)
+
+<!-- Modal de información -->
+<div class="modal fade" id="modalInfo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Información</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    En esta página se administran los usuarios que tienen acceso al sistema.
+                </p>
+
+                <p>
+                    Usuarios “Habilitados”: son los que podrán acceder al sistema.
+                </p>
+                <p>
+                    Usuarios “Deshabilitados”: son los que no podrán acceder al sistema.
+                </p>
+                <p>
+                    Puede buscar un usuario específico escribiendo el nombre del mismo y presionando el botón filtrar.
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>

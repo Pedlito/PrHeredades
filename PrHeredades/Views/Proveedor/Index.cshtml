@@ -5,7 +5,18 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Proveedores</h2>
+<div class="container">
+    <div class="row">
+        <div class="col-md-10 col-sm-11">
+            <h1 class="text-monospace text-dark">Proveedores</h1>
+        </div>
+        <div class="col-md-2 text-right col-sm-1">
+            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modalInfo">
+                <i class="fa fa-question"></i>
+            </button>
+        </div>
+    </div>
+</div>
 
 <p>
     <a class="btn btn-success" href="@Url.Action("Crear")">
@@ -50,62 +61,97 @@
     <tbody>
         @foreach (var item in Model)
         {
-        <tr>
-            <td class="align-middle">
-                @item.proveedor
-            </td>
-            <td class="align-middle">
-                @if (item.telefono != null)
-                {
-                    @item.telefono
-                }
-                else
-                {
-                    <text>Desconocido</text>
-                }
-            </td>
-            <td class="align-middle">
-                @if (item.direccion != null)
-                {
-                    @item.direccion
-                }
-                else
-                {
-                    <text>Desconocida</text>
-                }
-            </td>
-            <td class="align-middle text-center">
-                @if (item.estado)
-                {
-                    <span class="fa fa-check-square"></span>
-                }
-                else
-                {
-                    <span class="fa fa-square"></span>
-                }
-            </td>
-            <td class="align-middle">
-                <a href="@Url.Action("Productos", new { id = item.codProveedor })" class="btn btn-primary btn-sm">
-                    <span class="fa fa-list"></span> Productos
-                </a>
-                <a href="@Url.Action("Editar", new { id = item.codProveedor })" class="btn btn-warning btn-sm">
-                    <span class="fa fa-edit"></span> Editar
-                </a>
-                <a href="@Url.Action("CambiarEstado", new { id = item.codProveedor })" class="align-middle">
-                    @if (item.estado)
+            <tr>
+                <td class="align-middle">
+                    @item.proveedor
+                </td>
+                <td class="align-middle">
+                    @if (item.telefono != null)
                     {
-                        <text>Deshabilitar</text>
+                        @item.telefono
                     }
                     else
                     {
-                        <text>Habilitar</text>
+                        <text>Desconocido</text>
                     }
-                </a>
-            </td>
-        </tr>
+                </td>
+                <td class="align-middle">
+                    @if (item.direccion != null)
+                    {
+                        @item.direccion
+                    }
+                    else
+                    {
+                        <text>Desconocida</text>
+                    }
+                </td>
+                <td class="align-middle text-center">
+                    @if (item.estado)
+                    {
+                        <span class="fa fa-check-square"></span>
+                    }
+                    else
+                    {
+                        <span class="fa fa-square"></span>
+                    }
+                </td>
+                <td class="align-middle">
+                    <a href="@Url.Action("Productos", new { id = item.codProveedor })" class="btn btn-primary btn-sm">
+                        <span class="fa fa-list"></span> Productos
+                    </a>
+                    <a href="@Url.Action("Editar", new { id = item.codProveedor })" class="btn btn-warning btn-sm">
+                        <span class="fa fa-edit"></span> Editar
+                    </a>
+                    <a href="@Url.Action("CambiarEstado", new { id = item.codProveedor })" class="align-middle">
+                        @if (item.estado)
+                        {
+                            <text>Deshabilitar</text>
+                        }
+                        else
+                        {
+                            <text>Habilitar</text>
+                        }
+                    </a>
+                </td>
+            </tr>
         }
     </tbody>
 
 </table>
 
 @Html.Partial("_Paginacion", (Paginacion)ViewBag.paginacion)
+
+<!-- Modal de información -->
+<div class="modal fade" id="modalInfo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Información</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    En esta página se administra el catalogo de proveedores.
+                </p>
+                <p>
+                    Se configura que productos son los que estos proveen a la carnicería, los precios establecidos para las compras y la información general de cada proveedor.
+                </p>
+
+                <p>
+                    Productos “Habilitados”: son los que podrán ser seleccionados en otras páginas del sistema.
+                </p>
+                <p>
+                    Productos “Deshabilitados”: son los que no podrán ser seleccionados en ninguna otra página sistema.
+                </p>
+                <p>
+                    Puede buscar un proveedor específico escribiendo el nombre del mismo y presionando el botón filtrar.
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>

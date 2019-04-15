@@ -4,10 +4,21 @@
     ViewBag.Title = "Crear";
 }
 
+<div class="row">
+    <div class="col-md-10 col-sm-11">
+        <h2>Crear proveedor</h2>
+    </div>
+    <div class="col-md-2 text-right col-sm-1">
+        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modalInfo">
+            <i class="fa fa-question"></i>
+        </button>
+    </div>
+</div>
+
+<hr />
+
 <form action="@Url.Action("Crear")" method="post" id="formProveedor">
     @Html.AntiForgeryToken()
-    <h2>Crear proveedor</h2>
-    <hr />
     <h4>@Html.ValidationSummary(true, "", new { @class = "text-danger" })</h4>
     <div class="form-group">
         <label for="proveedor" class="col-form-label">Proveedor</label>
@@ -30,6 +41,31 @@
         </a>
     </div>
 </form>
+
+<!-- Modal de información -->
+<div class="modal fade" id="modalInfo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Información</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    En esta página se ingresa la información general para un nuevo proveedor.
+                </p>
+                <p>
+                    Una vez creado el proveedor se podrá configurar los productos que este provee a la carnicería.
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

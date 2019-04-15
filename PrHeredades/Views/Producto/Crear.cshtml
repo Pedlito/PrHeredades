@@ -190,6 +190,7 @@
         function ModalPresentacion() {
             if (presentaciones.length < 1) {
                 $('#divUnidades').hide();
+                $('#unidades').val("1");
             } else {
                 $('#divUnidades').show();
                 var codPresentacion = presentaciones[presentaciones.length - 1].codPresentacion;
