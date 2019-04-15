@@ -35,6 +35,7 @@ namespace PrHeredades.Models
         public virtual DbSet<tbPermiso> tbPermiso { get; set; }
         public virtual DbSet<tbPresentacion> tbPresentacion { get; set; }
         public virtual DbSet<tbProducto> tbProducto { get; set; }
+        public virtual DbSet<tbProductoPresentacion> tbProductoPresentacion { get; set; }
         public virtual DbSet<tbProductoProveedor> tbProductoProveedor { get; set; }
         public virtual DbSet<tbProductoTransaccion> tbProductoTransaccion { get; set; }
         public virtual DbSet<tbProveedor> tbProveedor { get; set; }
@@ -45,7 +46,6 @@ namespace PrHeredades.Models
         public virtual DbSet<tbUsuario> tbUsuario { get; set; }
         public virtual DbSet<tbVenta> tbVenta { get; set; }
         public virtual DbSet<tbVentaProducto> tbVentaProducto { get; set; }
-        public virtual DbSet<tbProductoPresentacion> tbProductoPresentacion { get; set; }
     
         [DbFunction("dbHeredadesEntities", "resumenComprasDia")]
         public virtual IQueryable<resumenComprasDia_Result> resumenComprasDia(Nullable<System.DateTime> dia)

@@ -299,7 +299,7 @@ namespace PrHeredades.Controllers
                 db.SaveChanges();
                 return 1;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return 2;
             }

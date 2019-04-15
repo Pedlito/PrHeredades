@@ -5,7 +5,18 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Presentaciones</h2>
+<div class="container">
+    <div class="row">
+        <div class="col-md-10 col-sm-11">
+            <h1 class="text-monospace text-dark">Presentaciones</h1>
+        </div>
+        <div class="col-md-2 text-right col-sm-1">
+            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modalInfo">
+                <i class="fa fa-question"></i>
+            </button>
+        </div>
+    </div>
+</div>
 
 <p>
     <a class="btn btn-success" href="@Url.Action("Crear")">
@@ -80,3 +91,38 @@
 </table>
 
 @Html.Partial("_Paginacion", (Paginacion)ViewBag.paginacion)
+
+<!-- Modal de información -->
+<div class="modal fade" id="modalInfo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Información</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    En esta página se administra el catalogo de presentaciones.
+                </p>
+                <p>
+                    Las presentaciones son las diferentes formas en las que un producto es vendido o empacado.
+                </p>
+
+                <p>
+                    Presentaciones “Habilitadas” ( <i class="fa fa-check-square"></i> ): son las que podrán ser seleccionadas en otras páginas del sistema.
+                </p>
+                <p>
+                    Presentaciones “Deshabilitadas” ( <i class="fa fa-square"></i> ): son las que no podrán ser seleccionadas en ninguna otra página sistema.
+                </p>
+                <p>
+                    Puede buscar una presentación específica escribiendo el nombre de la misma y presionando el botón filtrar.
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>

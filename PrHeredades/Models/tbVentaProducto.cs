@@ -21,7 +21,7 @@ namespace PrHeredades.Models
         public decimal precioVenta { get; set; }
         public decimal agregado { get; set; }
     
-        public virtual tbVenta tbVenta { get; set; }
         public virtual tbProductoPresentacion tbProductoPresentacion { get; set; }
+        public virtual tbVenta tbVenta { get; set; }
     }
 }

@@ -5,7 +5,18 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Productos</h2>
+<div class="container">
+    <div class="row">
+        <div class="col-md-10 col-sm-11">
+            <h1 class="text-monospace text-dark">Productos</h1>
+        </div>
+        <div class="col-md-2 text-right col-sm-1">
+            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modalInfo">
+                <i class="fa fa-question"></i>
+            </button>
+        </div>
+    </div>
+</div>
 
 <p>
     <a class="btn btn-success" href="@Url.Action("Crear")">
@@ -106,6 +117,42 @@
         </div>
     </div>
 </div>
+
+<!-- Modal de información -->
+<div class="modal fade" id="modalInfo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Información</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    En esta página se administra el catalogo de productos.
+                </p>
+                <p>
+                    Se configura que productos son los que se utilizan en la carnicería, los precios establecidos para las ventas, las categorias a las que pertenecen y su presentación.
+                </p>
+
+                <p>
+                    Productos “Habilitados” ( <i class="fa fa-check-square"></i> ): son los que podrán ser seleccionados en ventas y otras páginas del sistema.
+                </p>
+                <p>
+                    Productos “Deshabilitados” ( <i class="fa fa-square"></i> ): son los que no podrán ser vendidos ni seleccionados en ninguna otra página sistema.
+                </p>
+                <p>
+                    Puede buscar un producto específico escribiendo el nombre del mismo y presionando el botón filtrar.
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 @section Scripts {
     <script>

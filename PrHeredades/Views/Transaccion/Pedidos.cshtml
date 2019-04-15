@@ -5,7 +5,18 @@
     ViewBag.Title = "Pedidos";
 }
 
-<h2>Pedidos</h2>
+<div class="container">
+    <div class="row">
+        <div class="col-md-10 col-sm-11">
+            <h1 class="text-monospace text-dark">Pedidos</h1>
+        </div>
+        <div class="col-md-2 text-right col-sm-1">
+            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modalInfo">
+                <i class="fa fa-question"></i>
+            </button>
+        </div>
+    </div>
+</div>
 
 <p>
     <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modProveedores">
@@ -68,7 +79,7 @@
                     @if (item.estado)
                     {
                         <a href="@Url.Action("RecivirPedido", new { id = item.codTransaccion })" class="btn btn-warning btn-sm">
-                            <span class="fa fa-check"></span> Recivir
+                            <span class="fa fa-check"></span> recibir
                         </a>
                     }
                     <a href="@Url.Action("DetallePedido", new { id = item.codTransaccion })" class="btn btn-primary btn-sm">
@@ -162,12 +173,46 @@
             </div>
             <div class="modal-body">
                 <div class="alert alert-success" role="alert">
-                    <h4 class="alert-heading">Recivir!</h4>
-                    <p>¿Realmente quieres recivir este pedido?</p>
+                    <h4 class="alert-heading">recibir!</h4>
+                    <p>¿Realmente quieres recibir este pedido?</p>
                     <div class="col-md-6">
                         <a class="btn btn-success"></a>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de información -->
+<div class="modal fade" id="modalInfo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Información</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    En esta página se agregan los pedidos que se realizan a los proveedores.
+                </p>
+                <p>
+                    Los pedidos, no se suman al inventario hasta que se preciona el botón "recibir" para un pedido seleccionado.
+                </p>
+                <p>
+                    Una vez recibido un pedido, este se traslada a la página "Compras".
+                </p>
+                <p>
+                    Pedidios “Habilitados” ( <i class="fa fa-check-square"></i> ): estos estan listos para ser recibidos.
+                </p>
+                <p>
+                    Pedidios “Deshabilitados” ( <i class="fa fa-square"></i> ): son los que se cancelan y no serán recibidos.
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
             </div>
         </div>
     </div>

@@ -4,9 +4,19 @@
     ViewBag.Title = "Editar";
 }
 
+<div class="row">
+    <div class="col-md-10 col-sm-11">
+        <h2>Editar producto</h2>
+    </div>
+    <div class="col-md-2 text-right col-sm-1">
+        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modalInfo">
+            <i class="fa fa-question"></i>
+        </button>
+    </div>
+</div>
+<hr />
+
 <form id="formProducto">
-    <h2>Editar producto </h2>
-    <hr />
     <h4>
         <div class="validation-summary-errors text-danger">
             <ul id="error">
@@ -149,6 +159,39 @@
                 </div>
             </div>
 
+        </div>
+    </div>
+</div>
+
+<!-- Modal de información -->
+<div class="modal fade" id="modalInfo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Información</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    En esta página se puede editar la información general de un producto existente.
+                </p>
+                <p>
+                    La información que se cambie en esta página, se cambiará tanto en las referencias previamente establecidas, así como en las nuevas.
+                </p>
+                <p>
+                    Se pueden agregar nuevas presentaciones al producto con el botón "Agregar presentación" y tambien es posible reordenar las presentaciones del producto.<br />
+                </p>
+                <p>
+                    <strong>Las presentaciones del producto deben mantener un orden:</strong><br />
+                    Primero la presentación que no puede ser dividida en mas unidades, luego la presentación que puede ser dividida en la primera, y así sucesivamente. <br />
+                    La presentación inferior siempre se divide en la establecida en la fila superior.
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+            </div>
         </div>
     </div>
 </div>

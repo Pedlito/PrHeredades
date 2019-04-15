@@ -5,7 +5,18 @@
     ViewBag.Title = "Entradas";
 }
 
-<h2>Compras</h2>
+<div class="container">
+    <div class="row">
+        <div class="col-md-10 col-sm-11">
+            <h1 class="text-monospace text-dark">Compras</h1>
+        </div>
+        <div class="col-md-2 text-right col-sm-1">
+            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modalInfo">
+                <i class="fa fa-question"></i>
+            </button>
+        </div>
+    </div>
+</div>
 
 <p>
     <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modProveedores">
@@ -119,6 +130,37 @@
                         }
                     </tbody>
                 </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de información -->
+<div class="modal fade" id="modalInfo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Información</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    En esta página se administran las compras que se realizan.
+                </p>
+                <p>
+                    Se ingresan y establecen las compras y los productos que son comprados a los proveedores.
+                </p>
+                <p>
+                    Las compras aqui establecidas, suman sus productos al inventario para poder ser vendidos.
+                </p>
+                <p>
+                    Puede buscar una compra especificando la fecha de compra y presionando el botón filtrar.
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
             </div>
         </div>
     </div>

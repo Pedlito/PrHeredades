@@ -4,7 +4,17 @@
     ViewBag.Title = "CambiarEstado";
 }
 
-<h2>Cambiar Estado</h2>
+<div class="row">
+    <div class="col-md-10 col-sm-11">
+        <h2>Cambiar Estado</h2>
+    </div>
+    <div class="col-md-2 text-right col-sm-1">
+        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modalInfo">
+            <i class="fa fa-question"></i>
+        </button>
+    </div>
+</div>
+
 
 <h3>
     ¿Realmente quieres
@@ -48,13 +58,45 @@
                 <span class="fa fa-check"></span>
                 @if (Model.estado)
                 {<text>Deshabilitar</text> }
-                else
-                { <text>Habilitar</text>}
-                </button>
-                <a href="@Url.Action("Entradas")" class="btn btn-danger" style="width: 150px">
-                    <span class="fa fa-times"></span> Cancelar
-                </a>
+            else
+            { <text>Habilitar</text>}
+            </button>
+            <a href="@Url.Action((ViewBag.transaccion == "Salida") ? "Salidas" : "Pedidos")" class="btn btn-danger" style="width: 150px">
+                <span class="fa fa-times"></span> Cancelar
+            </a>
         </div>
     </form>
 </div>
 
+<div class="modal fade" id="modalInfo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Información</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    En esta página se @(Model.estado ? "Deshabilita" : "Habilita") una transacción.
+                </p>
+                @if (Model.estado)
+                {
+                    <p>
+                        Las transacciones “Deshabilitadas” no afectan más las existencias en el inventario.
+                    </p>
+                }
+                else
+                {
+                    <p>
+                        Las transacciones “Habilitadas” afectan las existencias en inventario.
+                    </p>
+                }
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
